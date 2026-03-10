@@ -1,0 +1,31 @@
+# syntax=docker/dockerfile:1
+
+# Build the frontend
+FROM node:20-alpine AS builder
+WORKDIR /app
+
+COPY package.json package-lock.json* ./
+RUN npm ci
+
+COPY . .
+RUN npm run build
+
+# Runtime image (API + serves built dist/)
+FROM node:20-alpine AS runner
+WORKDIR /app
+ENV NODE_ENV=production
+
+# Needed for MySQL full DB dumps via `mysqldump` in /api/backup
+RUN apk add --no-cache mysql-client
+
+COPY package.json package-lock.json* ./
+RUN npm ci --omit=dev
+
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/server ./server
+
+# Default port; can be overridden by env PORT
+ENV PORT=5174
+EXPOSE 5174
+
+CMD ["node", "server/index.js"]

@@ -1,0 +1,29 @@
+services:
+  cios:
+    build: .
+    container_name: cios
+    restart: unless-stopped
+    # Allows using DB_HOST=host.docker.internal on Linux (maps to the Docker host).
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      # REQUIRED: must match what you use to unlock /admin
+      ADMIN_KEY: ${ADMIN_KEY}
+      # Used for sitemap generation
+      SITE_URL: ${SITE_URL:-https://example.com}
+
+      # External MySQL database (required)
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT:-3306}
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      DB_NAME: ${DB_NAME:-cios}
+
+      # Internal container port
+      PORT: 5174
+    ports:
+      # Host:Container
+      - "5174:5174"
+    volumes:
+      # Persist uploads across container rebuilds
+      - ./server/uploads:/app/server/uploads

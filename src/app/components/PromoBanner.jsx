@@ -1,0 +1,83 @@
+import { Link } from "react-router";
+import { Button } from "./ui/button";
+import { Card } from "./ui/card";
+
+export function PromoBanner({
+  badge = "Limited Time Offer",
+  title = "Get 20% Off Your First Deep Clean",
+  description = "Book this week and enjoy a premium deep clean at a special rate.",
+  ctaLabel = "Claim Offer",
+  ctaHref = "/#contact",
+  image = "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=1600&q=80",
+  wrap = true,
+}) {
+  const content = (
+    <Card className="relative border-[rgb(var(--cios-accent-rgb)/0.3)] overflow-hidden shadow-2xl ring-2 ring-[rgb(var(--cios-accent-rgb)/0.4)] animate-in fade-in slide-in-from-bottom-3 duration-700">
+      <style>
+        {`@media (prefers-reduced-motion: no-preference) {
+  @keyframes promo-shine { 0% { transform: translateX(-140%) skewX(-18deg); opacity: 0; } 15% { opacity: .9; } 55% { opacity: .9; } 100% { transform: translateX(140%) skewX(-18deg); opacity: 0; } }
+  @keyframes promo-float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+}
+@media (prefers-reduced-motion: reduce) {
+  .promo-shine { display: none; }
+  .promo-float { animation: none !important; }
+}`}
+      </style>
+
+      <div className="relative">
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `linear-gradient(rgba(62, 39, 35, 0.72), rgba(62, 39, 35, 0.72)), url('${image}')`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        />
+
+        <div
+          className="promo-shine pointer-events-none absolute inset-y-0 -left-1/2 w-[60%] bg-gradient-to-r from-transparent via-white/20 to-transparent"
+          style={{ animation: "promo-shine 2.8s ease-in-out infinite" }}
+        />
+
+        <div className="relative p-6 sm:p-10">
+          <div className="max-w-2xl">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-[rgb(var(--cios-accent-rgb)/0.25)] rounded-full mb-4 border border-[rgb(var(--cios-accent-rgb)/0.4)]">
+              <span
+                className="promo-float relative flex items-center justify-center"
+                style={{ animation: "promo-float 1.4s ease-in-out infinite" }}
+              >
+                <span className="absolute -inset-2 rounded-full bg-[rgb(var(--cios-accent-rgb)/0.35)] blur-sm" />
+                <img
+                  src="/renoradark.svg"
+                  alt="Renora"
+                  className="relative h-6 w-6 object-contain"
+                  loading="lazy"
+                />
+              </span>
+              <span className="text-[rgb(var(--cios-accent-rgb))]">
+                {badge}
+              </span>
+            </div>
+            <h3 className="text-3xl sm:text-4xl text-white mb-3">{title}</h3>
+            <p className="text-gray-200 text-lg mb-6">{description}</p>
+
+            <Button
+              asChild
+              className="bg-[rgb(var(--cios-accent-rgb))] hover:bg-[rgb(var(--cios-accent-hover-rgb))] text-[#3E2723]"
+            >
+              <Link to={ctaHref}>{ctaLabel}</Link>
+            </Button>
+          </div>
+        </div>
+      </div>
+    </Card>
+  );
+
+  if (!wrap) return content;
+
+  return (
+    <section className="py-14 bg-gradient-to-b from-[#FFF8E7] to-white">
+      <div className="container mx-auto px-4">{content}</div>
+    </section>
+  );
+}
