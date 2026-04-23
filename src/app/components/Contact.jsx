@@ -12,27 +12,33 @@ const quoteSchema = yup
     name: yup
       .string()
       .trim()
-      .min(2, "Please enter your name.")
+      .min(2, "Ange ditt namn.")
       .max(200)
-      .required("Name is required."),
+      .required("Namn är obligatoriskt."),
     email: yup
       .string()
       .trim()
-      .email("Please enter a valid email address.")
+      .email("Ange en giltig e-postadress.")
       .max(320)
-      .required("Email is required."),
+      .required("E-post är obligatoriskt."),
     phone: yup
       .string()
       .trim()
-      .min(6, "Please enter a valid phone number.")
+      .min(6, "Ange ett giltigt telefonnummer.")
       .max(50)
-      .required("Phone is required."),
+      .required("Telefonnummer är obligatoriskt."),
+    squareMeters: yup
+      .string()
+      .trim()
+      .matches(/^\d+$/, "Vänligen använd endast siffror.")
+      .max(10)
+      .required("Antal kvadratmeter är obligatoriskt."),
     message: yup
       .string()
       .trim()
-      .min(5, "Please tell us a bit more about what you need.")
+      .min(5, "Berätta gärna lite mer om vad du behöver.")
       .max(5000)
-      .required("Message is required."),
+      .required("Meddelande är obligatoriskt."),
   })
   .required();
 
@@ -45,6 +51,7 @@ export function Contact() {
     name: "",
     email: "",
     phone: "",
+    squareMeters: "",
     message: "",
   });
 
@@ -73,14 +80,14 @@ export function Contact() {
         setErrors(nextErrors);
         setSubmitResult({
           kind: "error",
-          text: "Please fix the highlighted fields.",
+          text: "Rätta de markerade fälten.",
         });
         return;
       }
 
       setSubmitResult({
         kind: "error",
-        text: "Please check your details and try again.",
+        text: "Kontrollera dina uppgifter och försök igen.",
       });
       return;
     }
@@ -107,14 +114,23 @@ export function Contact() {
 
       setSubmitResult({
         kind: "success",
-        text: "Thank you! Your quote request was sent. We'll get back to you soon.",
+        text: "Tack! Din offertförfrågan har skickats. Vi återkommer snart.",
       });
-      setFormData({ name: "", email: "", phone: "", message: "" });
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        squareMeters: "",
+        message: "",
+      });
       setErrors({});
     } catch (err) {
       setSubmitResult({
         kind: "error",
-        text: err instanceof Error ? err.message : "Failed to send request",
+        text:
+          err instanceof Error
+            ? err.message
+            : "Det gick inte att skicka förfrågan",
       });
     } finally {
       setIsSubmitting(false);
@@ -124,25 +140,25 @@ export function Contact() {
   const contactInfo = [
     {
       icon: Phone,
-      title: "Phone",
+      title: "Telefon",
       content: contact.phone,
       link: contact.phoneTel,
     },
     {
       icon: Mail,
-      title: "Email",
+      title: "E-post",
       content: contact.email,
       link: contact.emailMailto,
     },
     {
       icon: MapPin,
-      title: "Address",
+      title: "Adress",
       content: contact.address,
       link: "#",
     },
     {
       icon: Clock,
-      title: "Business Hours",
+      title: "Öppettider",
       content: contact.hours,
       link: "#",
     },
@@ -167,7 +183,7 @@ export function Contact() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
           <div className="bg-[var(--surface-elevated)] rounded-2xl p-6 shadow-xl border border-[var(--card-border)]">
             <h3 className="text-2xl text-[var(--primary)] mb-6">
-              Send Us a Message
+              Skicka ett meddelande
             </h3>
             <form onSubmit={handleSubmit} className="space-y-4" noValidate>
               {submitResult ? (
@@ -187,7 +203,7 @@ export function Contact() {
                   htmlFor="name"
                   className="block text-[var(--form-label-text)] mb-2"
                 >
-                  Name
+                  Namn
                 </label>
                 <Input
                   id="name"
@@ -199,7 +215,7 @@ export function Contact() {
                     if (!errors.name) return;
                     setErrors((prev) => ({ ...prev, name: undefined }));
                   }}
-                  placeholder="Your name"
+                  placeholder="Ditt namn"
                   aria-invalid={Boolean(errors.name)}
                   className="text-[var(--form-input-text)] border-[var(--form-input-border)] focus:border-[var(--form-input-focus-border)] focus-visible:border-[var(--form-input-focus-border)]"
                 />
@@ -212,7 +228,7 @@ export function Contact() {
                   htmlFor="email"
                   className="block text-[var(--form-label-text)] mb-2"
                 >
-                  Email
+                  E-post
                 </label>
                 <Input
                   id="email"
@@ -225,7 +241,7 @@ export function Contact() {
                     if (!errors.email) return;
                     setErrors((prev) => ({ ...prev, email: undefined }));
                   }}
-                  placeholder="your@email.com"
+                  placeholder="din@email.com"
                   aria-invalid={Boolean(errors.email)}
                   className="text-[var(--form-input-text)] border-[var(--form-input-border)] focus:border-[var(--form-input-focus-border)] focus-visible:border-[var(--form-input-focus-border)]"
                 />
@@ -240,7 +256,7 @@ export function Contact() {
                   htmlFor="phone"
                   className="block text-[var(--form-label-text)] mb-2"
                 >
-                  Phone
+                  Telefon
                 </label>
                 <Input
                   id="phone"
@@ -265,10 +281,48 @@ export function Contact() {
               </div>
               <div>
                 <label
+                  htmlFor="squareMeters"
+                  className="block text-[var(--form-label-text)] mb-2"
+                >
+                  Antal kvadratmeter *
+                </label>
+                <p className="mb-2 text-sm text-[var(--muted-foreground)]">
+                  Vänligen använd endast siffror
+                </p>
+                <Input
+                  id="squareMeters"
+                  inputMode="numeric"
+                  pattern="[0-9]*"
+                  value={formData.squareMeters}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      squareMeters: e.target.value.replace(/\D/g, ""),
+                    }))
+                  }
+                  onInput={() => {
+                    if (!errors.squareMeters) return;
+                    setErrors((prev) => ({
+                      ...prev,
+                      squareMeters: undefined,
+                    }));
+                  }}
+                  placeholder="t.ex. 120"
+                  aria-invalid={Boolean(errors.squareMeters)}
+                  className="text-[var(--form-input-text)] border-[var(--form-input-border)] focus:border-[var(--form-input-focus-border)] focus-visible:border-[var(--form-input-focus-border)]"
+                />
+                {errors.squareMeters ? (
+                  <p className="mt-1 text-sm text-destructive">
+                    {errors.squareMeters}
+                  </p>
+                ) : null}
+              </div>
+              <div>
+                <label
                   htmlFor="message"
                   className="block text-[var(--form-label-text)] mb-2"
                 >
-                  Message
+                  Meddelande
                 </label>
                 <Textarea
                   id="message"
@@ -283,7 +337,7 @@ export function Contact() {
                     if (!errors.message) return;
                     setErrors((prev) => ({ ...prev, message: undefined }));
                   }}
-                  placeholder="Tell us about your cleaning needs..."
+                  placeholder="Berätta om dina städbehov..."
                   rows={4}
                   aria-invalid={Boolean(errors.message)}
                   className="text-[var(--form-input-text)] border-[var(--form-input-border)] focus:border-[var(--form-input-focus-border)] focus-visible:border-[var(--form-input-focus-border)]"
@@ -299,7 +353,7 @@ export function Contact() {
                 disabled={isSubmitting}
                 className="w-full mb-1 mt-6 bg-[var(--cta-button-bg)] hover:bg-[var(--cta-button-hover-bg)] text-[var(--cta-button-text)]"
               >
-                {isSubmitting ? "Sending..." : "Request Quote"}
+                {isSubmitting ? "Skickar..." : "Begär offert"}
               </Button>
             </form>
           </div>

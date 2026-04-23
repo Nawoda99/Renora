@@ -167,15 +167,15 @@ function TextStyleControls({ style, onChange }) {
 
 const ADMIN_SECTIONS = [
   { id: "hero", hash: "#admin-hero", label: "Hero" },
-  { id: "colors", hash: "#admin-colors", label: "Colors" },
+  { id: "colors", hash: "#admin-colors", label: "Färger" },
   { id: "media", hash: "#admin-media", label: "Media" },
-  { id: "banners", hash: "#admin-banners", label: "Promo Banners" },
-  { id: "services", hash: "#admin-services", label: "Services" },
-  { id: "beforeAfter", hash: "#admin-before-after", label: "Before / After" },
-  { id: "about", hash: "#admin-about", label: "About" },
-  { id: "testimonials", hash: "#admin-testimonials", label: "Testimonials" },
-  { id: "contact", hash: "#admin-contact", label: "Contact" },
-  { id: "backup", hash: "#admin-backup", label: "Backup" },
+  { id: "banners", hash: "#admin-banners", label: "Kampanjbanners" },
+  { id: "services", hash: "#admin-services", label: "Tjänster" },
+  { id: "beforeAfter", hash: "#admin-before-after", label: "Före / Efter" },
+  { id: "about", hash: "#admin-about", label: "Om oss" },
+  { id: "testimonials", hash: "#admin-testimonials", label: "Omdömen" },
+  { id: "contact", hash: "#admin-contact", label: "Kontakt" },
+  { id: "backup", hash: "#admin-backup", label: "Säkerhetskopia" },
 ];
 
 function cloneContent(value) {
@@ -328,7 +328,7 @@ export function AdminPage() {
     console.log(key);
 
     if (!key) {
-      setMessage("Enter the admin passcode.");
+      setMessage("Ange administratörens lösenkod.");
       return;
     }
 
@@ -342,17 +342,19 @@ export function AdminPage() {
 
       if (!response.ok) {
         if (response.status === 401) {
-          throw new Error("Wrong passcode.");
+          throw new Error("Fel lösenkod.");
         }
         const text = await response.text().catch(() => "");
-        throw new Error(text || `Unlock failed: ${response.status}`);
+        throw new Error(text || `Upplåsning misslyckades: ${response.status}`);
       }
 
       sessionStorage.setItem("renora_admin_key", key);
       setUnlocked(true);
     } catch (err) {
       setUnlocked(false);
-      setMessage(err instanceof Error ? err.message : "Unlock failed");
+      setMessage(
+        err instanceof Error ? err.message : "Upplåsning misslyckades",
+      );
     } finally {
       setUnlocking(false);
     }
@@ -375,22 +377,22 @@ export function AdminPage() {
 
       if (!response.ok) {
         if (response.status === 401) {
-          throw new Error("Unauthorized: check your admin passcode.");
+          throw new Error("Obehörig: kontrollera administratörens lösenkod.");
         }
         const contentType = response.headers.get("content-type") || "";
         if (contentType.includes("application/json")) {
           const data = await response.json().catch(() => null);
           const msg = [data?.error, data?.hint].filter(Boolean).join(" ");
-          throw new Error(msg || `Save failed: ${response.status}`);
+          throw new Error(msg || `Sparning misslyckades: ${response.status}`);
         }
         const text = await response.text().catch(() => "");
-        throw new Error(text || `Save failed: ${response.status}`);
+        throw new Error(text || `Sparning misslyckades: ${response.status}`);
       }
 
       setLocalContent(draft);
-      setMessage("Saved.");
+      setMessage("Sparat.");
     } catch (err) {
-      setMessage(err instanceof Error ? err.message : "Save failed");
+      setMessage(err instanceof Error ? err.message : "Sparning misslyckades");
     } finally {
       setSaving(false);
     }
@@ -405,17 +407,21 @@ export function AdminPage() {
         if (contentType.includes("application/json")) {
           const data = await response.json().catch(() => null);
           const msg = [data?.error, data?.hint].filter(Boolean).join(" ");
-          throw new Error(msg || `Reload failed: ${response.status}`);
+          throw new Error(
+            msg || `Omladdning misslyckades: ${response.status}`,
+          );
         }
         const text = await response.text().catch(() => "");
-        throw new Error(text || `Reload failed: ${response.status}`);
+        throw new Error(text || `Omladdning misslyckades: ${response.status}`);
       }
       const next = await response.json();
       setLocalContent(next);
       setDraft(cloneContent(next));
-      setMessage("Reloaded from server.");
+      setMessage("Laddades om från servern.");
     } catch (err) {
-      setMessage(err instanceof Error ? err.message : "Reload failed");
+      setMessage(
+        err instanceof Error ? err.message : "Omladdning misslyckades",
+      );
       await refresh();
     }
   };
@@ -435,10 +441,14 @@ export function AdminPage() {
         const contentType = response.headers.get("content-type") || "";
         if (contentType.includes("application/json")) {
           const data = await response.json().catch(() => null);
-          throw new Error(data?.error || `Backup failed: ${response.status}`);
+          throw new Error(
+            data?.error || `Säkerhetskopiering misslyckades: ${response.status}`,
+          );
         }
         const text = await response.text().catch(() => "");
-        throw new Error(text || `Backup failed: ${response.status}`);
+        throw new Error(
+          text || `Säkerhetskopiering misslyckades: ${response.status}`,
+        );
       }
 
       const blob = await response.blob();
@@ -450,9 +460,13 @@ export function AdminPage() {
       a.click();
       a.remove();
       URL.revokeObjectURL(url);
-      setMessage("Backup downloaded.");
+      setMessage("Säkerhetskopian har laddats ner.");
     } catch (err) {
-      setMessage(err instanceof Error ? err.message : "Backup failed");
+      setMessage(
+        err instanceof Error
+          ? err.message
+          : "Säkerhetskopiering misslyckades",
+      );
     } finally {
       setIsBackupLoading(false);
     }
@@ -460,12 +474,12 @@ export function AdminPage() {
 
   const restoreFromBackup = async () => {
     if (!restoreFile) {
-      setMessage("Choose a backup ZIP file first.");
+      setMessage("Välj först en ZIP-fil för säkerhetskopian.");
       return;
     }
 
     const confirmed = window.confirm(
-      "Restore will REPLACE the database and uploads using the ZIP contents. Continue?",
+      "Återställning kommer att ERSÄTTA databasen och uppladdningarna med innehållet i ZIP-filen. Fortsätta?",
     );
     if (!confirmed) return;
 
@@ -487,20 +501,28 @@ export function AdminPage() {
         const contentType = response.headers.get("content-type") || "";
         if (contentType.includes("application/json")) {
           const data = await response.json().catch(() => null);
-          throw new Error(data?.error || `Restore failed: ${response.status}`);
+          throw new Error(
+            data?.error || `Återställning misslyckades: ${response.status}`,
+          );
         }
         const text = await response.text().catch(() => "");
-        throw new Error(text || `Restore failed: ${response.status}`);
+        throw new Error(
+          text || `Återställning misslyckades: ${response.status}`,
+        );
       }
 
       const data = await response.json().catch(() => null);
       const count =
         typeof data?.restoredFiles === "number" ? data.restoredFiles : 0;
-      setMessage(`Restore completed. Restored ${count} upload file(s).`);
+      setMessage(
+        `Återställningen är klar. ${count} uppladdade fil(er) återställdes.`,
+      );
       setRestoreFile(null);
       await reload();
     } catch (err) {
-      setMessage(err instanceof Error ? err.message : "Restore failed");
+      setMessage(
+        err instanceof Error ? err.message : "Återställning misslyckades",
+      );
     } finally {
       setIsRestoreLoading(false);
     }
@@ -508,7 +530,7 @@ export function AdminPage() {
 
   const validateRestoreZip = async () => {
     if (!restoreFile) {
-      setMessage("Choose a backup ZIP file first.");
+      setMessage("Välj först en ZIP-fil för säkerhetskopian.");
       return;
     }
 
@@ -534,7 +556,7 @@ export function AdminPage() {
       if (!response.ok) {
         const errorMsg = data?.error
           ? String(data.error)
-          : `Validation failed: ${response.status}`;
+          : `Validering misslyckades: ${response.status}`;
         throw new Error(errorMsg);
       }
 
@@ -554,10 +576,10 @@ export function AdminPage() {
         typeof data?.ignoredEntries === "number" ? data.ignoredEntries : 0;
 
       setMessage(
-        `Backup ZIP looks valid. DB/dump.sql: ~${dumpKb}KB. Upload files: ${uploadFiles}. Ignored: ${ignored}. Unsafe: ${unsafe}. Invalid upload names: ${invalidNames}.`,
+        `ZIP-filen för säkerhetskopian ser giltig ut. DB/dump.sql: ~${dumpKb}KB. Uppladdade filer: ${uploadFiles}. Ignorerade: ${ignored}. Osäkra: ${unsafe}. Ogiltiga filnamn: ${invalidNames}.`,
       );
     } catch (err) {
-      setMessage(err instanceof Error ? err.message : "Validation failed");
+      setMessage(err instanceof Error ? err.message : "Validering misslyckades");
     } finally {
       setIsRestoreValidateLoading(false);
     }
@@ -625,20 +647,20 @@ export function AdminPage() {
           className="border-[var(--button-outline-border)]"
           onClick={() => openMediaPicker(onChange, true)}
         >
-          Choose / Upload
+          Välj / Ladda upp
         </Button>
       </div>
       <div className="rounded-md border border-[rgb(var(--renora-accent-rgb)/0.15)] overflow-hidden bg-white">
         {value ? (
           <img
             src={value}
-            alt="Selected"
+            alt="Vald"
             className="w-full h-40 object-cover"
             loading="lazy"
           />
         ) : (
           <div className="h-40 flex items-center justify-center text-sm text-[var(--muted-foreground)]">
-            No image selected
+            Ingen bild vald
           </div>
         )}
       </div>
@@ -685,7 +707,7 @@ export function AdminPage() {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="passcode">Passcode</Label>
+                <Label htmlFor="passcode">Lösenkod</Label>
                 <Input
                   id="passcode"
                   type="password"
@@ -694,7 +716,7 @@ export function AdminPage() {
                   onKeyDown={(e) => {
                     if (e.key === "Enter") unlock();
                   }}
-                  placeholder="Enter passcode"
+                  placeholder="Ange lösenkod"
                 />
               </div>
               {message ? (
@@ -705,11 +727,11 @@ export function AdminPage() {
                 disabled={unlocking}
                 className="bg-[var(--button-default-bg)] hover:bg-[var(--button-default-hover-bg)] text-[var(--button-default-text)] w-full"
               >
-                {unlocking ? "Verifying..." : "Unlock"}
+                {unlocking ? "Verifierar..." : "Lås upp"}
               </Button>
               <p className="text-xs text-[var(--muted-foreground)]">
-                This passcode is checked server-side via the `ADMIN_KEY` env
-                var.
+                Den här lösenkoden kontrolleras på serversidan via
+                miljövariabeln `ADMIN_KEY`.
               </p>
             </CardContent>
           </Card>
@@ -729,11 +751,11 @@ export function AdminPage() {
               className="border-[var(--button-outline-border)]"
               onClick={lock}
             >
-              Lock
+              Lås
             </Button>
           </div>
           <p className="mt-6 text-[var(--muted-foreground)]">
-            Loading content...
+            Laddar innehåll...
           </p>
         </div>
       </div>
@@ -750,18 +772,18 @@ export function AdminPage() {
           <div>
             <h2 className="text-2xl text-[var(--primary)]">Admin</h2>
             <p className="text-sm text-[var(--muted-foreground)]">
-              CMS status: {visibleStatus}
+              CMS-status: {visibleStatus}
             </p>
           </div>
           <div className="flex flex-col sm:flex-row gap-3">
             <Button variant="outline" onClick={reload}>
-              Reload
+              Ladda om
             </Button>
             <Button onClick={save} disabled={saving}>
-              {saving ? "Saving..." : "Save"}
+              {saving ? "Sparar..." : "Spara"}
             </Button>
             <Button variant="outline" onClick={lock}>
-              Lock
+              Lås
             </Button>
           </div>
         </div>
@@ -773,13 +795,13 @@ export function AdminPage() {
         <div className="grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-6">
           <div className="lg:hidden">
             <div className="space-y-2">
-              <Label>Section</Label>
+              <Label>Sektion</Label>
               <Select
                 value={activeSection}
                 onValueChange={(value) => goToSection(value)}
               >
                 <SelectTrigger className="border-[rgb(var(--renora-accent-rgb)/0.3)]">
-                  <SelectValue placeholder="Select section" />
+                  <SelectValue placeholder="Välj sektion" />
                 </SelectTrigger>
                 <SelectContent>
                   {ADMIN_SECTIONS.map((s) => (
@@ -796,7 +818,7 @@ export function AdminPage() {
             <Card className="border-[rgb(var(--renora-accent-rgb)/0.2)] sticky top-24">
               <CardHeader>
                 <CardTitle className="text-[var(--primary)] text-base">
-                  Sections
+                  Sektioner
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-2">
@@ -1020,7 +1042,7 @@ export function AdminPage() {
                                 },
                               });
                             }}
-                            placeholder="Label (e.g. Happy Clients)"
+                            placeholder="Etikett (t.ex. Nöjda kunder)"
                           />
                         </div>
                       ))}
@@ -2669,7 +2691,7 @@ export function AdminPage() {
               </Card>
             ) : null}
 
-            {/* Testimonials */}
+            {/* Omdömen */}
             {activeSection === "testimonials" ? (
               <Card
                 id="admin-testimonials"
@@ -2677,7 +2699,7 @@ export function AdminPage() {
               >
                 <CardHeader>
                   <CardTitle className="text-[var(--primary)]">
-                    Testimonials
+                    Omdömen
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-6">
@@ -2687,7 +2709,7 @@ export function AdminPage() {
                         Hide section
                       </p>
                       <p className="text-xs text-[var(--muted-foreground)]">
-                        If hidden, Testimonials will not appear on the homepage.
+                        Om detta är dolt visas inte Omdömen på startsidan.
                       </p>
                     </div>
                     <div className="flex items-center gap-2">

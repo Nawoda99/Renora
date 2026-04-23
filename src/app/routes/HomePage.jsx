@@ -19,8 +19,8 @@ export function HomePage() {
   return (
     <>
       <Seo
-        title="Renora | Premium Cleaning Services"
-        description="Renora provides premium residential and commercial cleaning services. Explore our services and request a quote."
+        title="Renora | Professionella städtjänster"
+        description="Renora erbjuder professionella städtjänster för hem och företag. Utforska våra tjänster och begär en offert."
         path="/"
       />
       <Hero />

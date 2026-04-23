@@ -60,14 +60,14 @@ export function About() {
               <div className="h-64 rounded-lg overflow-hidden">
                 <img
                   src={images[0]}
-                  alt="Cleaning service"
+                  alt="Städtjänst"
                   className="w-full h-full object-cover"
                 />
               </div>
               <div className="h-48 rounded-lg overflow-hidden">
                 <img
                   src={images[1]}
-                  alt="Commercial cleaning"
+                  alt="Kontorsstädning"
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -76,14 +76,14 @@ export function About() {
               <div className="h-48 rounded-lg overflow-hidden">
                 <img
                   src={images[2]}
-                  alt="Deep cleaning"
+                  alt="Storstädning"
                   className="w-full h-full object-cover"
                 />
               </div>
               <div className="h-64 rounded-lg overflow-hidden">
                 <img
                   src={images[3]}
-                  alt="Window cleaning"
+                  alt="Fönsterputs"
                   className="w-full h-full object-cover"
                 />
               </div>

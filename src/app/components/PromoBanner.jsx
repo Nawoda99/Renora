@@ -4,10 +4,10 @@ import { Button } from "./ui/button";
 import { Card } from "./ui/card";
 
 export function PromoBanner({
-  badge = "Limited Time Offer",
-  title = "Get 20% Off Your First Deep Clean",
-  description = "Book this week and enjoy a premium deep clean at a special rate.",
-  ctaLabel = "Claim Offer",
+  badge = "Tidsbegränsat erbjudande",
+  title = "Få 20 % rabatt på din första storstädning",
+  description = "Boka den här veckan och få en professionell storstädning till ett extra förmånligt pris.",
+  ctaLabel = "Ta del av erbjudandet",
   ctaHref = "/#contact",
   image = "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=1600&q=80",
   wrap = true,

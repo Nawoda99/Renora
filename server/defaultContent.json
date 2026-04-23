@@ -188,10 +188,10 @@
   "banners": [
     {
       "id": "bnr_1",
-      "badge": "Limited Time Offer",
-      "title": "Get 20% Off Your First Deep Clean",
-      "description": "Book this week and enjoy a premium deep clean at a special rate.",
-      "ctaLabel": "Claim Offer",
+      "badge": "Tidsbegränsat erbjudande",
+      "title": "Få 20 % rabatt på din första storstädning",
+      "description": "Boka den här veckan och få en noggrann storstädning till ett extra bra pris.",
+      "ctaLabel": "Ta del av erbjudandet",
       "ctaHref": "/#contact",
       "image": "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=1600&q=80",
       "active": true
@@ -201,39 +201,39 @@
     {
       "id": "t_1",
       "name": "Sarah Johnson",
-      "role": "Homeowner",
-      "content": "Renora has been cleaning my home for over two years now. Their attention to detail is incredible, and I always come home to a sparkling clean house. Highly recommend!",
+      "role": "Villaägare",
+      "content": "Renora har städat mitt hem i över två år nu. Deras känsla för detaljer är fantastisk, och jag kommer alltid hem till ett skinande rent hus. Rekommenderas varmt!",
       "rating": 5,
       "hidden": false
     },
     {
       "id": "t_2",
       "name": "Michael Chen",
-      "role": "Business Owner",
-      "content": "We've been using Renora for our office cleaning, and the difference is remarkable. Professional, reliable, and always on time. Our workspace has never looked better.",
+      "role": "Företagare",
+      "content": "Vi har anlitat Renora för kontorsstädning och skillnaden är tydlig. Professionella, pålitliga och alltid punktliga. Vår arbetsplats har aldrig sett bättre ut.",
       "rating": 5,
       "hidden": false
     },
     {
       "id": "t_3",
       "name": "Emily Rodriguez",
-      "role": "Property Manager",
-      "content": "Managing multiple properties, I need a cleaning service I can trust. Renora delivers consistently excellent results across all our locations. True professionals!",
+      "role": "Fastighetsförvaltare",
+      "content": "När man ansvarar för flera fastigheter behöver man en städfirma man kan lita på. Renora levererar jämnt hög kvalitet på alla våra adresser. Verkliga proffs!",
       "rating": 5,
       "hidden": false
     }
   ],
   "settings": {
     "hero": {
-      "badge": "Premium Cleaning Services",
-      "headline": "Spotless Spaces,",
-      "highlight": "Every Time",
-      "subheadline": "Experience the gold standard in professional cleaning. Renora delivers exceptional results for your home and business.",
+      "badge": "Professionella städtjänster",
+      "headline": "Skinande rena miljöer,",
+      "highlight": "varje gång",
+      "subheadline": "Upplev professionell städning på hög nivå. Renora levererar förstklassiga resultat för både hem och företag.",
       "backgroundImage": "https://images.unsplash.com/photo-1771491237225-01931a752f58?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBjbGVhbmluZyUyMHNlcnZpY2UlMjBwcm9mZXNzaW9uYWx8ZW58MXx8fHwxNzcyNjk1ODcwfDA&ixlib=rb-4.1.0&q=80&w=1080",
       "stats": [
-        { "value": "500+", "label": "Happy Clients" },
-        { "value": "10+", "label": "Years Experience" },
-        { "value": "100%", "label": "Satisfaction" }
+        { "value": "500+", "label": "Nöjda kunder" },
+        { "value": "10+", "label": "Års erfarenhet" },
+        { "value": "100%", "label": "Nöjdhet" }
       ]
     },
     "theme": {
@@ -299,11 +299,11 @@
     },
     "about": {
       "hidden": false,
-      "badge": "About Renora",
-      "title": "Your Trusted Cleaning Partner",
+      "badge": "Om Renora",
+      "title": "Din pålitliga städpartner",
       "paragraphs": [
-        "With over a decade of experience, Renora has been setting the gold standard in cleaning services. Our commitment to excellence and attention to detail has made us the preferred choice for hundreds of satisfied clients.",
-        "We use eco-friendly products and the latest cleaning techniques to ensure your space is not only clean but also safe for your family, employees, and the environment."
+        "Med över tio års erfarenhet har Renora byggt upp ett starkt rykte inom professionell städning. Vårt fokus på kvalitet och detaljer har gjort oss till det självklara valet för hundratals nöjda kunder.",
+        "Vi använder miljövänliga produkter och moderna städmetoder för att göra din miljö inte bara ren, utan också trygg för familj, personal och omgivning."
       ],
       "images": [
         "https://images.unsplash.com/photo-1758273238415-01ec03d9ef27?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyZXNpZGVudGlhbCUyMGhvdXNlJTIwY2xlYW5pbmd8ZW58MXx8fHwxNzcyNzE0NDkyfDA&ixlib=rb-4.1.0&q=80&w=1080",
@@ -314,71 +314,71 @@
       "features": [
         {
           "iconKey": "Shield",
-          "title": "Insured & Bonded",
-          "description": "Fully insured for your peace of mind and protection"
+          "title": "Försäkrade och trygga",
+          "description": "Fullt försäkrade för din trygghet och säkerhet"
         },
         {
           "iconKey": "Award",
-          "title": "Certified Professionals",
-          "description": "Trained and certified cleaning experts"
+          "title": "Certifierade proffs",
+          "description": "Utbildade och certifierade städexperter"
         },
         {
           "iconKey": "Users",
-          "title": "Trusted Team",
-          "description": "Background-checked, reliable staff"
+          "title": "Pålitligt team",
+          "description": "Noggrant kontrollerad och tillförlitlig personal"
         },
         {
           "iconKey": "Clock",
-          "title": "Flexible Scheduling",
-          "description": "Available when you need us most"
+          "title": "Flexibla tider",
+          "description": "Tillgängliga när du behöver oss som mest"
         }
       ]
     },
     "sections": {
       "services": {
-        "badge": "Our Services",
-        "title": "Professional Cleaning Solutions",
-        "subtitle": "We offer a comprehensive range of cleaning services to meet all your needs"
+        "badge": "Våra tjänster",
+        "title": "Professionella städlösningar",
+        "subtitle": "Vi erbjuder ett komplett utbud av städtjänster för alla dina behov"
       },
       "beforeAfter": {
         "hidden": false,
-        "badge": "Dirty to Dazzling",
-        "title": "See the Before & After",
-        "subtitle": "Drag the slider to compare results."
+        "badge": "Från smutsigt till skinande",
+        "title": "Se före och efter",
+        "subtitle": "Dra reglaget för att jämföra resultatet."
       },
       "testimonials": {
         "hidden": false,
-        "badge": "Testimonials",
-        "title": "What Our Clients Say",
-        "subtitle": "Don't just take our word for it - hear from our satisfied clients"
+        "badge": "Omdömen",
+        "title": "Det här säger våra kunder",
+        "subtitle": "Lita inte bara på oss, hör vad våra nöjda kunder tycker"
       },
       "contact": {
-        "badge": "Get In Touch",
-        "title": "Request Your Free Quote",
-        "subtitle": "Ready to experience the Renora difference? Contact us today for a free, no-obligation quote"
+        "badge": "Kontakta oss",
+        "title": "Begär din kostnadsfria offert",
+        "subtitle": "Redo att uppleva Renora-skillnaden? Kontakta oss idag för en kostnadsfri offert utan förpliktelser"
       }
     },
     "beforeAfter": {
       "beforeImage": "https://images.unsplash.com/photo-1615873968403-89e068629265?auto=format&fit=crop&w=1600&q=80",
       "afterImage": "https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=1600&q=80",
-      "beforeAlt": "Before cleaning",
-      "afterAlt": "After cleaning",
-      "beforeLabel": "Before",
-      "afterLabel": "After"
+      "beforeAlt": "Före städning",
+      "afterAlt": "Efter städning",
+      "beforeLabel": "Före",
+      "afterLabel": "Efter"
     },
     "contact": {
       "phone": "(555) 123-4567",
       "phoneTel": "tel:5551234567",
       "email": "info@Renora-cleaning.com",
       "emailMailto": "mailto:info@Renora-cleaning.com",
-      "address": "123 Clean Street, Suite 100, Your City, ST 12345",
-      "hours": "Mon-Sat: 8AM - 6PM",
-      "whyChooseTitle": "Why Choose Renora?",
+      "address": "Exempelgatan 123, Svit 100, Din stad",
+      "hours": "Mån-Lör: 08:00 - 18:00",
+      "whyChooseTitle": "Varför välja Renora?",
       "whyChooseBullets": [
-        "Same-day service available",
-        "Eco-friendly cleaning products",
-        "100% satisfaction guarantee",
-        "Customized cleaning plans"
+        "Service samma dag finns tillgänglig",
+        "Miljövänliga rengöringsprodukter",
+        "100 % nöjdhetsgaranti",
+        "Skräddarsydda städplaner"
       ]
     }
   }

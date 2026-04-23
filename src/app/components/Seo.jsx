@@ -3,7 +3,7 @@ import { Helmet } from "react-helmet-async";
 const SITE_NAME = "Renora";
 const DEFAULT_TITLE = "Renora";
 const DEFAULT_DESCRIPTION =
-  "Premium cleaning services for homes and businesses. Residential, commercial, deep cleaning, and more.";
+  "Professionella städtjänster för hem och företag. Hemstädning, företagsstädning, storstädning och mycket mer.";
 
 function getSiteUrl() {
   const configured =

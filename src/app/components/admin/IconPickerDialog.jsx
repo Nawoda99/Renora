@@ -7,7 +7,7 @@ import { ALL_ICON_KEYS, iconComponentFromKey } from "../../content/iconMap";
 export function IconPickerDialog({
   open,
   onOpenChange,
-  title = "Choose an icon",
+  title = "Välj en ikon",
   value,
   onSelect,
 }) {
@@ -37,17 +37,17 @@ export function IconPickerDialog({
             <Input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search icons…"
+              placeholder="Sök ikoner..."
               className="border-[rgb(var(--renora-accent-rgb)/0.3)] focus:border-[rgb(var(--renora-accent-rgb))]"
             />
             <div className="shrink-0 text-sm text-muted-foreground">
-              {filtered.length} icons
+              {filtered.length} ikoner
             </div>
           </div>
 
           {value ? (
             <div className="flex items-center gap-2 text-sm text-[var(--muted-foreground)]">
-              <span>Selected:</span>
+              <span>Vald:</span>
               <span className="inline-flex items-center gap-2 rounded-md border border-border bg-card px-2 py-1">
                 {ActiveIcon ? (
                   <ActiveIcon className="h-4 w-4" aria-hidden />
@@ -102,7 +102,7 @@ export function IconPickerDialog({
 
               {filtered.length === 0 ? (
                 <p className="text-sm text-muted-foreground py-8 text-center">
-                  No icons match your search.
+                  Inga ikoner matchar din sökning.
                 </p>
               ) : null}
             </div>

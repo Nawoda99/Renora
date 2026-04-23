@@ -85,7 +85,7 @@ export function Services() {
             asChild
             className="bg-[var(--cta-button-bg)] hover:bg-[var(--cta-button-hover-bg)] text-[var(--cta-button-text)]"
           >
-            <Link to="/services">More Services</Link>
+            <Link to="/services">Fler tjänster</Link>
           </Button>
         </div>
       </div>

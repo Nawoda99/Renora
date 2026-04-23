@@ -50,12 +50,12 @@ export function ServicesPage() {
   }, [isMobile, selectedSlug]);
 
   const seoTitle = selectedService
-    ? `${selectedService.title} | Renora Services`
-    : "Services | Renora";
+    ? `${selectedService.title} | Renora Tjänster`
+    : "Tjänster | Renora";
 
   const seoDescription = selectedService
     ? selectedService.summary
-    : "Browse Renora cleaning services and view what's included for each option.";
+    : "Utforska Renoras städtjänster och se vad som ingår i varje alternativ.";
 
   const seoPath = selectedSlug ? `/services/${selectedSlug}` : "/services";
 
@@ -65,13 +65,13 @@ export function ServicesPage() {
       <section className="py-20 bg-gradient-to-b from-[var(--background)] to-[var(--muted)]">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <SectionBadge>Our Services</SectionBadge>
+            <SectionBadge>Våra tjänster</SectionBadge>
 
             <h2 className="text-4xl md:text-5xl text-[var(--primary)] mb-4">
-              Cleaning Services That Fit Your Space
+              Städtjänster som passar ditt utrymme
             </h2>
             <p className="text-lg text-[var(--muted-foreground)] max-w-2xl mx-auto">
-              Choose a service to view what's included and who it's best for.
+              Välj en tjänst för att se vad som ingår och vem den passar bäst för.
             </p>
           </div>
 
@@ -127,10 +127,10 @@ export function ServicesPage() {
                     <div className="p-4">
                       <DrawerHeader className="p-0">
                         <DrawerTitle className="text-[var(--primary)]">
-                          Service not found
+                          Tjänsten kunde inte hittas
                         </DrawerTitle>
                         <DrawerDescription className="text-[var(--muted-foreground)]">
-                          Please choose a service from the list.
+                          Välj en tjänst i listan.
                         </DrawerDescription>
                       </DrawerHeader>
                     </div>
@@ -139,7 +139,7 @@ export function ServicesPage() {
                         onClick={closeDetails}
                         className="bg-[var(--cta-button-bg)] hover:bg-[var(--cta-button-hover-bg)] text-[var(--cta-button-text)]"
                       >
-                        Back to Services
+                        Tillbaka till tjänster
                       </Button>
                     </DrawerFooter>
                   </div>
@@ -170,7 +170,7 @@ export function ServicesPage() {
                     >
                       <div>
                         <h4 className="text-[var(--primary)] text-lg mb-2">
-                          Overview
+                          Översikt
                         </h4>
                         <p className="text-[var(--muted-foreground)]">
                           {selectedService.overview}
@@ -179,7 +179,7 @@ export function ServicesPage() {
 
                       <div className="mt-4">
                         <h4 className="text-[var(--primary)] text-base mb-2">
-                          What's included
+                          Det här ingår
                         </h4>
                         <ul className="space-y-2 text-[var(--muted-foreground)]">
                           {selectedService.included.map((item) => (
@@ -195,7 +195,7 @@ export function ServicesPage() {
 
                       <div className="mt-4">
                         <h4 className="text-[var(--primary)] text-base mb-2">
-                          Ideal for
+                          Passar för
                         </h4>
                         <ul className="space-y-2 text-[var(--muted-foreground)]">
                           {selectedService.idealFor.map((item) => (
@@ -215,14 +215,14 @@ export function ServicesPage() {
                         asChild
                         className="bg-[var(--cta-button-bg)] hover:bg-[var(--cta-button-hover-bg)] text-[var(--cta-button-text)]"
                       >
-                        <Link to="/#contact">Get a Quote</Link>
+                        <Link to="/#contact">Begär offert</Link>
                       </Button>
                       <Button
                         onClick={closeDetails}
                         variant="outline"
                         className="border-[var(--outline-button-border)] text-[var(--outline-button-text)] hover:bg-[var(--outline-button-hover-bg)] hover:text-[var(--outline-button-hover-text)]"
                       >
-                        Back to Services
+                        Tillbaka till tjänster
                       </Button>
                     </DrawerFooter>
                   </div>
@@ -239,10 +239,10 @@ export function ServicesPage() {
                   <div className="p-6">
                     <DialogHeader>
                       <DialogTitle className="text-[var(--primary)]">
-                        Service not found
+                        Tjänsten kunde inte hittas
                       </DialogTitle>
                       <DialogDescription className="text-[var(--muted-foreground)]">
-                        Please choose a service from the list.
+                        Välj en tjänst i listan.
                       </DialogDescription>
                     </DialogHeader>
                     <div className="mt-6 flex gap-3">
@@ -250,7 +250,7 @@ export function ServicesPage() {
                         onClick={closeDetails}
                         className="bg-[var(--cta-button-bg)] hover:bg-[var(--cta-button-hover-bg)] text-[var(--cta-button-text)]"
                       >
-                        Back to Services
+                        Tillbaka till tjänster
                       </Button>
                     </div>
                   </div>
@@ -289,16 +289,16 @@ export function ServicesPage() {
                     <div className="p-6 lg:p-10 bg-[var(--surface-elevated)] overflow-y-auto max-h-[85vh]">
                       <DialogHeader>
                         <DialogTitle className="text-[var(--primary)]">
-                          Service Details
+                          Tjänstinformation
                         </DialogTitle>
                         <DialogDescription className="text-[var(--muted-foreground)]">
-                          What's included and who it's best for.
+                          Se vad som ingår och vem tjänsten passar bäst för.
                         </DialogDescription>
                       </DialogHeader>
 
                       <div className="mt-6">
                         <h4 className="text-[var(--primary)] text-xl mb-2">
-                          Overview
+                          Översikt
                         </h4>
                         <p className="text-[var(--muted-foreground)]">
                           {selectedService.overview}
@@ -308,7 +308,7 @@ export function ServicesPage() {
                       <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                           <h4 className="text-[var(--primary)] text-lg mb-3">
-                            What's included
+                            Det här ingår
                           </h4>
                           <ul className="space-y-2 text-[var(--muted-foreground)]">
                             {selectedService.included.map((item) => (
@@ -324,7 +324,7 @@ export function ServicesPage() {
 
                         <div>
                           <h4 className="text-[var(--primary)] text-lg mb-3">
-                            Ideal for
+                            Passar för
                           </h4>
                           <ul className="space-y-2 text-[var(--muted-foreground)]">
                             {selectedService.idealFor.map((item) => (
@@ -344,14 +344,14 @@ export function ServicesPage() {
                           asChild
                           className="bg-[var(--cta-button-bg)] hover:bg-[var(--cta-button-hover-bg)] text-[var(--cta-button-text)]"
                         >
-                          <Link to="/#contact">Get a Quote</Link>
+                          <Link to="/#contact">Begär offert</Link>
                         </Button>
                         <Button
                           onClick={closeDetails}
                           variant="outline"
                           className="border-[var(--outline-button-border)] text-[var(--outline-button-text)] hover:bg-[var(--outline-button-hover-bg)] hover:text-[var(--outline-button-hover-text)]"
                         >
-                          Back to Services
+                          Tillbaka till tjänster
                         </Button>
                       </div>
                     </div>

@@ -97,7 +97,7 @@ export function Hero() {
               size="lg"
               className="bg-[var(--cta-button-bg)] hover:bg-[var(--cta-button-hover-bg)] text-[var(--cta-button-text)] gap-2"
             >
-              Get Free Quote
+              Få kostnadsfri offert
               <ArrowRight className="w-5 h-5" />
             </Button>
             <Button
@@ -106,7 +106,7 @@ export function Hero() {
               variant="outline"
               className="border-[rgba(255,249,242,0.45)] bg-transparent text-[var(--image-overlay-text)] hover:bg-[rgba(255,249,242,0.12)] hover:text-[var(--image-overlay-text)]"
             >
-              <Link to="/services">Our Services</Link>
+              <Link to="/services">Våra tjänster</Link>
             </Button>
           </div>
 

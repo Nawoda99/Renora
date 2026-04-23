@@ -115,7 +115,7 @@ export function BeforeAfter({
             </div>
 
             <input
-              aria-label="Before and after slider"
+              aria-label="Före- och efterreglage"
               className="absolute inset-0 w-full h-full opacity-0"
               type="range"
               min={0}

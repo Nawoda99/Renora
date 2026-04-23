@@ -25,7 +25,7 @@ export function Header() {
                 Renora
               </h1>
               <p className="text-md text-[var(--muted-foreground)]">
-                Cleaning Services
+                Städtjänster
               </p>
             </div>
           </Link>
@@ -36,31 +36,31 @@ export function Header() {
               to="/#home"
               className="text-[var(--nav-link-text)] hover:text-[var(--nav-link-hover)] transition-colors"
             >
-              Home
+              Hem
             </Link>
             <Link
               to="/services"
               className="text-[var(--nav-link-text)] hover:text-[var(--nav-link-hover)] transition-colors"
             >
-              Services
+              Tjänster
             </Link>
             <Link
               to="/#about"
               className="text-[var(--nav-link-text)] hover:text-[var(--nav-link-hover)] transition-colors"
             >
-              About
+              Om oss
             </Link>
             <Link
               to="/#testimonials"
               className="text-[var(--nav-link-text)] hover:text-[var(--nav-link-hover)] transition-colors"
             >
-              Testimonials
+              Omdömen
             </Link>
             <Button
               asChild
               className="bg-[var(--nav-button-bg)] hover:bg-[var(--nav-button-hover-bg)] text-[var(--nav-button-text)]"
             >
-              <Link to="/#contact">Get Quote</Link>
+              <Link to="/#contact">Få offert</Link>
             </Button>
           </nav>
 
@@ -81,35 +81,35 @@ export function Header() {
               onClick={() => setIsMenuOpen(false)}
               className="text-[var(--nav-link-text)] hover:text-[var(--nav-link-hover)] transition-colors text-left"
             >
-              Home
+              Hem
             </Link>
             <Link
               to="/services"
               onClick={() => setIsMenuOpen(false)}
               className="text-[var(--nav-link-text)] hover:text-[var(--nav-link-hover)] transition-colors text-left"
             >
-              Services
+              Tjänster
             </Link>
             <Link
               to="/#about"
               onClick={() => setIsMenuOpen(false)}
               className="text-[var(--nav-link-text)] hover:text-[var(--nav-link-hover)] transition-colors text-left"
             >
-              About
+              Om oss
             </Link>
             <Link
               to="/#testimonials"
               onClick={() => setIsMenuOpen(false)}
               className="text-[var(--nav-link-text)] hover:text-[var(--nav-link-hover)] transition-colors text-left"
             >
-              Testimonials
+              Omdömen
             </Link>
             <Button
               asChild
               className="bg-[var(--nav-button-bg)] hover:bg-[var(--nav-button-hover-bg)] text-[var(--nav-button-text)] w-full"
             >
               <Link to="/#contact" onClick={() => setIsMenuOpen(false)}>
-                Get Quote
+                Få offert
               </Link>
             </Button>
           </nav>

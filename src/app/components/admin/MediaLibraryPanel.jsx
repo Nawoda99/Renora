@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+﻿import { useEffect, useMemo, useState } from "react";
 import { Button } from "../ui/button";
 import {
   AlertDialog,
@@ -23,7 +23,7 @@ async function fetchJson(input, init) {
   const response = await fetch(input, init);
   if (!response.ok) {
     const text = await response.text().catch(() => "");
-    throw new Error(text || `Request failed: ${response.status}`);
+    throw new Error(text || `Begäran misslyckades: ${response.status}`);
   }
   return await response.json();
 }
@@ -67,7 +67,9 @@ export function MediaLibraryPanel({
       const data = await fetchJson("/api/media");
       setItems(Array.isArray(data.items) ? data.items : []);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to load media");
+      setError(
+        err instanceof Error ? err.message : "Det gick inte att ladda media",
+      );
       setItems([]);
     } finally {
       setLoading(false);
@@ -100,7 +102,9 @@ export function MediaLibraryPanel({
         onAfterSelect?.();
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Upload failed");
+      setError(
+        err instanceof Error ? err.message : "Uppladdningen misslyckades",
+      );
     } finally {
       setUploading(false);
     }
@@ -133,7 +137,9 @@ export function MediaLibraryPanel({
       setRenameFrom(null);
       setRenameTo("");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Rename failed");
+      setError(
+        err instanceof Error ? err.message : "Det gick inte att byta namn",
+      );
     } finally {
       setUploading(false);
     }
@@ -151,13 +157,13 @@ export function MediaLibraryPanel({
       });
       if (!response.ok) {
         const text = await response.text().catch(() => "");
-        throw new Error(text || `Request failed: ${response.status}`);
+        throw new Error(text || `Begäran misslyckades: ${response.status}`);
       }
       await refresh();
       setDeleteOpen(false);
       setDeleteName(null);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Delete failed");
+      setError(err instanceof Error ? err.message : "Det gick inte att radera");
     } finally {
       setUploading(false);
     }
@@ -179,7 +185,7 @@ export function MediaLibraryPanel({
       <Input
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-        placeholder="Search by filename"
+        placeholder="Sök efter filnamn"
         disabled={loading || uploading}
       />
       <Button
@@ -188,7 +194,7 @@ export function MediaLibraryPanel({
         onClick={() => void refresh()}
         disabled={loading || uploading}
       >
-        Refresh
+        Uppdatera
       </Button>
     </div>
   );
@@ -230,7 +236,7 @@ export function MediaLibraryPanel({
                       setRenameOpen(true);
                     }}
                   >
-                    Rename
+                    Byt namn
                   </Button>
                   <Button
                     type="button"
@@ -244,7 +250,7 @@ export function MediaLibraryPanel({
                       setDeleteOpen(true);
                     }}
                   >
-                    Delete
+                    Radera
                   </Button>
                 </div>
               ) : null}
@@ -296,7 +302,7 @@ export function MediaLibraryPanel({
               <p className="mt-3 text-sm text-red-600">{error}</p>
             ) : null}
             {loading ? (
-              <p className="mt-3 text-sm text-muted-foreground">Loading…</p>
+              <p className="mt-3 text-sm text-muted-foreground">Laddar...</p>
             ) : null}
           </div>
 
@@ -304,7 +310,7 @@ export function MediaLibraryPanel({
             {grid}
             {sortedItems.length === 0 && !loading ? (
               <p className="text-sm text-muted-foreground">
-                No uploads yet. Upload an image to get started.
+                Inga uppladdningar än. Ladda upp en bild för att komma igång.
               </p>
             ) : null}
           </div>
@@ -314,12 +320,12 @@ export function MediaLibraryPanel({
           {controls}
           {error ? <p className="text-sm text-red-600">{error}</p> : null}
           {loading ? (
-            <p className="text-sm text-muted-foreground">Loading…</p>
+            <p className="text-sm text-muted-foreground">Laddar...</p>
           ) : null}
           {grid}
           {sortedItems.length === 0 && !loading ? (
             <p className="text-sm text-muted-foreground">
-              No uploads yet. Upload an image to get started.
+              Inga uppladdningar än. Ladda upp en bild för att komma igång.
             </p>
           ) : null}
         </>
@@ -337,11 +343,11 @@ export function MediaLibraryPanel({
       >
         <DialogContent className="sm:max-w-lg">
           <DialogHeader>
-            <DialogTitle>Rename file</DialogTitle>
+            <DialogTitle>Byt namn på fil</DialogTitle>
           </DialogHeader>
           <div className="space-y-2">
             <p className="text-sm text-muted-foreground">
-              Enter a new filename (letters, numbers, dot, underscore, dash).
+              Ange ett nytt filnamn (bokstäver, siffror, punkt, understreck, bindestreck).
             </p>
             <Input
               value={renameTo}
@@ -355,7 +361,7 @@ export function MediaLibraryPanel({
               onClick={() => setRenameOpen(false)}
               disabled={uploading}
             >
-              Cancel
+              Avbryt
             </Button>
             <Button
               type="button"
@@ -365,7 +371,7 @@ export function MediaLibraryPanel({
               }}
               disabled={uploading || !renameFrom || !renameTo.trim()}
             >
-              Rename
+              Byt namn
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -380,14 +386,14 @@ export function MediaLibraryPanel({
       >
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Delete file?</AlertDialogTitle>
+            <AlertDialogTitle>Radera fil?</AlertDialogTitle>
             <AlertDialogDescription>
-              This will permanently delete the file from the server. Any
-              sections using this image will break until you pick another image.
+              Detta raderar filen permanent från servern. Delar som använder
+              bilden slutar fungera tills du väljer en annan bild.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel disabled={uploading}>Cancel</AlertDialogCancel>
+            <AlertDialogCancel disabled={uploading}>Avbryt</AlertDialogCancel>
             <AlertDialogAction
               onClick={() => {
                 if (!deleteName) return;
@@ -395,7 +401,7 @@ export function MediaLibraryPanel({
               }}
               disabled={uploading || !deleteName}
             >
-              Delete
+              Radera
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

@@ -1,4 +1,4 @@
-import { MediaLibraryPanel } from "./MediaLibraryPanel";
+﻿import { MediaLibraryPanel } from "./MediaLibraryPanel";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
 
 export function MediaLibraryDialog({
@@ -12,7 +12,7 @@ export function MediaLibraryDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-5xl h-[80vh] min-h-0 overflow-hidden flex flex-col">
         <DialogHeader className="shrink-0">
-          <DialogTitle>Media Library</DialogTitle>
+          <DialogTitle>Mediabibliotek</DialogTitle>
         </DialogHeader>
 
         <div className="min-h-0 flex-1 flex">

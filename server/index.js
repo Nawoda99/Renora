@@ -17,6 +17,21 @@ const __dirname = path.dirname(__filename);
 
 dotenv.config({ path: path.resolve(__dirname, "../.env"), override: true });
 
+function normalizeEnvValue(value) {
+  let raw = String(value || "").trim();
+  if (raw.endsWith(",")) {
+    raw = raw.slice(0, -1).trimEnd();
+  }
+  if (
+    raw.length >= 2 &&
+    ((raw.startsWith('"') && raw.endsWith('"')) ||
+      (raw.startsWith("'") && raw.endsWith("'")))
+  ) {
+    return raw.slice(1, -1);
+  }
+  return raw;
+}
+
 const PORT = Number(process.env.PORT || 5174);
 const ADMIN_KEY = process.env.ADMIN_KEY || "";
 const projectRoot = path.resolve(__dirname, "..");
@@ -27,12 +42,13 @@ const uploadsDir = configuredUploadsDir
     : path.resolve(projectRoot, configuredUploadsDir)
   : path.join(__dirname, "uploads");
 
-const FIREBASE_PROJECT_ID = process.env.FIREBASE_PROJECT_ID || "";
-const FIREBASE_CLIENT_EMAIL = process.env.FIREBASE_CLIENT_EMAIL || "";
-const FIREBASE_PRIVATE_KEY = (process.env.FIREBASE_PRIVATE_KEY || "").replace(
-  /\\n/g,
-  "\n",
+const FIREBASE_PROJECT_ID = normalizeEnvValue(process.env.FIREBASE_PROJECT_ID);
+const FIREBASE_CLIENT_EMAIL = normalizeEnvValue(
+  process.env.FIREBASE_CLIENT_EMAIL,
 );
+const FIREBASE_PRIVATE_KEY = normalizeEnvValue(
+  process.env.FIREBASE_PRIVATE_KEY,
+).replace(/\\n/g, "\n");
 
 const SMTP_HOST = process.env.SMTP_HOST || "smtp.gmail.com";
 const SMTP_PORT = Number(process.env.SMTP_PORT || 465);
@@ -593,18 +609,27 @@ app.post("/api/quote", async (req, res) => {
     const name = typeof body.name === "string" ? body.name.trim() : "";
     const email = typeof body.email === "string" ? body.email.trim() : "";
     const phone = typeof body.phone === "string" ? body.phone.trim() : "";
+    const squareMeters =
+      typeof body.squareMeters === "string" ? body.squareMeters.trim() : "";
     const message = typeof body.message === "string" ? body.message.trim() : "";
 
-    if (!name || !email || !phone || !message) {
+    if (!name || !email || !phone || !squareMeters || !message) {
       return res.status(400).json({ error: "Missing required fields" });
     }
     if (
       name.length > 200 ||
       email.length > 320 ||
       phone.length > 50 ||
+      squareMeters.length > 10 ||
       message.length > 5000
     ) {
       return res.status(400).json({ error: "One or more fields are too long" });
+    }
+    const squareMetersOk = /^\d+$/.test(squareMeters);
+    if (!squareMetersOk) {
+      return res
+        .status(400)
+        .json({ error: "Square meters must contain digits only" });
     }
     const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     if (!emailOk) {
@@ -697,6 +722,7 @@ app.post("/api/quote", async (req, res) => {
       `Name: ${name}`,
       `Email: ${email}`,
       `Phone: ${phone}`,
+      `Square meters: ${squareMeters}`,
       "",
       "Message:",
       message,
@@ -758,6 +784,10 @@ app.post("/api/quote", async (req, res) => {
                           <tr>
                             <td style="padding:10px 0; border-top:1px solid rgba(62,39,35,0.10); width:140px; color:${brandBrown}; opacity:0.75;">Phone</td>
                             <td style="padding:10px 0; border-top:1px solid rgba(62,39,35,0.10); color:${brandBrown}; font-weight:700;">${escapeHtml(phone)}</td>
+                          </tr>
+                          <tr>
+                            <td style="padding:10px 0; border-top:1px solid rgba(62,39,35,0.10); width:140px; color:${brandBrown}; opacity:0.75;">Square meters</td>
+                            <td style="padding:10px 0; border-top:1px solid rgba(62,39,35,0.10); color:${brandBrown}; font-weight:700;">${escapeHtml(squareMeters)}</td>
                           </tr>
                         </table>
 

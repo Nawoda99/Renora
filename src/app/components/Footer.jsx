@@ -27,25 +27,24 @@ export function Footer() {
                 <h1 className="justify-items-start tracking-wider  text-3xl">
                   Renora
                 </h1>
-                <p className="text-md ">Cleaning Services</p>
+                <p className="text-md ">Städtjänster</p>
               </div>
             </div>
             <p className="text-[var(--footer-muted-text)] text-sm">
-              Setting the gold standard in professional cleaning services since
-              2015.
+              Vi har satt standarden för professionell städning sedan 2015.
             </p>
           </div>
 
           {/* Quick Links */}
           <div className="mt-1">
-            <h4 className="text-[var(--footer-heading)] mb-4">Quick Links</h4>
+            <h4 className="text-[var(--footer-heading)] mb-4">Snabblänkar</h4>
             <ul className="space-y-2 text-sm">
               <li>
                 <Link
                   to="/#home"
                   className="text-[var(--footer-muted-text)] hover:text-[var(--footer-link-hover)] transition-colors"
                 >
-                  Home
+                  Hem
                 </Link>
               </li>
               <li>
@@ -53,7 +52,7 @@ export function Footer() {
                   to="/services"
                   className="text-[var(--footer-muted-text)] hover:text-[var(--footer-link-hover)] transition-colors"
                 >
-                  Services
+                  Tjänster
                 </Link>
               </li>
               <li>
@@ -61,7 +60,7 @@ export function Footer() {
                   to="/#about"
                   className="text-[var(--footer-muted-text)] hover:text-[var(--footer-link-hover)] transition-colors"
                 >
-                  About Us
+                  Om oss
                 </Link>
               </li>
               <li>
@@ -69,7 +68,7 @@ export function Footer() {
                   to="/#contact"
                   className="text-[var(--footer-muted-text)] hover:text-[var(--footer-link-hover)] transition-colors"
                 >
-                  Contact
+                  Kontakt
                 </Link>
               </li>
             </ul>
@@ -77,7 +76,7 @@ export function Footer() {
 
           {/* Services */}
           <div className="mt-1">
-            <h4 className="text-[var(--footer-heading)] mb-4">Services</h4>
+            <h4 className="text-[var(--footer-heading)] mb-4">Tjänster</h4>
             <ul className="space-y-2 text-sm text-[var(--footer-muted-text)]">
               {footerServices.map((service) => (
                 <li key={service.id}>{service.title}</li>
@@ -87,7 +86,7 @@ export function Footer() {
 
           {/* Contact */}
           <div className="mt-1">
-            <h4 className="text-[var(--footer-heading)] mb-4">Contact Us</h4>
+            <h4 className="text-[var(--footer-heading)] mb-4">Kontakta oss</h4>
             <ul className="space-y-2 text-sm text-[var(--footer-muted-text)]">
               <li>{contact.phone}</li>
               <li>{contact.email}</li>
@@ -100,7 +99,7 @@ export function Footer() {
         <div className="border-t border-[rgb(var(--renora-accent-rgb)/0.2)] pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-sm text-[var(--footer-muted-text)]">
-              © {currentYear} Renora Cleaning Services. All rights reserved.
+              © {currentYear} Renora Städtjänster. Alla rättigheter förbehållna.
             </p>
             <div className="flex gap-4">
               <a
