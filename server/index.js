@@ -396,6 +396,67 @@ function readDefaultContent() {
   return JSON.parse(defaultJson);
 }
 
+function isLocalMediaUrl(value) {
+  return typeof value === "string" && value.startsWith("/media/");
+}
+
+function mediaExistsForUrl(value) {
+  if (!isLocalMediaUrl(value)) return true;
+  const encodedName = value.slice("/media/".length);
+  if (!encodedName) return false;
+
+  try {
+    const name = sanitizeMediaName(decodeURIComponent(encodedName));
+    if (!name) return false;
+    return fs.existsSync(mediaPathFromName(name));
+  } catch {
+    return false;
+  }
+}
+
+function repairMissingMediaReferences(value, fallbackValue) {
+  let repairedCount = 0;
+
+  const repair = (current, fallback) => {
+    if (typeof current === "string") {
+      if (!isLocalMediaUrl(current) || mediaExistsForUrl(current)) {
+        return current;
+      }
+
+      if (typeof fallback === "string" && fallback !== current) {
+        repairedCount += 1;
+        return fallback;
+      }
+
+      repairedCount += 1;
+      return "";
+    }
+
+    if (Array.isArray(current)) {
+      return current.map((item, index) =>
+        repair(item, Array.isArray(fallback) ? fallback[index] : undefined),
+      );
+    }
+
+    if (current && typeof current === "object") {
+      const out = {};
+      for (const [key, item] of Object.entries(current)) {
+        const nextFallback =
+          fallback && typeof fallback === "object" ? fallback[key] : undefined;
+        out[key] = repair(item, nextFallback);
+      }
+      return out;
+    }
+
+    return current;
+  };
+
+  return {
+    content: repair(value, fallbackValue),
+    repairedCount,
+  };
+}
+
 function stripTrailingSlash(value) {
   return String(value || "").replace(/\/$/, "");
 }
@@ -497,9 +558,20 @@ async function initDbAsync() {
   try {
     const existing = JSON.parse(data.json);
     const migrated = migrateThemePreset(existing);
-    if (JSON.stringify(existing) !== JSON.stringify(migrated)) {
+    const { content: repaired, repairedCount } = repairMissingMediaReferences(
+      migrated,
+      readDefaultContent(),
+    );
+
+    if (repairedCount > 0) {
+      console.warn(
+        `Repaired ${repairedCount} missing local media reference(s) during startup.`,
+      );
+    }
+
+    if (JSON.stringify(existing) !== JSON.stringify(repaired)) {
       await docRef.set({
-        json: JSON.stringify(migrated),
+        json: JSON.stringify(repaired),
         updatedAt: new Date().toISOString(),
       });
     }
@@ -541,10 +613,21 @@ async function getContent() {
   try {
     const parsed = JSON.parse(data.json);
     const migrated = migrateThemePreset(parsed);
-    if (JSON.stringify(parsed) !== JSON.stringify(migrated)) {
-      await setContent(migrated);
+    const { content: repaired, repairedCount } = repairMissingMediaReferences(
+      migrated,
+      readDefaultContent(),
+    );
+
+    if (repairedCount > 0) {
+      console.warn(
+        `Repaired ${repairedCount} missing local media reference(s) while loading content.`,
+      );
     }
-    return migrated;
+
+    if (JSON.stringify(parsed) !== JSON.stringify(repaired)) {
+      await setContent(repaired);
+    }
+    return repaired;
   } catch (err) {
     console.error("Failed to parse CMS content JSON; repairing from default.");
     console.error(err);
@@ -1163,9 +1246,27 @@ if (fs.existsSync(distDir)) {
 // Consistent JSON errors (helps the admin UI surface meaningful messages)
 // eslint-disable-next-line no-unused-vars
 app.use((err, _req, res, _next) => {
-  console.error(err);
+  const status =
+    Number(err?.statusCode || err?.status) > 0
+      ? Number(err.statusCode || err.status)
+      : 500;
+
+  if (status >= 500) {
+    console.error(err);
+  } else {
+    console.warn(err);
+  }
+
   if (res.headersSent) return;
-  res.status(500).json({ error: "Internal Server Error" });
+
+  const message =
+    status >= 500
+      ? "Internal Server Error"
+      : err?.expose && typeof err.message === "string"
+        ? err.message
+        : "Not Found";
+
+  res.status(status).json({ error: message });
 });
 
 async function main() {

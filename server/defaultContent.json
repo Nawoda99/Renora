@@ -76,20 +76,20 @@
       "id": "svc_window",
       "slug": "window-cleaning",
       "iconKey": "Square",
-      "title": "Window Cleaning",
-      "summary": "Crystal-clear windows inside and out. We make your windows shine and let the light in.",
+      "title": "Fönsterputs",
+      "summary": "Skinande rena fönster på in- och utsida som släpper in mer ljus och ger ett fräschare intryck.",
       "image": "https://images.unsplash.com/photo-1761689502577-0013be84f1bf?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3aW5kb3clMjBjbGVhbmluZyUyMHByb2Zlc3Npb25hbHxlbnwxfHx8fDE3NzI2Nzk5NTd8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "overview": "Brighten your space with streak-free, professional window cleaning. We focus on clarity, detailing, and leaving frames and sills looking refreshed.",
+      "overview": "Ge ditt hem eller din lokal mer ljus med professionell fönsterputs utan ränder. Vi fokuserar på glasets klarhet och rena karmar och fönsterbrädor.",
       "included": [
-        "Interior glass cleaning",
-        "Exterior glass cleaning (accessible areas)",
-        "Frame and sill wipe-down",
-        "Screen dusting (where applicable)"
+        "Putsning av insidan av glasytor",
+        "Putsning av utsidan där det är åtkomligt",
+        "Avtorkning av karmar och fönsterbrädor",
+        "Dammborttagning från myggnät där det finns"
       ],
       "idealFor": [
-        "Homes and storefronts",
-        "Seasonal cleaning or before events",
-        "Improving natural light and curb appeal"
+        "Bostäder och butikslokaler",
+        "Säsongsstädning eller inför evenemang",
+        "Förbättrat ljusinsläpp och ett bättre helhetsintryck"
       ],
       "showOnHome": false,
       "hidden": false
@@ -120,8 +120,8 @@
       "id": "svc_disinfection",
       "slug": "disinfection-services",
       "iconKey": "Droplets",
-      "title": "Disinfection Services",
-      "summary": "Advanced sanitization and disinfection. Keep your space safe and hygienic.",
+      "title": "Dödsbostädning",
+      "summary": "Respektfull och noggrann städning av dödsbo med fokus på trygghet, diskretion och kvalitet.",
       "image": "https://images.unsplash.com/photo-1771491237225-01931a752f58?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBjbGVhbmluZyUyMHNlcnZpY2UlMjBwcm9mZXNzaW9uYWx8ZW58MXx8fHwxNzcyNjk1ODcwfDA&ixlib=rb-4.1.0&q=80&w=1080",
       "overview": "Disinfection focuses on sanitizing high-touch points and shared areas to help reduce the spread of germs. Ideal as a recurring add-on or for specific situations.",
       "included": [
@@ -165,21 +165,21 @@
       "id": "svc_post",
       "slug": "post-construction-cleaning",
       "iconKey": "Hammer",
-      "title": "Post-Construction Cleaning",
-      "summary": "Remove dust and debris after renovations. We make your new space ready to enjoy.",
+      "title": "Byggstädning",
+      "summary": "Vi tar bort byggdamm och rester efter renovering så att lokalen känns färdig och redo att användas.",
       "image": "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1600&q=80",
-      "overview": "Renovations leave behind fine dust that settles everywhere. We detail surfaces and floors so your space looks finished — not like a job site.",
+      "overview": "Renoveringar lämnar efter sig fint damm som lägger sig överallt. Vi går igenom ytor och golv så att utrymmet känns färdigt, inte som en byggarbetsplats.",
       "included": [
-        "Dust removal from surfaces, ledges, and fixtures",
-        "Vacuuming and mopping floors (with edge detailing)",
-        "Wipe-down of doors, frames, and reachable vents",
-        "Spot cleaning for paint splatter residue (where safe)",
-        "Final polish of high-visibility areas"
+        "Borttagning av damm från ytor, lister och armaturer",
+        "Dammsugning och moppning av golv med kantfokus",
+        "Avtorkning av dörrar, karmar och åtkomliga ventiler",
+        "Punktrengöring av färgstänk där det är säkert",
+        "Slutfinish på de mest synliga ytorna"
       ],
       "idealFor": [
-        "After remodeling kitchens/bathrooms",
-        "After flooring, drywall, or painting projects",
-        "New builds before move-in"
+        "Efter renovering av kök eller badrum",
+        "Efter golvläggning, gips- eller måleriarbeten",
+        "Nyproduktion inför inflyttning"
       ],
       "showOnHome": false,
       "hidden": false
@@ -367,10 +367,10 @@
       "afterLabel": "Efter"
     },
     "contact": {
-      "phone": "(555) 123-4567",
-      "phoneTel": "tel:5551234567",
-      "email": "info@Renora-cleaning.com",
-      "emailMailto": "mailto:info@Renora-cleaning.com",
+      "phone": "0737039373",
+      "phoneTel": "tel:0737039373",
+      "email": "support@renora.se",
+      "emailMailto": "mailto:support@renora.se",
       "address": "Exempelgatan 123, Svit 100, Din stad",
       "hours": "Mån-Lör: 08:00 - 18:00",
       "whyChooseTitle": "Varför välja Renora?",

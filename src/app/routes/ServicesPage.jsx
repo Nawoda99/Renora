@@ -71,7 +71,7 @@ export function ServicesPage() {
               Städtjänster som passar ditt utrymme
             </h2>
             <p className="text-lg text-[var(--muted-foreground)] max-w-2xl mx-auto">
-              Välj en tjänst för att se vad som ingår och vem den passar bäst för.
+              Välj en tjänst för att se bild, översikt och vad som ingår.
             </p>
           </div>
 
@@ -168,6 +168,14 @@ export function ServicesPage() {
                       ref={mobileScrollRef}
                       className="p-4 overflow-y-auto flex-1 min-h-0"
                     >
+                      <div className="mb-4 overflow-hidden rounded-2xl border border-[var(--card-border)]">
+                        <img
+                          src={selectedService.image}
+                          alt={selectedService.title}
+                          className="w-full h-56 object-cover"
+                        />
+                      </div>
+
                       <div>
                         <h4 className="text-[var(--primary)] text-lg mb-2">
                           Översikt
@@ -183,22 +191,6 @@ export function ServicesPage() {
                         </h4>
                         <ul className="space-y-2 text-[var(--muted-foreground)]">
                           {selectedService.included.map((item) => (
-                            <li key={item} className="flex gap-2">
-                              <span className="text-[var(--icon-accent)]">
-                                •
-                              </span>
-                              <span>{item}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-
-                      <div className="mt-4">
-                        <h4 className="text-[var(--primary)] text-base mb-2">
-                          Passar för
-                        </h4>
-                        <ul className="space-y-2 text-[var(--muted-foreground)]">
-                          {selectedService.idealFor.map((item) => (
                             <li key={item} className="flex gap-2">
                               <span className="text-[var(--icon-accent)]">
                                 •
@@ -255,8 +247,8 @@ export function ServicesPage() {
                     </div>
                   </div>
                 ) : (
-                  <div className="grid grid-cols-1 lg:grid-cols-2">
-                    <div className="relative min-h-[320px]">
+                  <div className="grid grid-cols-1">
+                    <div className="relative h-[300px] md:h-[360px]">
                       <img
                         src={selectedService.image}
                         alt={selectedService.title}
@@ -292,7 +284,7 @@ export function ServicesPage() {
                           Tjänstinformation
                         </DialogTitle>
                         <DialogDescription className="text-[var(--muted-foreground)]">
-                          Se vad som ingår och vem tjänsten passar bäst för.
+                          Se bild, översikt och vad som ingår i tjänsten.
                         </DialogDescription>
                       </DialogHeader>
 
@@ -305,38 +297,20 @@ export function ServicesPage() {
                         </p>
                       </div>
 
-                      <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                          <h4 className="text-[var(--primary)] text-lg mb-3">
-                            Det här ingår
-                          </h4>
-                          <ul className="space-y-2 text-[var(--muted-foreground)]">
-                            {selectedService.included.map((item) => (
-                              <li key={item} className="flex gap-2">
-                                <span className="text-[var(--icon-accent)]">
-                                  •
-                                </span>
-                                <span>{item}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-
-                        <div>
-                          <h4 className="text-[var(--primary)] text-lg mb-3">
-                            Passar för
-                          </h4>
-                          <ul className="space-y-2 text-[var(--muted-foreground)]">
-                            {selectedService.idealFor.map((item) => (
-                              <li key={item} className="flex gap-2">
-                                <span className="text-[var(--icon-accent)]">
-                                  •
-                                </span>
-                                <span>{item}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
+                      <div className="mt-6">
+                        <h4 className="text-[var(--primary)] text-lg mb-3">
+                          Det här ingår
+                        </h4>
+                        <ul className="space-y-2 text-[var(--muted-foreground)]">
+                          {selectedService.included.map((item) => (
+                            <li key={item} className="flex gap-2">
+                              <span className="text-[var(--icon-accent)]">
+                                •
+                              </span>
+                              <span>{item}</span>
+                            </li>
+                          ))}
+                        </ul>
                       </div>
 
                       <div className="mt-8 flex flex-col sm:flex-row gap-3">

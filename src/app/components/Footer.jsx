@@ -31,7 +31,7 @@ export function Footer() {
               </div>
             </div>
             <p className="text-[var(--footer-muted-text)] text-sm">
-              Vi har satt standarden för professionell städning sedan 2015.
+              Vi har satt standarden för professionell städning sedan 2024.
             </p>
           </div>
 

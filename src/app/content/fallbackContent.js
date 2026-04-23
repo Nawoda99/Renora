@@ -190,8 +190,7 @@ export const fallbackContent = {
         hidden: false,
         badge: "Omdömen",
         title: "Det här säger våra kunder",
-        subtitle:
-          "Lita inte bara på oss, hör vad våra nöjda kunder tycker",
+        subtitle: "Lita inte bara på oss, hör vad våra nöjda kunder tycker",
       },
       contact: {
         badge: "Kontakta oss",
@@ -248,10 +247,10 @@ export const fallbackContent = {
       ],
     },
     contact: {
-      phone: "(555) 123-4567",
-      phoneTel: "tel:5551234567",
-      email: "info@renora-cleaning.com",
-      emailMailto: "mailto:info@renora-cleaning.com",
+      phone: "0737039373",
+      phoneTel: "tel:0737039373",
+      email: "support@renora.se",
+      emailMailto: "mailto:support@renora.se",
       address: "Exempelgatan 123, Svit 100, Din stad",
       hours: "Mån-Lör: 08:00 - 18:00",
       whyChooseTitle: "Varför välja Renora?",
