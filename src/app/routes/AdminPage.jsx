@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+﻿import { useEffect, useRef, useState } from "react";
 import { useCms } from "../content/ContentContext";
 import { Button } from "../components/ui/button";
 import {
@@ -99,6 +99,67 @@ function RgbaColorPicker({ value, onChange }) {
         <span className="text-xs text-muted-foreground w-10 text-right">
           {opacity}%
         </span>
+      </div>
+    </div>
+  );
+}
+
+function TextStyleControls({ style, onChange }) {
+  return (
+    <div className="grid grid-cols-2 gap-2">
+      <div className="space-y-1">
+        <Label className="text-xs">Font</Label>
+        <Select
+          value={style?.font || "sans"}
+          onValueChange={(value) => onChange({ ...style, font: value })}
+        >
+          <SelectTrigger className="h-8 text-xs border-[rgb(var(--renora-accent-rgb)/0.3)]">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="sans">Sans</SelectItem>
+            <SelectItem value="serif">Serif</SelectItem>
+            <SelectItem value="mono">Mono</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+      <div className="space-y-1">
+        <Label className="text-xs">Color</Label>
+        <div className="flex gap-1">
+          <input
+            type="color"
+            value={style?.color || "#000000"}
+            onChange={(e) => onChange({ ...style, color: e.target.value })}
+            className="h-8 w-8 p-1 rounded border cursor-pointer shrink-0"
+          />
+          <Input
+            type="text"
+            value={style?.color || "#000000"}
+            onChange={(e) => onChange({ ...style, color: e.target.value })}
+            className="font-mono text-xs h-8"
+            placeholder="#000000"
+          />
+        </div>
+      </div>
+      <div className="space-y-1">
+        <Label className="text-xs">Bold</Label>
+        <div className="flex items-center h-8">
+          <Switch
+            checked={style?.bold || false}
+            onCheckedChange={(checked) => onChange({ ...style, bold: checked })}
+          />
+        </div>
+      </div>
+      <div className="space-y-1">
+        <Label className="text-xs">Italic</Label>
+        <div className="flex items-center h-8">
+          <Switch
+            checked={style?.italic || false}
+            onCheckedChange={(checked) =>
+              onChange({ ...style, italic: checked })
+            }
+          />
+        </div>
       </div>
     </div>
   );
@@ -561,13 +622,13 @@ export function AdminPage() {
         <Button
           type="button"
           variant="outline"
-          className="border-[rgb(var(--cios-accent-rgb))]"
+          className="border-[var(--button-outline-border)]"
           onClick={() => openMediaPicker(onChange, true)}
         >
           Choose / Upload
         </Button>
       </div>
-      <div className="rounded-md border border-[rgb(var(--cios-accent-rgb)/0.15)] overflow-hidden bg-white">
+      <div className="rounded-md border border-[rgb(var(--renora-accent-rgb)/0.15)] overflow-hidden bg-white">
         {value ? (
           <img
             src={value}
@@ -576,13 +637,15 @@ export function AdminPage() {
             loading="lazy"
           />
         ) : (
-          <div className="h-40 flex items-center justify-center text-sm text-[#6D4C41]">
+          <div className="h-40 flex items-center justify-center text-sm text-[var(--muted-foreground)]">
             No image selected
           </div>
         )}
       </div>
       {value ? (
-        <p className="text-xs text-[#6D4C41] break-all">{value}</p>
+        <p className="text-xs text-[var(--muted-foreground)] break-all">
+          {value}
+        </p>
       ) : null}
     </div>
   );
@@ -616,9 +679,9 @@ export function AdminPage() {
     return (
       <div className="pt-24 pb-16">
         <div className="container mx-auto px-4 max-w-xl">
-          <Card className="border-[rgb(var(--cios-accent-rgb)/0.2)]">
+          <Card className="border-[rgb(var(--renora-accent-rgb)/0.2)]">
             <CardHeader>
-              <CardTitle className="text-[#3E2723]">Admin</CardTitle>
+              <CardTitle className="text-[var(--primary)]">Admin</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
@@ -640,11 +703,11 @@ export function AdminPage() {
               <Button
                 onClick={unlock}
                 disabled={unlocking}
-                className="bg-[rgb(var(--cios-accent-rgb))] hover:bg-[rgb(var(--cios-accent-hover-rgb))] text-[#3E2723] w-full"
+                className="bg-[var(--button-default-bg)] hover:bg-[var(--button-default-hover-bg)] text-[var(--button-default-text)] w-full"
               >
-                {unlocking ? "Verifying…" : "Unlock"}
+                {unlocking ? "Verifying..." : "Unlock"}
               </Button>
-              <p className="text-xs text-[#6D4C41]">
+              <p className="text-xs text-[var(--muted-foreground)]">
                 This passcode is checked server-side via the `ADMIN_KEY` env
                 var.
               </p>
@@ -660,16 +723,18 @@ export function AdminPage() {
       <div className="pt-24 pb-16">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between gap-3">
-            <h2 className="text-2xl text-[#3E2723]">Admin</h2>
+            <h2 className="text-2xl text-[var(--primary)]">Admin</h2>
             <Button
               variant="outline"
-              className="border-[rgb(var(--cios-accent-rgb))]"
+              className="border-[var(--button-outline-border)]"
               onClick={lock}
             >
               Lock
             </Button>
           </div>
-          <p className="mt-6 text-[#6D4C41]">Loading content…</p>
+          <p className="mt-6 text-[var(--muted-foreground)]">
+            Loading content...
+          </p>
         </div>
       </div>
     );
@@ -683,38 +748,26 @@ export function AdminPage() {
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-6">
           <div>
-            <h2 className="text-2xl text-[#3E2723]">Admin</h2>
-            <p className="text-sm text-[#6D4C41]">
+            <h2 className="text-2xl text-[var(--primary)]">Admin</h2>
+            <p className="text-sm text-[var(--muted-foreground)]">
               CMS status: {visibleStatus}
             </p>
           </div>
           <div className="flex flex-col sm:flex-row gap-3">
-            <Button
-              variant="outline"
-              className="border-[rgb(var(--cios-accent-rgb))]"
-              onClick={reload}
-            >
+            <Button variant="outline" onClick={reload}>
               Reload
             </Button>
-            <Button
-              onClick={save}
-              disabled={saving}
-              className="bg-[rgb(var(--cios-accent-rgb))] hover:bg-[rgb(var(--cios-accent-hover-rgb))] text-[#3E2723]"
-            >
-              {saving ? "Saving…" : "Save"}
+            <Button onClick={save} disabled={saving}>
+              {saving ? "Saving..." : "Save"}
             </Button>
-            <Button
-              variant="outline"
-              className="border-[rgb(var(--cios-accent-rgb))]"
-              onClick={lock}
-            >
+            <Button variant="outline" onClick={lock}>
               Lock
             </Button>
           </div>
         </div>
 
         {message ? (
-          <p className="mb-6 text-sm text-[#3E2723]">{message}</p>
+          <p className="mb-6 text-sm text-[var(--primary)]">{message}</p>
         ) : null}
 
         <div className="grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-6">
@@ -725,7 +778,7 @@ export function AdminPage() {
                 value={activeSection}
                 onValueChange={(value) => goToSection(value)}
               >
-                <SelectTrigger className="border-[rgb(var(--cios-accent-rgb)/0.3)]">
+                <SelectTrigger className="border-[rgb(var(--renora-accent-rgb)/0.3)]">
                   <SelectValue placeholder="Select section" />
                 </SelectTrigger>
                 <SelectContent>
@@ -740,9 +793,9 @@ export function AdminPage() {
           </div>
 
           <aside className="hidden lg:block">
-            <Card className="border-[rgb(var(--cios-accent-rgb)/0.2)] sticky top-24">
+            <Card className="border-[rgb(var(--renora-accent-rgb)/0.2)] sticky top-24">
               <CardHeader>
-                <CardTitle className="text-[#3E2723] text-base">
+                <CardTitle className="text-[var(--primary)] text-base">
                   Sections
                 </CardTitle>
               </CardHeader>
@@ -753,9 +806,9 @@ export function AdminPage() {
                     type="button"
                     onClick={() => goToSection(item.id)}
                     className={
-                      "block w-full text-left rounded-md px-3 py-2 text-sm text-[#3E2723] hover:bg-[rgb(var(--cios-accent-rgb)/0.1)] " +
+                      "block w-full text-left rounded-md px-3 py-2 text-sm text-[var(--primary)] hover:bg-[rgb(var(--renora-accent-hover-rgb)/0.1)] " +
                       (item.id === activeSection
-                        ? "bg-[rgb(var(--cios-accent-rgb)/0.1)]"
+                        ? "bg-[rgb(var(--renora-accent-rgb)/0.1)]"
                         : "")
                     }
                   >
@@ -771,10 +824,10 @@ export function AdminPage() {
             {activeSection === "hero" ? (
               <Card
                 id="admin-hero"
-                className="border-[rgb(var(--cios-accent-rgb)/0.2)] mb-6"
+                className="border-[rgb(var(--renora-accent-rgb)/0.2)] mb-6"
               >
                 <CardHeader>
-                  <CardTitle className="text-[#3E2723]">Hero</CardTitle>
+                  <CardTitle className="text-[var(--primary)]">Hero</CardTitle>
                 </CardHeader>
                 <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <ImagePicker
@@ -811,6 +864,21 @@ export function AdminPage() {
                         })
                       }
                     />
+                    <TextStyleControls
+                      style={draft.settings.hero.badgeStyle}
+                      onChange={(newStyle) =>
+                        setDraft({
+                          ...draft,
+                          settings: {
+                            ...draft.settings,
+                            hero: {
+                              ...draft.settings.hero,
+                              badgeStyle: newStyle,
+                            },
+                          },
+                        })
+                      }
+                    />
                   </div>
                   <div className="space-y-2">
                     <Label>Headline (line 1)</Label>
@@ -829,6 +897,21 @@ export function AdminPage() {
                         })
                       }
                     />
+                    <TextStyleControls
+                      style={draft.settings.hero.headlineStyle}
+                      onChange={(newStyle) =>
+                        setDraft({
+                          ...draft,
+                          settings: {
+                            ...draft.settings,
+                            hero: {
+                              ...draft.settings.hero,
+                              headlineStyle: newStyle,
+                            },
+                          },
+                        })
+                      }
+                    />
                   </div>
                   <div className="space-y-2">
                     <Label>Highlight (line 2)</Label>
@@ -842,6 +925,21 @@ export function AdminPage() {
                             hero: {
                               ...draft.settings.hero,
                               highlight: e.target.value,
+                            },
+                          },
+                        })
+                      }
+                    />
+                    <TextStyleControls
+                      style={draft.settings.hero.highlightStyle}
+                      onChange={(newStyle) =>
+                        setDraft({
+                          ...draft,
+                          settings: {
+                            ...draft.settings,
+                            hero: {
+                              ...draft.settings.hero,
+                              highlightStyle: newStyle,
                             },
                           },
                         })
@@ -866,10 +964,25 @@ export function AdminPage() {
                       }
                       rows={3}
                     />
+                    <TextStyleControls
+                      style={draft.settings.hero.subheadlineStyle}
+                      onChange={(newStyle) =>
+                        setDraft({
+                          ...draft,
+                          settings: {
+                            ...draft.settings,
+                            hero: {
+                              ...draft.settings.hero,
+                              subheadlineStyle: newStyle,
+                            },
+                          },
+                        })
+                      }
+                    />
                   </div>
 
                   <div className="md:col-span-2">
-                    <h4 className="text-[#3E2723] mb-2">Stats</h4>
+                    <h4 className="text-[var(--primary)] mb-2">Stats</h4>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                       {draft.settings.hero.stats.map((stat, idx) => (
                         <div key={idx} className="space-y-2">
@@ -921,13 +1034,13 @@ export function AdminPage() {
             {activeSection === "media" ? (
               <Card
                 id="admin-media"
-                className="border-[rgb(var(--cios-accent-rgb)/0.2)] mb-6"
+                className="border-[rgb(var(--renora-accent-rgb)/0.2)] mb-6"
               >
                 <CardHeader>
-                  <CardTitle className="text-[#3E2723]">Media</CardTitle>
+                  <CardTitle className="text-[var(--primary)]">Media</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3">
-                  <p className="text-sm text-[#6D4C41]">
+                  <p className="text-sm text-[var(--muted-foreground)]">
                     Upload images once, then reuse them anywhere in the site.
                   </p>
                   <MediaLibraryPanel
@@ -952,10 +1065,12 @@ export function AdminPage() {
             {activeSection === "colors" ? (
               <Card
                 id="admin-colors"
-                className="border-[rgb(var(--cios-accent-rgb)/0.2)] mb-6"
+                className="border-[rgb(var(--renora-accent-rgb)/0.2)] mb-6"
               >
                 <CardHeader>
-                  <CardTitle className="text-[#3E2723]">Colors</CardTitle>
+                  <CardTitle className="text-[var(--primary)]">
+                    Colors
+                  </CardTitle>
                 </CardHeader>
                 <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {[
@@ -972,6 +1087,16 @@ export function AdminPage() {
                     ["Muted foreground", "mutedForeground"],
                     ["Card", "card"],
                     ["Card foreground", "cardForeground"],
+                    ["Card border", "cardBorder"],
+                    ["Card border hover", "cardBorderHover"],
+                    ["Icon primary", "iconPrimary"],
+                    ["Icon on accent backgrounds", "iconOnAccent"],
+                    ["Icon accent", "iconAccent"],
+                    ["Icon accent soft", "iconAccentSoft"],
+                    ["Form label text", "formLabelText"],
+                    ["Form input text", "formInputText"],
+                    ["Form input border", "formInputBorder"],
+                    ["Form input focus border", "formInputFocusBorder"],
                     ["Input background", "inputBackground"],
                     ["Nav link text", "navLinkText"],
                     ["Nav link hover", "navLinkHover"],
@@ -980,6 +1105,72 @@ export function AdminPage() {
                     ["Nav button text", "navButtonText"],
                     ["Badge text (all sections)", "badgeText"],
                     ["Badge background (all sections)", "badgeBg"],
+                    ["Button - Default background", "buttonDefaultBg"],
+                    [
+                      "Button - Default hover background",
+                      "buttonDefaultHoverBg",
+                    ],
+                    ["Button - Default text", "buttonDefaultText"],
+                    ["Button - Secondary background", "buttonSecondaryBg"],
+                    [
+                      "Button - Secondary hover background",
+                      "buttonSecondaryHoverBg",
+                    ],
+                    ["Button - Secondary text", "buttonSecondaryText"],
+                    ["Button - Destructive background", "buttonDestructiveBg"],
+                    [
+                      "Button - Destructive hover background",
+                      "buttonDestructiveHoverBg",
+                    ],
+                    ["Button - Destructive text", "buttonDestructiveText"],
+                    ["Button - Outline border", "buttonOutlineBorder"],
+                    [
+                      "Button - Outline hover border",
+                      "buttonOutlineHoverBorder",
+                    ],
+                    ["Button - Outline text", "buttonOutlineText"],
+                    [
+                      "Button - Outline hover background",
+                      "buttonOutlineHoverBg",
+                    ],
+                    ["Button - Ghost text", "buttonGhostText"],
+                    ["Button - Ghost hover background", "buttonGhostHoverBg"],
+                    ["CTA button background", "ctaButtonBg"],
+                    ["CTA button hover background", "ctaButtonHoverBg"],
+                    ["CTA button text", "ctaButtonText"],
+                    ["Outline button border", "outlineButtonBorder"],
+                    ["Outline button text", "outlineButtonText"],
+                    ["Outline button hover background", "outlineButtonHoverBg"],
+                    ["Outline button hover text", "outlineButtonHoverText"],
+                    ["Hero image overlay", "heroOverlay"],
+                    ["Promo image overlay", "promoOverlay"],
+                    ["Image overlay heading text", "imageOverlayText"],
+                    ["Image overlay body text", "imageOverlayMutedText"],
+                    ["Image overlay panel background", "imageOverlayPanelBg"],
+                    ["Image overlay panel border", "imageOverlayPanelBorder"],
+                    ["Promo shine color", "promoShine"],
+                    ["Section base background", "surfaceBase"],
+                    ["Elevated panel background", "surfaceElevated"],
+                    ["Soft elevated panel background", "surfaceElevatedSoft"],
+                    [
+                      "Soft elevated panel hover background",
+                      "surfaceElevatedHover",
+                    ],
+                    ["Footer background", "footerBackground"],
+                    ["Footer muted text", "footerMutedText"],
+                    ["Footer heading", "footerHeading"],
+                    ["Footer link hover", "footerLinkHover"],
+                    ["Footer social button background", "footerSocialBg"],
+                    [
+                      "Footer social button hover background",
+                      "footerSocialHoverBg",
+                    ],
+                    ["Footer social icon", "footerSocialIcon"],
+                    ["Footer social icon hover", "footerSocialIconHover"],
+                    ["Before/After handle border", "beforeAfterHandleBorder"],
+                    ["Before/After handle icon", "beforeAfterHandleIcon"],
+                    ["Before/After label background", "beforeAfterLabelBg"],
+                    ["Before/After label text", "beforeAfterLabelText"],
                   ].map(([label, key]) => (
                     <div key={key} className="space-y-2">
                       <Label>{label}</Label>
@@ -1010,22 +1201,22 @@ export function AdminPage() {
             {activeSection === "banners" ? (
               <Card
                 id="admin-banners"
-                className="border-[rgb(var(--cios-accent-rgb)/0.2)] mb-6"
+                className="border-[rgb(var(--renora-accent-rgb)/0.2)] mb-6"
               >
                 <CardHeader>
-                  <CardTitle className="text-[#3E2723]">
+                  <CardTitle className="text-[var(--primary)]">
                     Promo Banners
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="flex items-center justify-between gap-3">
-                    <p className="text-sm text-[#6D4C41]">
+                    <p className="text-sm text-[var(--muted-foreground)]">
                       If more than one banner is active, the home page shows a
                       carousel.
                     </p>
                     <Button
                       variant="outline"
-                      className="border-[rgb(var(--cios-accent-rgb))]"
+                      className="border-[var(--button-outline-border)]"
                       onClick={() => {
                         setDraft({
                           ...draft,
@@ -1054,14 +1245,14 @@ export function AdminPage() {
                     {draft.banners.map((banner, idx) => (
                       <Card
                         key={banner.id}
-                        className="border-[rgb(var(--cios-accent-rgb)/0.15)]"
+                        className="border-[rgb(var(--renora-accent-rgb)/0.15)]"
                       >
                         <CardContent className="p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                           <div>
-                            <p className="text-sm text-[#3E2723] font-medium">
+                            <p className="text-sm text-[var(--primary)] font-medium">
                               {banner.title || "(Untitled)"}
                             </p>
-                            <p className="text-xs text-[#6D4C41]">
+                            <p className="text-xs text-[var(--muted-foreground)]">
                               {banner.badge || ""}
                             </p>
                           </div>
@@ -1080,7 +1271,7 @@ export function AdminPage() {
                             <div className="flex items-center gap-2">
                               <Button
                                 variant="outline"
-                                className="border-[rgb(var(--cios-accent-rgb))]"
+                                className="border-[var(--button-outline-border)]"
                                 onClick={() => {
                                   const value = JSON.parse(
                                     JSON.stringify(draft.banners[idx]),
@@ -1100,7 +1291,7 @@ export function AdminPage() {
                               </Button>
                               <Button
                                 variant="outline"
-                                className="border-[rgb(var(--cios-accent-rgb))]"
+                                className="border-[var(--button-outline-border)]"
                                 onClick={() => {
                                   const next = [...draft.banners];
                                   next.splice(idx, 1);
@@ -1140,6 +1331,15 @@ export function AdminPage() {
                                 })
                               }
                             />
+                            <TextStyleControls
+                              style={bannerEditor.value.badgeStyle}
+                              onChange={(newStyle) =>
+                                updateBannerEditorValue({
+                                  ...bannerEditor.value,
+                                  badgeStyle: newStyle,
+                                })
+                              }
+                            />
                           </div>
                           <div className="space-y-2">
                             <Label>CTA Label</Label>
@@ -1149,6 +1349,15 @@ export function AdminPage() {
                                 updateBannerEditorValue({
                                   ...bannerEditor.value,
                                   ctaLabel: e.target.value,
+                                })
+                              }
+                            />
+                            <TextStyleControls
+                              style={bannerEditor.value.ctaLabelStyle}
+                              onChange={(newStyle) =>
+                                updateBannerEditorValue({
+                                  ...bannerEditor.value,
+                                  ctaLabelStyle: newStyle,
                                 })
                               }
                             />
@@ -1164,6 +1373,15 @@ export function AdminPage() {
                                 })
                               }
                             />
+                            <TextStyleControls
+                              style={bannerEditor.value.titleStyle}
+                              onChange={(newStyle) =>
+                                updateBannerEditorValue({
+                                  ...bannerEditor.value,
+                                  titleStyle: newStyle,
+                                })
+                              }
+                            />
                           </div>
                           <div className="space-y-2 md:col-span-2">
                             <Label>Description</Label>
@@ -1176,6 +1394,15 @@ export function AdminPage() {
                                 })
                               }
                               rows={3}
+                            />
+                            <TextStyleControls
+                              style={bannerEditor.value.descriptionStyle}
+                              onChange={(newStyle) =>
+                                updateBannerEditorValue({
+                                  ...bannerEditor.value,
+                                  descriptionStyle: newStyle,
+                                })
+                              }
                             />
                           </div>
                           <div className="space-y-2">
@@ -1202,7 +1429,7 @@ export function AdminPage() {
                                   })
                                 }
                               />
-                              <span className="text-sm text-[#6D4C41]">
+                              <span className="text-sm text-[var(--muted-foreground)]">
                                 {bannerEditor.value.active
                                   ? "Active"
                                   : "Inactive"}
@@ -1226,13 +1453,13 @@ export function AdminPage() {
                         <DialogFooter>
                           <Button
                             variant="outline"
-                            className="border-[rgb(var(--cios-accent-rgb))]"
+                            className="border-[var(--button-outline-border)]"
                             onClick={cancelBannerEditor}
                           >
                             Cancel
                           </Button>
                           <Button
-                            className="bg-[rgb(var(--cios-accent-rgb))] hover:bg-[rgb(var(--cios-accent-hover-rgb))] text-[#3E2723]"
+                            className="bg-[var(--button-default-bg)] hover:bg-[var(--button-default-hover-bg)] text-[var(--button-default-text)]"
                             onClick={() => setBannerEditor({ open: false })}
                           >
                             Apply
@@ -1249,14 +1476,16 @@ export function AdminPage() {
             {activeSection === "services" ? (
               <Card
                 id="admin-services"
-                className="border-[rgb(var(--cios-accent-rgb)/0.2)] mb-6"
+                className="border-[rgb(var(--renora-accent-rgb)/0.2)] mb-6"
               >
                 <CardHeader>
-                  <CardTitle className="text-[#3E2723]">Services</CardTitle>
+                  <CardTitle className="text-[var(--primary)]">
+                    Services
+                  </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-6">
                   <div className="space-y-3">
-                    <h4 className="text-[#3E2723]">Section Heading</h4>
+                    <h4 className="text-[var(--primary)]">Section Heading</h4>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div className="space-y-2">
                         <Label>Badge</Label>
@@ -1278,6 +1507,24 @@ export function AdminPage() {
                             })
                           }
                         />
+                        <TextStyleControls
+                          style={draft.settings.sections.services.badgeStyle}
+                          onChange={(newStyle) =>
+                            setDraft({
+                              ...draft,
+                              settings: {
+                                ...draft.settings,
+                                sections: {
+                                  ...draft.settings.sections,
+                                  services: {
+                                    ...draft.settings.sections.services,
+                                    badgeStyle: newStyle,
+                                  },
+                                },
+                              },
+                            })
+                          }
+                        />
                       </div>
                       <div className="space-y-2">
                         <Label>Title</Label>
@@ -1293,6 +1540,24 @@ export function AdminPage() {
                                   services: {
                                     ...draft.settings.sections.services,
                                     title: e.target.value,
+                                  },
+                                },
+                              },
+                            })
+                          }
+                        />
+                        <TextStyleControls
+                          style={draft.settings.sections.services.titleStyle}
+                          onChange={(newStyle) =>
+                            setDraft({
+                              ...draft,
+                              settings: {
+                                ...draft.settings,
+                                sections: {
+                                  ...draft.settings.sections,
+                                  services: {
+                                    ...draft.settings.sections.services,
+                                    titleStyle: newStyle,
                                   },
                                 },
                               },
@@ -1321,17 +1586,35 @@ export function AdminPage() {
                           }
                           rows={2}
                         />
+                        <TextStyleControls
+                          style={draft.settings.sections.services.subtitleStyle}
+                          onChange={(newStyle) =>
+                            setDraft({
+                              ...draft,
+                              settings: {
+                                ...draft.settings,
+                                sections: {
+                                  ...draft.settings.sections,
+                                  services: {
+                                    ...draft.settings.sections.services,
+                                    subtitleStyle: newStyle,
+                                  },
+                                },
+                              },
+                            })
+                          }
+                        />
                       </div>
                     </div>
                   </div>
 
                   <div className="flex items-center justify-between gap-3">
-                    <p className="text-sm text-[#6D4C41]">
+                    <p className="text-sm text-[var(--muted-foreground)]">
                       Add, edit, delete, or hide services.
                     </p>
                     <Button
                       variant="outline"
-                      className="border-[rgb(var(--cios-accent-rgb))]"
+                      className="border-[var(--button-outline-border)]"
                       onClick={() => {
                         const title = "New Service";
                         const slug = slugify(title) || newId();
@@ -1364,23 +1647,23 @@ export function AdminPage() {
                     {draft.services.map((service, idx) => (
                       <Card
                         key={service.id}
-                        className="border-[rgb(var(--cios-accent-rgb)/0.15)]"
+                        className="border-[rgb(var(--renora-accent-rgb)/0.15)]"
                       >
                         <CardContent className="p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                           <div>
                             <div className="flex items-center gap-2 flex-wrap">
-                              <p className="text-sm text-[#3E2723] font-medium">
+                              <p className="text-sm text-[var(--primary)] font-medium">
                                 {service.title || "(Untitled)"}
                               </p>
                               {typeof service.homeOrder === "number" &&
                               service.homeOrder >= 1 &&
                               service.homeOrder <= 3 ? (
-                                <span className="text-xs px-2 py-0.5 rounded-full border border-[rgb(var(--cios-accent-rgb)/0.4)] bg-[rgb(var(--cios-accent-rgb)/0.1)] text-[#3E2723]">
+                                <span className="text-xs px-2 py-0.5 rounded-full border border-[rgb(var(--renora-accent-rgb)/0.4)] bg-[rgb(var(--renora-accent-rgb)/0.1)] text-[var(--primary)]">
                                   Home #{service.homeOrder}
                                 </span>
                               ) : null}
                             </div>
-                            <p className="text-xs text-[#6D4C41]">
+                            <p className="text-xs text-[var(--muted-foreground)]">
                               /services/{service.slug}
                             </p>
                           </div>
@@ -1453,7 +1736,7 @@ export function AdminPage() {
                                   setDraft({ ...draft, services: next });
                                 }}
                               >
-                                <SelectTrigger className="h-9 w-[140px] border-[rgb(var(--cios-accent-rgb)/0.3)]">
+                                <SelectTrigger className="h-9 w-[140px] border-[rgb(var(--renora-accent-rgb)/0.3)]">
                                   <SelectValue />
                                 </SelectTrigger>
                                 <SelectContent>
@@ -1467,7 +1750,7 @@ export function AdminPage() {
                             <div className="flex items-center gap-2">
                               <Button
                                 variant="outline"
-                                className="border-[rgb(var(--cios-accent-rgb))]"
+                                className="border-[var(--button-outline-border)]"
                                 onClick={() => {
                                   const value = JSON.parse(
                                     JSON.stringify(draft.services[idx]),
@@ -1487,7 +1770,7 @@ export function AdminPage() {
                               </Button>
                               <Button
                                 variant="outline"
-                                className="border-[rgb(var(--cios-accent-rgb))]"
+                                className="border-[var(--button-outline-border)]"
                                 onClick={() => {
                                   const next = [...draft.services];
                                   next.splice(idx, 1);
@@ -1527,6 +1810,15 @@ export function AdminPage() {
                                 })
                               }
                             />
+                            <TextStyleControls
+                              style={serviceEditor.value.titleStyle}
+                              onChange={(newStyle) =>
+                                updateServiceEditorValue({
+                                  ...serviceEditor.value,
+                                  titleStyle: newStyle,
+                                })
+                              }
+                            />
                           </div>
                           <div className="space-y-2">
                             <Label>Slug</Label>
@@ -1546,7 +1838,7 @@ export function AdminPage() {
                             <Button
                               type="button"
                               variant="outline"
-                              className="w-full justify-start gap-2 border-[rgb(var(--cios-accent-rgb)/0.3)]"
+                              className="w-full justify-start gap-2 border-[rgb(var(--renora-accent-rgb)/0.3)]"
                               onClick={() =>
                                 openIconPicker({
                                   title: "Choose service icon",
@@ -1591,7 +1883,7 @@ export function AdminPage() {
                                   })
                                 }
                               />
-                              <span className="text-sm text-[#6D4C41]">
+                              <span className="text-sm text-[var(--muted-foreground)]">
                                 {serviceEditor.value.hidden
                                   ? "Hidden"
                                   : "Visible"}
@@ -1667,6 +1959,15 @@ export function AdminPage() {
                               }
                               rows={2}
                             />
+                            <TextStyleControls
+                              style={serviceEditor.value.summaryStyle}
+                              onChange={(newStyle) =>
+                                updateServiceEditorValue({
+                                  ...serviceEditor.value,
+                                  summaryStyle: newStyle,
+                                })
+                              }
+                            />
                           </div>
 
                           <div className="space-y-2 md:col-span-2">
@@ -1693,6 +1994,15 @@ export function AdminPage() {
                                 })
                               }
                               rows={3}
+                            />
+                            <TextStyleControls
+                              style={serviceEditor.value.overviewStyle}
+                              onChange={(newStyle) =>
+                                updateServiceEditorValue({
+                                  ...serviceEditor.value,
+                                  overviewStyle: newStyle,
+                                })
+                              }
                             />
                           </div>
 
@@ -1728,13 +2038,13 @@ export function AdminPage() {
                         <DialogFooter>
                           <Button
                             variant="outline"
-                            className="border-[rgb(var(--cios-accent-rgb))]"
+                            className="border-[var(--button-outline-border)]"
                             onClick={cancelServiceEditor}
                           >
                             Cancel
                           </Button>
                           <Button
-                            className="bg-[rgb(var(--cios-accent-rgb))] hover:bg-[rgb(var(--cios-accent-hover-rgb))] text-[#3E2723]"
+                            className="bg-[var(--button-default-bg)] hover:bg-[var(--button-default-hover-bg)] text-[var(--button-default-text)]"
                             onClick={() => setServiceEditor({ open: false })}
                           >
                             Apply
@@ -1751,20 +2061,20 @@ export function AdminPage() {
             {activeSection === "beforeAfter" ? (
               <Card
                 id="admin-before-after"
-                className="border-[rgb(var(--cios-accent-rgb)/0.2)] mb-6"
+                className="border-[rgb(var(--renora-accent-rgb)/0.2)] mb-6"
               >
                 <CardHeader>
-                  <CardTitle className="text-[#3E2723]">
+                  <CardTitle className="text-[var(--primary)]">
                     Before / After
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-6">
-                  <div className="flex items-center justify-between gap-3 rounded-md border border-[rgb(var(--cios-accent-rgb)/0.15)] bg-white p-3">
+                  <div className="flex items-center justify-between gap-3 rounded-md border border-[rgb(var(--renora-accent-rgb)/0.15)] bg-white p-3">
                     <div>
-                      <p className="text-sm text-[#3E2723] font-medium">
+                      <p className="text-sm text-[var(--primary)] font-medium">
                         Hide section
                       </p>
-                      <p className="text-xs text-[#6D4C41]">
+                      <p className="text-xs text-[var(--muted-foreground)]">
                         If hidden, Before / After will not appear on the
                         homepage.
                       </p>
@@ -1790,7 +2100,7 @@ export function AdminPage() {
                           })
                         }
                       />
-                      <span className="text-sm text-[#6D4C41]">
+                      <span className="text-sm text-[var(--muted-foreground)]">
                         {draft.settings.sections.beforeAfter.hidden
                           ? "Hidden"
                           : "Visible"}
@@ -1799,7 +2109,7 @@ export function AdminPage() {
                   </div>
 
                   <div className="space-y-3">
-                    <h4 className="text-[#3E2723]">Section Heading</h4>
+                    <h4 className="text-[var(--primary)]">Section Heading</h4>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div className="space-y-2">
                         <Label>Badge</Label>
@@ -1821,6 +2131,24 @@ export function AdminPage() {
                             })
                           }
                         />
+                        <TextStyleControls
+                          style={draft.settings.sections.beforeAfter.badgeStyle}
+                          onChange={(newStyle) =>
+                            setDraft({
+                              ...draft,
+                              settings: {
+                                ...draft.settings,
+                                sections: {
+                                  ...draft.settings.sections,
+                                  beforeAfter: {
+                                    ...draft.settings.sections.beforeAfter,
+                                    badgeStyle: newStyle,
+                                  },
+                                },
+                              },
+                            })
+                          }
+                        />
                       </div>
                       <div className="space-y-2">
                         <Label>Title</Label>
@@ -1836,6 +2164,24 @@ export function AdminPage() {
                                   beforeAfter: {
                                     ...draft.settings.sections.beforeAfter,
                                     title: e.target.value,
+                                  },
+                                },
+                              },
+                            })
+                          }
+                        />
+                        <TextStyleControls
+                          style={draft.settings.sections.beforeAfter.titleStyle}
+                          onChange={(newStyle) =>
+                            setDraft({
+                              ...draft,
+                              settings: {
+                                ...draft.settings,
+                                sections: {
+                                  ...draft.settings.sections,
+                                  beforeAfter: {
+                                    ...draft.settings.sections.beforeAfter,
+                                    titleStyle: newStyle,
                                   },
                                 },
                               },
@@ -1869,7 +2215,7 @@ export function AdminPage() {
                   </div>
 
                   <div className="space-y-3">
-                    <h4 className="text-[#3E2723]">Images & Labels</h4>
+                    <h4 className="text-[var(--primary)]">Images & Labels</h4>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <ImagePicker
                         label="Before image"
@@ -1964,18 +2310,18 @@ export function AdminPage() {
             {activeSection === "about" ? (
               <Card
                 id="admin-about"
-                className="border-[rgb(var(--cios-accent-rgb)/0.2)] mb-6"
+                className="border-[rgb(var(--renora-accent-rgb)/0.2)] mb-6"
               >
                 <CardHeader>
-                  <CardTitle className="text-[#3E2723]">About</CardTitle>
+                  <CardTitle className="text-[var(--primary)]">About</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <div className="flex items-center justify-between gap-3 rounded-md border border-[rgb(var(--cios-accent-rgb)/0.15)] bg-white p-3">
+                  <div className="flex items-center justify-between gap-3 rounded-md border border-[rgb(var(--renora-accent-rgb)/0.15)] bg-white p-3">
                     <div>
-                      <p className="text-sm text-[#3E2723] font-medium">
+                      <p className="text-sm text-[var(--primary)] font-medium">
                         Hide section
                       </p>
-                      <p className="text-xs text-[#6D4C41]">
+                      <p className="text-xs text-[var(--muted-foreground)]">
                         If hidden, About will not appear on the homepage.
                       </p>
                     </div>
@@ -1995,7 +2341,7 @@ export function AdminPage() {
                           })
                         }
                       />
-                      <span className="text-sm text-[#6D4C41]">
+                      <span className="text-sm text-[var(--muted-foreground)]">
                         {draft.settings.about.hidden ? "Hidden" : "Visible"}
                       </span>
                     </div>
@@ -2019,6 +2365,21 @@ export function AdminPage() {
                           })
                         }
                       />
+                      <TextStyleControls
+                        style={draft.settings.about.badgeStyle}
+                        onChange={(newStyle) =>
+                          setDraft({
+                            ...draft,
+                            settings: {
+                              ...draft.settings,
+                              about: {
+                                ...draft.settings.about,
+                                badgeStyle: newStyle,
+                              },
+                            },
+                          })
+                        }
+                      />
                     </div>
                     <div className="space-y-2">
                       <Label>Title</Label>
@@ -2032,6 +2393,21 @@ export function AdminPage() {
                               about: {
                                 ...draft.settings.about,
                                 title: e.target.value,
+                              },
+                            },
+                          })
+                        }
+                      />
+                      <TextStyleControls
+                        style={draft.settings.about.titleStyle}
+                        onChange={(newStyle) =>
+                          setDraft({
+                            ...draft,
+                            settings: {
+                              ...draft.settings,
+                              about: {
+                                ...draft.settings.about,
+                                titleStyle: newStyle,
                               },
                             },
                           })
@@ -2061,7 +2437,7 @@ export function AdminPage() {
                   </div>
 
                   <div className="space-y-3">
-                    <h4 className="text-[#3E2723]">Images</h4>
+                    <h4 className="text-[var(--primary)]">Images</h4>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {[0, 1, 2, 3].map((i) => (
                         <ImagePicker
@@ -2076,10 +2452,10 @@ export function AdminPage() {
 
                   <div>
                     <div className="flex items-center justify-between gap-3 mb-2">
-                      <h4 className="text-[#3E2723]">Features</h4>
+                      <h4 className="text-[var(--primary)]">Features</h4>
                       <Button
                         variant="outline"
-                        className="border-[rgb(var(--cios-accent-rgb))]"
+                        className="border-[var(--button-outline-border)]"
                         onClick={() => {
                           const next = {
                             iconKey: "Shield",
@@ -2112,21 +2488,21 @@ export function AdminPage() {
                       {draft.settings.about.features.map((feature, idx) => (
                         <Card
                           key={idx}
-                          className="border-[rgb(var(--cios-accent-rgb)/0.15)]"
+                          className="border-[rgb(var(--renora-accent-rgb)/0.15)]"
                         >
                           <CardContent className="p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                             <div>
-                              <p className="text-sm text-[#3E2723] font-medium">
+                              <p className="text-sm text-[var(--primary)] font-medium">
                                 {feature.title || `Feature ${idx + 1}`}
                               </p>
-                              <p className="text-xs text-[#6D4C41]">
+                              <p className="text-xs text-[var(--muted-foreground)]">
                                 {feature.iconKey}
                               </p>
                             </div>
                             <div className="flex items-center gap-2">
                               <Button
                                 variant="outline"
-                                className="border-[rgb(var(--cios-accent-rgb))]"
+                                className="border-[var(--button-outline-border)]"
                                 onClick={() => {
                                   const value = JSON.parse(
                                     JSON.stringify(
@@ -2144,7 +2520,7 @@ export function AdminPage() {
                               </Button>
                               <Button
                                 variant="outline"
-                                className="border-[rgb(var(--cios-accent-rgb))]"
+                                className="border-[var(--button-outline-border)]"
                                 onClick={() => {
                                   const next = [
                                     ...draft.settings.about.features,
@@ -2188,7 +2564,7 @@ export function AdminPage() {
                               <Button
                                 type="button"
                                 variant="outline"
-                                className="w-full justify-start gap-2 border-[rgb(var(--cios-accent-rgb)/0.3)]"
+                                className="w-full justify-start gap-2 border-[rgb(var(--renora-accent-rgb)/0.3)]"
                                 onClick={() =>
                                   openIconPicker({
                                     title: "Choose feature icon",
@@ -2256,7 +2632,7 @@ export function AdminPage() {
                           <DialogFooter>
                             <Button
                               variant="outline"
-                              className="border-[rgb(var(--cios-accent-rgb))]"
+                              className="border-[var(--button-outline-border)]"
                               onClick={() =>
                                 setAboutFeatureEditor({ open: false })
                               }
@@ -2264,7 +2640,7 @@ export function AdminPage() {
                               Cancel
                             </Button>
                             <Button
-                              className="bg-[rgb(var(--cios-accent-rgb))] hover:bg-[rgb(var(--cios-accent-hover-rgb))] text-[#3E2723]"
+                              className="bg-[var(--button-default-bg)] hover:bg-[var(--button-default-hover-bg)] text-[var(--button-default-text)]"
                               onClick={() => {
                                 const next = [...draft.settings.about.features];
                                 next[aboutFeatureEditor.index] =
@@ -2297,18 +2673,20 @@ export function AdminPage() {
             {activeSection === "testimonials" ? (
               <Card
                 id="admin-testimonials"
-                className="border-[rgb(var(--cios-accent-rgb)/0.2)] mb-6"
+                className="border-[rgb(var(--renora-accent-rgb)/0.2)] mb-6"
               >
                 <CardHeader>
-                  <CardTitle className="text-[#3E2723]">Testimonials</CardTitle>
+                  <CardTitle className="text-[var(--primary)]">
+                    Testimonials
+                  </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-6">
-                  <div className="flex items-center justify-between gap-3 rounded-md border border-[rgb(var(--cios-accent-rgb)/0.15)] bg-white p-3">
+                  <div className="flex items-center justify-between gap-3 rounded-md border border-[rgb(var(--renora-accent-rgb)/0.15)] bg-white p-3">
                     <div>
-                      <p className="text-sm text-[#3E2723] font-medium">
+                      <p className="text-sm text-[var(--primary)] font-medium">
                         Hide section
                       </p>
-                      <p className="text-xs text-[#6D4C41]">
+                      <p className="text-xs text-[var(--muted-foreground)]">
                         If hidden, Testimonials will not appear on the homepage.
                       </p>
                     </div>
@@ -2333,7 +2711,7 @@ export function AdminPage() {
                           })
                         }
                       />
-                      <span className="text-sm text-[#6D4C41]">
+                      <span className="text-sm text-[var(--muted-foreground)]">
                         {draft.settings.sections.testimonials.hidden
                           ? "Hidden"
                           : "Visible"}
@@ -2342,34 +2720,90 @@ export function AdminPage() {
                   </div>
 
                   <div className="space-y-3">
-                    <h4 className="text-[#3E2723]">Section Heading</h4>
+                    <h4 className="text-[var(--primary)]">Section Heading</h4>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {[
-                        ["Badge", "badge"],
-                        ["Title", "title"],
-                      ].map(([label, key]) => (
-                        <div key={key} className="space-y-2">
-                          <Label>{label}</Label>
-                          <Input
-                            value={draft.settings.sections.testimonials[key]}
-                            onChange={(e) =>
-                              setDraft({
-                                ...draft,
-                                settings: {
-                                  ...draft.settings,
-                                  sections: {
-                                    ...draft.settings.sections,
-                                    testimonials: {
-                                      ...draft.settings.sections.testimonials,
-                                      [key]: e.target.value,
-                                    },
+                      <div className="space-y-2">
+                        <Label>Badge</Label>
+                        <Input
+                          value={draft.settings.sections.testimonials.badge}
+                          onChange={(e) =>
+                            setDraft({
+                              ...draft,
+                              settings: {
+                                ...draft.settings,
+                                sections: {
+                                  ...draft.settings.sections,
+                                  testimonials: {
+                                    ...draft.settings.sections.testimonials,
+                                    badge: e.target.value,
                                   },
                                 },
-                              })
-                            }
-                          />
-                        </div>
-                      ))}
+                              },
+                            })
+                          }
+                        />
+                        <TextStyleControls
+                          style={
+                            draft.settings.sections.testimonials.badgeStyle
+                          }
+                          onChange={(newStyle) =>
+                            setDraft({
+                              ...draft,
+                              settings: {
+                                ...draft.settings,
+                                sections: {
+                                  ...draft.settings.sections,
+                                  testimonials: {
+                                    ...draft.settings.sections.testimonials,
+                                    badgeStyle: newStyle,
+                                  },
+                                },
+                              },
+                            })
+                          }
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label>Title</Label>
+                        <Input
+                          value={draft.settings.sections.testimonials.title}
+                          onChange={(e) =>
+                            setDraft({
+                              ...draft,
+                              settings: {
+                                ...draft.settings,
+                                sections: {
+                                  ...draft.settings.sections,
+                                  testimonials: {
+                                    ...draft.settings.sections.testimonials,
+                                    title: e.target.value,
+                                  },
+                                },
+                              },
+                            })
+                          }
+                        />
+                        <TextStyleControls
+                          style={
+                            draft.settings.sections.testimonials.titleStyle
+                          }
+                          onChange={(newStyle) =>
+                            setDraft({
+                              ...draft,
+                              settings: {
+                                ...draft.settings,
+                                sections: {
+                                  ...draft.settings.sections,
+                                  testimonials: {
+                                    ...draft.settings.sections.testimonials,
+                                    titleStyle: newStyle,
+                                  },
+                                },
+                              },
+                            })
+                          }
+                        />
+                      </div>
                       <div className="space-y-2 md:col-span-2">
                         <Label>Subtitle</Label>
                         <Textarea
@@ -2396,12 +2830,12 @@ export function AdminPage() {
                   </div>
 
                   <div className="flex items-center justify-between gap-3">
-                    <p className="text-sm text-[#6D4C41]">
+                    <p className="text-sm text-[var(--muted-foreground)]">
                       Add, edit, delete, or hide testimonials.
                     </p>
                     <Button
                       variant="outline"
-                      className="border-[rgb(var(--cios-accent-rgb))]"
+                      className="border-[var(--button-outline-border)]"
                       onClick={() => {
                         const next = {
                           id: newId(),
@@ -2425,14 +2859,14 @@ export function AdminPage() {
                     {draft.testimonials.map((t, idx) => (
                       <Card
                         key={t.id}
-                        className="border-[rgb(var(--cios-accent-rgb)/0.15)]"
+                        className="border-[rgb(var(--renora-accent-rgb)/0.15)]"
                       >
                         <CardContent className="p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                           <div>
-                            <p className="text-sm text-[#3E2723] font-medium">
+                            <p className="text-sm text-[var(--primary)] font-medium">
                               {t.name || "(Unnamed)"}
                             </p>
-                            <p className="text-xs text-[#6D4C41]">
+                            <p className="text-xs text-[var(--muted-foreground)]">
                               {t.role ? `${t.role} • ` : ""}Rating: {t.rating}/5
                             </p>
                           </div>
@@ -2454,7 +2888,7 @@ export function AdminPage() {
                             <div className="flex items-center gap-2">
                               <Button
                                 variant="outline"
-                                className="border-[rgb(var(--cios-accent-rgb))]"
+                                className="border-[var(--button-outline-border)]"
                                 onClick={() => {
                                   const value = JSON.parse(
                                     JSON.stringify(draft.testimonials[idx]),
@@ -2470,7 +2904,7 @@ export function AdminPage() {
                               </Button>
                               <Button
                                 variant="outline"
-                                className="border-[rgb(var(--cios-accent-rgb))]"
+                                className="border-[var(--button-outline-border)]"
                                 onClick={() => {
                                   const next = [...draft.testimonials];
                                   next.splice(idx, 1);
@@ -2563,7 +2997,7 @@ export function AdminPage() {
                                   })
                                 }
                               />
-                              <span className="text-sm text-[#6D4C41]">
+                              <span className="text-sm text-[var(--muted-foreground)]">
                                 {testimonialEditor.value.hidden
                                   ? "Hidden"
                                   : "Visible"}
@@ -2585,13 +3019,25 @@ export function AdminPage() {
                               }
                               rows={4}
                             />
+                            <TextStyleControls
+                              style={testimonialEditor.value.contentStyle}
+                              onChange={(newStyle) =>
+                                setTestimonialEditor({
+                                  ...testimonialEditor,
+                                  value: {
+                                    ...testimonialEditor.value,
+                                    contentStyle: newStyle,
+                                  },
+                                })
+                              }
+                            />
                           </div>
                         </div>
 
                         <DialogFooter>
                           <Button
                             variant="outline"
-                            className="border-[rgb(var(--cios-accent-rgb))]"
+                            className="border-[var(--button-outline-border)]"
                             onClick={() =>
                               setTestimonialEditor({ open: false })
                             }
@@ -2599,7 +3045,7 @@ export function AdminPage() {
                             Cancel
                           </Button>
                           <Button
-                            className="bg-[rgb(var(--cios-accent-rgb))] hover:bg-[rgb(var(--cios-accent-hover-rgb))] text-[#3E2723]"
+                            className="bg-[var(--button-default-bg)] hover:bg-[var(--button-default-hover-bg)] text-[var(--button-default-text)]"
                             onClick={() => {
                               const next = [...draft.testimonials];
                               next[testimonialEditor.index] =
@@ -2622,41 +3068,134 @@ export function AdminPage() {
             {activeSection === "contact" ? (
               <Card
                 id="admin-contact"
-                className="border-[rgb(var(--cios-accent-rgb)/0.2)] mb-6"
+                className="border-[rgb(var(--renora-accent-rgb)/0.2)] mb-6"
               >
                 <CardHeader>
-                  <CardTitle className="text-[#3E2723]">Contact</CardTitle>
+                  <CardTitle className="text-[var(--primary)]">
+                    Contact
+                  </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-6">
                   <div className="space-y-3">
-                    <h4 className="text-[#3E2723]">Section Heading</h4>
+                    <h4 className="text-[var(--primary)]">Section Heading</h4>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {[
-                        ["Badge", "badge"],
-                        ["Title", "title"],
-                      ].map(([label, key]) => (
-                        <div key={key} className="space-y-2">
-                          <Label>{label}</Label>
-                          <Input
-                            value={draft.settings.sections.contact[key]}
-                            onChange={(e) =>
-                              setDraft({
-                                ...draft,
-                                settings: {
-                                  ...draft.settings,
-                                  sections: {
-                                    ...draft.settings.sections,
-                                    contact: {
-                                      ...draft.settings.sections.contact,
-                                      [key]: e.target.value,
-                                    },
+                      <div className="space-y-2">
+                        <Label>Badge</Label>
+                        <Input
+                          value={draft.settings.sections.contact.badge}
+                          onChange={(e) =>
+                            setDraft({
+                              ...draft,
+                              settings: {
+                                ...draft.settings,
+                                sections: {
+                                  ...draft.settings.sections,
+                                  contact: {
+                                    ...draft.settings.sections.contact,
+                                    badge: e.target.value,
                                   },
                                 },
-                              })
-                            }
-                          />
-                        </div>
-                      ))}
+                              },
+                            })
+                          }
+                        />
+                        <TextStyleControls
+                          style={draft.settings.sections.contact.badgeStyle}
+                          onChange={(newStyle) =>
+                            setDraft({
+                              ...draft,
+                              settings: {
+                                ...draft.settings,
+                                sections: {
+                                  ...draft.settings.sections,
+                                  contact: {
+                                    ...draft.settings.sections.contact,
+                                    badgeStyle: newStyle,
+                                  },
+                                },
+                              },
+                            })
+                          }
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label>Title</Label>
+                        <Input
+                          value={draft.settings.sections.contact.title}
+                          onChange={(e) =>
+                            setDraft({
+                              ...draft,
+                              settings: {
+                                ...draft.settings,
+                                sections: {
+                                  ...draft.settings.sections,
+                                  contact: {
+                                    ...draft.settings.sections.contact,
+                                    title: e.target.value,
+                                  },
+                                },
+                              },
+                            })
+                          }
+                        />
+                        <TextStyleControls
+                          style={draft.settings.sections.contact.titleStyle}
+                          onChange={(newStyle) =>
+                            setDraft({
+                              ...draft,
+                              settings: {
+                                ...draft.settings,
+                                sections: {
+                                  ...draft.settings.sections,
+                                  contact: {
+                                    ...draft.settings.sections.contact,
+                                    titleStyle: newStyle,
+                                  },
+                                },
+                              },
+                            })
+                          }
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label>Title</Label>
+                        <Input
+                          value={draft.settings.sections.contact.title}
+                          onChange={(e) =>
+                            setDraft({
+                              ...draft,
+                              settings: {
+                                ...draft.settings,
+                                sections: {
+                                  ...draft.settings.sections,
+                                  contact: {
+                                    ...draft.settings.sections.contact,
+                                    title: e.target.value,
+                                  },
+                                },
+                              },
+                            })
+                          }
+                        />
+                        <TextStyleControls
+                          style={draft.settings.sections.contact.titleStyle}
+                          onChange={(newStyle) =>
+                            setDraft({
+                              ...draft,
+                              settings: {
+                                ...draft.settings,
+                                sections: {
+                                  ...draft.settings.sections,
+                                  contact: {
+                                    ...draft.settings.sections.contact,
+                                    titleStyle: newStyle,
+                                  },
+                                },
+                              },
+                            })
+                          }
+                        />
+                      </div>
                       <div className="space-y-2 md:col-span-2">
                         <Label>Subtitle</Label>
                         <Textarea
@@ -2677,6 +3216,24 @@ export function AdminPage() {
                             })
                           }
                           rows={2}
+                        />
+                        <TextStyleControls
+                          style={draft.settings.sections.contact.subtitleStyle}
+                          onChange={(newStyle) =>
+                            setDraft({
+                              ...draft,
+                              settings: {
+                                ...draft.settings,
+                                sections: {
+                                  ...draft.settings.sections,
+                                  contact: {
+                                    ...draft.settings.sections.contact,
+                                    subtitleStyle: newStyle,
+                                  },
+                                },
+                              },
+                            })
+                          }
                         />
                       </div>
                     </div>
@@ -2792,13 +3349,15 @@ export function AdminPage() {
             {activeSection === "backup" ? (
               <Card
                 id="admin-backup"
-                className="border-[rgb(var(--cios-accent-rgb)/0.2)] mb-6"
+                className="border-[rgb(var(--renora-accent-rgb)/0.2)] mb-6"
               >
                 <CardHeader>
-                  <CardTitle className="text-[#3E2723]">Backup</CardTitle>
+                  <CardTitle className="text-[var(--primary)]">
+                    Backup
+                  </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3">
-                  <p className="text-sm text-[#6D4C41]">
+                  <p className="text-sm text-[var(--muted-foreground)]">
                     Downloads a ZIP containing the database export under{" "}
                     <b>DB/</b> and all uploaded media under <b>Uploads/</b>.
                   </p>
@@ -2808,15 +3367,15 @@ export function AdminPage() {
                       disabled={
                         !adminKey.trim() || isBackupLoading || isRestoreLoading
                       }
-                      className="bg-[rgb(var(--cios-accent-rgb))] hover:bg-[rgb(var(--cios-accent-hover-rgb))] text-[#3E2723]"
+                      className="bg-[var(--button-default-bg)] hover:bg-[var(--button-default-hover-bg)] text-[var(--button-default-text)]"
                     >
                       <Download className="mr-2 h-4 w-4" />
-                      {isBackupLoading ? "Creating backup…" : "Backup now"}
+                      {isBackupLoading ? "Creating backup..." : "Backup now"}
                     </Button>
                   </div>
 
-                  <div className="pt-3 border-t border-[rgb(var(--cios-accent-rgb)/0.2)] space-y-2">
-                    <p className="text-sm text-[#6D4C41]">
+                  <div className="pt-3 border-t border-[rgb(var(--renora-accent-rgb)/0.2)] space-y-2">
+                    <p className="text-sm text-[var(--muted-foreground)]">
                       Restore from a backup ZIP. This will replace the database
                       and overwrite all uploads on the server.
                     </p>
@@ -2841,7 +3400,7 @@ export function AdminPage() {
                         <Button
                           type="button"
                           variant="outline"
-                          className="border-[rgb(var(--cios-accent-rgb))]"
+                          className="border-[var(--button-outline-border)]"
                           onClick={validateRestoreZip}
                           disabled={
                             !adminKey.trim() ||
@@ -2852,13 +3411,13 @@ export function AdminPage() {
                           }
                         >
                           {isRestoreValidateLoading
-                            ? "Validating…"
+                            ? "Validating..."
                             : "Validate"}
                         </Button>
                         <Button
                           type="button"
                           variant="outline"
-                          className="border-[rgb(var(--cios-accent-rgb))]"
+                          className="border-[var(--button-outline-border)]"
                           onClick={restoreFromBackup}
                           disabled={
                             !adminKey.trim() ||
@@ -2868,7 +3427,7 @@ export function AdminPage() {
                             isRestoreValidateLoading
                           }
                         >
-                          {isRestoreLoading ? "Restoring…" : "Restore"}
+                          {isRestoreLoading ? "Restoring..." : "Restore"}
                         </Button>
                       </div>
                     </div>

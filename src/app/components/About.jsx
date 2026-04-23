@@ -1,4 +1,4 @@
-import { Shield } from "lucide-react";
+﻿import { Shield } from "lucide-react";
 import { useCms } from "../content/ContentContext";
 import { iconFromKey } from "../content/iconMap";
 import { SectionBadge } from "./SectionBadge";
@@ -10,19 +10,22 @@ export function About() {
   const images = Array.isArray(about.images) ? about.images : [];
 
   return (
-    <section id="about" className="py-20 bg-white">
+    <section
+      id="about"
+      className="py-32 bg-gradient-to-b from-[var(--background)] to-[var(--muted)]"
+    >
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* Left Column - Content */}
           <div>
             <SectionBadge>{about.badge}</SectionBadge>
-            <h2 className="text-4xl md:text-5xl text-[#3E2723] mb-6">
+            <h2 className="text-4xl md:text-5xl text-[var(--primary)] mb-6">
               {about.title}
             </h2>
             {about.paragraphs.slice(0, 2).map((paragraph) => (
               <p
                 key={paragraph}
-                className="text-lg text-[#6D4C41] mb-6 last:mb-8"
+                className="text-lg text-[var(--muted-foreground)] mb-6 last:mb-8"
               >
                 {paragraph}
               </p>
@@ -34,12 +37,14 @@ export function About() {
                 const Icon = iconFromKey(feature.iconKey, Shield);
                 return (
                   <div key={feature.title || index} className="flex gap-4">
-                    <div className="w-12 h-12 bg-[rgb(var(--cios-accent-rgb)/0.1)] rounded-lg flex items-center justify-center flex-shrink-0">
-                      <Icon className="w-6 h-6 text-[rgb(var(--cios-accent-rgb))]" />
+                    <div className="w-12 h-12 bg-[rgb(var(--renora-accent-rgb)/0.1)] rounded-lg flex items-center justify-center flex-shrink-0">
+                      <Icon className="w-6 h-6 text-[var(--icon-accent)]" />
                     </div>
                     <div>
-                      <h4 className="text-[#3E2723] mb-1">{feature.title}</h4>
-                      <p className="text-sm text-[#6D4C41]">
+                      <h4 className="text-[var(--primary)] mb-1">
+                        {feature.title}
+                      </h4>
+                      <p className="text-sm text-[var(--muted-foreground)]">
                         {feature.description}
                       </p>
                     </div>

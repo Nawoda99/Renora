@@ -29,7 +29,7 @@ export function PromoBanners() {
   }
 
   return (
-    <section className="py-14 bg-gradient-to-b from-[#FFF8E7] to-white">
+    <section className="py-14 bg-gradient-to-b from-[var(--muted)] to-[var(--background)]">
       <div className="container mx-auto px-4">
         <Carousel className="mx-12" opts={{ loop: true }}>
           <CarouselContent>
@@ -37,7 +37,7 @@ export function PromoBanners() {
               <CarouselItem key={banner.id}>
                 <PromoBanner
                   wrap={false}
-                  badge={banner.badge}
+                  //badge={banner.badge}
                   title={banner.title}
                   description={banner.description}
                   ctaLabel={banner.ctaLabel}
@@ -47,8 +47,8 @@ export function PromoBanners() {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="border-[rgb(var(--cios-accent-rgb)/0.3)] bg-white/80 hover:bg-white" />
-          <CarouselNext className="border-[rgb(var(--cios-accent-rgb)/0.3)] bg-white/80 hover:bg-white" />
+          <CarouselPrevious className="border-[rgb(var(--renora-accent-rgb)/0.3)] bg-[var(--surface-elevated-soft)] hover:bg-[var(--surface-elevated-hover)]" />
+          <CarouselNext className="border-[rgb(var(--renora-accent-rgb)/0.3)] bg-[var(--surface-elevated-soft)] hover:bg-[var(--surface-elevated-hover)]" />
         </Carousel>
       </div>
     </section>

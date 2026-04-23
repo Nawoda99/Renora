@@ -1,4 +1,4 @@
-import { Card, CardContent } from "./ui/card";
+﻿import { Card, CardContent } from "./ui/card";
 import { Button } from "./ui/button";
 import { Link } from "react-router";
 import { useCms } from "../content/ContentContext";
@@ -33,15 +33,15 @@ export function Services() {
   return (
     <section
       id="services"
-      className="py-20 bg-gradient-to-b from-white to-[#FFF8E7]"
+      className="py-20 bg-gradient-to-b from-[var(--background)] to-[var(--muted)]"
     >
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <SectionBadge>{headings.badge}</SectionBadge>
-          <h2 className="text-4xl md:text-5xl text-[#3E2723] mb-4">
+          <h2 className="text-4xl md:text-5xl text-[var(--primary)] mb-4">
             {headings.title}
           </h2>
-          <p className="text-lg text-[#6D4C41] max-w-2xl mx-auto">
+          <p className="text-lg text-[var(--muted-foreground)] max-w-2xl mx-auto">
             {headings.subtitle}
           </p>
         </div>
@@ -52,7 +52,7 @@ export function Services() {
             return (
               <Card
                 key={service.slug}
-                className="group overflow-hidden border-[rgb(var(--cios-accent-rgb)/0.2)] hover:border-[rgb(var(--cios-accent-rgb))] transition-all duration-300 hover:shadow-xl"
+                className="group overflow-hidden border-[var(--card-border)] hover:border-[var(--card-border-hover)] transition-all duration-300 hover:shadow-xl"
               >
                 <div className="relative h-48 overflow-hidden">
                   <img
@@ -60,16 +60,20 @@ export function Services() {
                     alt={service.title}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#3E2723]/80 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[rgb(var(--renora-primary-rgb)/0.8)] to-transparent" />
                   <div className="absolute bottom-4 left-4">
-                    <div className="w-12 h-12 bg-[rgb(var(--cios-accent-rgb))] rounded-lg flex items-center justify-center">
-                      <Icon className="w-6 h-6 text-[#3E2723]" />
+                    <div className="w-12 h-12 bg-[rgb(var(--renora-accent-rgb))] rounded-lg flex items-center justify-center">
+                      <Icon className="w-6 h-6 text-[var(--icon-on-accent)]" />
                     </div>
                   </div>
                 </div>
                 <CardContent className="p-6">
-                  <h3 className="text-[#3E2723] mb-2">{service.title}</h3>
-                  <p className="text-[#6D4C41]">{service.summary}</p>
+                  <h3 className="text-[var(--primary)] mb-2">
+                    {service.title}
+                  </h3>
+                  <p className="text-[var(--muted-foreground)]">
+                    {service.summary}
+                  </p>
                 </CardContent>
               </Card>
             );
@@ -79,7 +83,7 @@ export function Services() {
         <div className="mt-10 flex justify-center">
           <Button
             asChild
-            className="bg-[rgb(var(--cios-accent-rgb))] hover:bg-[rgb(var(--cios-accent-hover-rgb))] text-[#3E2723]"
+            className="bg-[var(--cta-button-bg)] hover:bg-[var(--cta-button-hover-bg)] text-[var(--cta-button-text)]"
           >
             <Link to="/services">More Services</Link>
           </Button>

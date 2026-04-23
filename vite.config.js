@@ -5,6 +5,8 @@ import react from "@vitejs/plugin-react";
 import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const proxyTarget =
+  process.env.VITE_API_PROXY_TARGET || "http://127.0.0.1:5174";
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
@@ -20,11 +22,11 @@ export default defineConfig({
     host: true,
     proxy: {
       "/api": {
-        target: "http://localhost:5174" || "http://192.168.12.90:5174",
+        target: proxyTarget,
         changeOrigin: true,
       },
       "/media": {
-        target: "http://localhost:5174" || "http://192.168.12.90:5174",
+        target: proxyTarget,
         changeOrigin: true,
       },
     },

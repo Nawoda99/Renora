@@ -19,6 +19,13 @@ dotenv.config({ path: path.resolve(__dirname, "../.env"), override: true });
 
 const PORT = Number(process.env.PORT || 5174);
 const ADMIN_KEY = process.env.ADMIN_KEY || "";
+const projectRoot = path.resolve(__dirname, "..");
+const configuredUploadsDir = (process.env.UPLOADS_DIR || "").trim();
+const uploadsDir = configuredUploadsDir
+  ? path.isAbsolute(configuredUploadsDir)
+    ? configuredUploadsDir
+    : path.resolve(projectRoot, configuredUploadsDir)
+  : path.join(__dirname, "uploads");
 
 const FIREBASE_PROJECT_ID = process.env.FIREBASE_PROJECT_ID || "";
 const FIREBASE_CLIENT_EMAIL = process.env.FIREBASE_CLIENT_EMAIL || "";
@@ -39,6 +46,7 @@ const EMAIL_LOGO_URL = (process.env.EMAIL_LOGO_URL || "").trim();
 const EMAIL_LOGO_PATH = (process.env.EMAIL_LOGO_PATH || "").trim();
 
 const QUOTE_EMAIL_TEMPLATE_VERSION = "2026-03-08-v2";
+const THEME_PRESET_VERSION = "2026-04-cleaning-green";
 
 const app = express();
 app.use(express.json({ limit: "1mb" }));
@@ -102,7 +110,6 @@ function getMailTransporter() {
   return mailTransporter;
 }
 
-const uploadsDir = path.join(__dirname, "uploads");
 if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
 
 app.use(
@@ -358,6 +365,68 @@ function readDefaultContent() {
   return JSON.parse(defaultJson);
 }
 
+function stripTrailingSlash(value) {
+  return String(value || "").replace(/\/$/, "");
+}
+
+function getSiteUrl(req) {
+  const explicit = stripTrailingSlash(process.env.SITE_URL);
+  if (explicit) return explicit;
+
+  const productionUrl = stripTrailingSlash(
+    process.env.VERCEL_PROJECT_PRODUCTION_URL,
+  );
+  if (productionUrl) {
+    return productionUrl.startsWith("http")
+      ? productionUrl
+      : `https://${productionUrl}`;
+  }
+
+  const deploymentUrl = stripTrailingSlash(process.env.VERCEL_URL);
+  if (deploymentUrl) {
+    return deploymentUrl.startsWith("http")
+      ? deploymentUrl
+      : `https://${deploymentUrl}`;
+  }
+
+  if (req) {
+    const forwardedProto = req.header("x-forwarded-proto");
+    const proto = forwardedProto || req.protocol || "https";
+    const host = req.header("x-forwarded-host") || req.header("host");
+    if (host) return `${proto}://${host}`;
+  }
+
+  return "";
+}
+
+function migrateThemePreset(content) {
+  if (!content || typeof content !== "object") return content;
+
+  const defaults = readDefaultContent();
+  const defaultTheme = defaults?.settings?.theme;
+  if (!defaultTheme || typeof defaultTheme !== "object") return content;
+
+  const currentTheme = content.settings?.theme;
+  if (
+    currentTheme &&
+    typeof currentTheme === "object" &&
+    currentTheme.presetVersion === THEME_PRESET_VERSION
+  ) {
+    return content;
+  }
+
+  return {
+    ...content,
+    settings: {
+      ...(content.settings ?? {}),
+      theme: {
+        ...defaultTheme,
+        presetVersion: THEME_PRESET_VERSION,
+      },
+    },
+  };
+}
+
 async function initDbAsync() {
   if (!FIREBASE_PROJECT_ID || !FIREBASE_CLIENT_EMAIL || !FIREBASE_PRIVATE_KEY) {
     throw new Error(
@@ -384,6 +453,24 @@ async function initDbAsync() {
       json: JSON.stringify(defaultContent),
       updatedAt: new Date().toISOString(),
     });
+    return;
+  }
+
+  const data = snap.data();
+  if (!data || typeof data.json !== "string") return;
+
+  try {
+    const existing = JSON.parse(data.json);
+    const migrated = migrateThemePreset(existing);
+    if (JSON.stringify(existing) !== JSON.stringify(migrated)) {
+      await docRef.set({
+        json: JSON.stringify(migrated),
+        updatedAt: new Date().toISOString(),
+      });
+    }
+  } catch (err) {
+    console.error("Failed to migrate saved theme preset during startup.");
+    console.error(err);
   }
 }
 
@@ -406,7 +493,12 @@ async function getContent() {
   const data = snap.data();
   if (!data || typeof data.json !== "string") return null;
   try {
-    return JSON.parse(data.json);
+    const parsed = JSON.parse(data.json);
+    const migrated = migrateThemePreset(parsed);
+    if (JSON.stringify(parsed) !== JSON.stringify(migrated)) {
+      await setContent(migrated);
+    }
+    return migrated;
   } catch (err) {
     console.error("Failed to parse CMS content JSON; repairing from default.");
     console.error(err);
@@ -501,7 +593,7 @@ app.post("/api/quote", async (req, res) => {
     const brandBrown = "#3E2723";
     const brandCream = "#FFF8E7";
 
-    const siteUrl = (process.env.SITE_URL || "").replace(/\/$/, "");
+    const siteUrl = getSiteUrl(req);
     const fallbackLogoUrl = siteUrl ? `${siteUrl}/renoralogo.svg` : "";
     const logoUrl = (EMAIL_LOGO_URL || fallbackLogoUrl).trim();
 
@@ -822,12 +914,9 @@ app.put("/api/content", requireAdmin, async (req, res) => {
 });
 
 // Dynamic sitemap based on current content
-app.get(["/sitemap.xml", "/sitemap"], async (_req, res) => {
+app.get(["/sitemap.xml", "/sitemap"], async (req, res) => {
   const content = await getContent();
-  const siteUrl = (process.env.SITE_URL || "https://renora.com.au").replace(
-    /\/$/,
-    "",
-  );
+  const siteUrl = getSiteUrl(req) || "https://renora.com.au";
 
   const urls = [
     `${siteUrl}/`,
@@ -1032,6 +1121,7 @@ async function main() {
     console.log(`CMS server running:`);
     console.log(`  Local:   http://localhost:${PORT}`);
     if (localIp) console.log(`  Network: http://${localIp}:${PORT}`);
+    console.log(`Uploads directory: ${uploadsDir}`);
     console.log(`Firebase project: ${FIREBASE_PROJECT_ID}`);
     console.log(`Quote email template: ${QUOTE_EMAIL_TEMPLATE_VERSION}`);
   });

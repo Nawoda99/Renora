@@ -9,6 +9,8 @@ import React, {
 import { fallbackContent } from "./fallbackContent";
 
 const CmsContext = createContext(null);
+const THEME_PRESET_VERSION =
+  fallbackContent.settings.theme.presetVersion || "2026-04-cleaning-green";
 
 function normalizeFixedImageSlots(value, fallback, slots) {
   const next = [];
@@ -24,6 +26,25 @@ function normalizeFixedImageSlots(value, fallback, slots) {
   }
 
   return next;
+}
+
+function mergeThemeSettings(incomingTheme) {
+  const defaultTheme = fallbackContent.settings.theme;
+  const savedTheme =
+    incomingTheme && typeof incomingTheme === "object" ? incomingTheme : {};
+
+  if (savedTheme.presetVersion === THEME_PRESET_VERSION) {
+    return {
+      ...defaultTheme,
+      ...savedTheme,
+      presetVersion: THEME_PRESET_VERSION,
+    };
+  }
+
+  return {
+    ...defaultTheme,
+    presetVersion: THEME_PRESET_VERSION,
+  };
 }
 
 function mergeCmsContent(incoming) {
@@ -48,10 +69,7 @@ function mergeCmsContent(incoming) {
         ...fallbackContent.settings.hero,
         ...(incoming.settings?.hero ?? {}),
       },
-      theme: {
-        ...fallbackContent.settings.theme,
-        ...(incoming.settings?.theme ?? {}),
-      },
+      theme: mergeThemeSettings(incoming.settings?.theme),
       about: {
         ...fallbackContent.settings.about,
         ...(incoming.settings?.about ?? {}),
@@ -151,80 +169,197 @@ export function ContentProvider({ children }) {
 
   useEffect(() => {
     const root = document.documentElement;
-    const accent = content.settings.theme.accent;
-    const accentHover = content.settings.theme.accentHover;
+    const theme = content.settings.theme;
+    const accent = theme.accent;
+    const accentHover = theme.accentHover;
+    const primary = theme.primary;
 
     const accentTriplet = hexToRgbTriplet(accent);
     const accentHoverTriplet = hexToRgbTriplet(accentHover);
+    const primaryTriplet = hexToRgbTriplet(primary);
+    const ctaButtonBgTriplet = hexToRgbTriplet(theme.ctaButtonBg);
 
     if (accentTriplet)
-      root.style.setProperty("--cios-accent-rgb", accentTriplet);
+      root.style.setProperty("--renora-accent-rgb", accentTriplet);
     if (accentHoverTriplet)
-      root.style.setProperty("--cios-accent-hover-rgb", accentHoverTriplet);
+      root.style.setProperty("--renora-accent-hover-rgb", accentHoverTriplet);
+    if (primaryTriplet)
+      root.style.setProperty("--renora-primary-rgb", primaryTriplet);
+    if (ctaButtonBgTriplet)
+      root.style.setProperty("--cta-button-bg-rgb", ctaButtonBgTriplet);
 
-    root.style.setProperty("--background", content.settings.theme.background);
-    root.style.setProperty("--foreground", content.settings.theme.foreground);
-    root.style.setProperty("--primary", content.settings.theme.primary);
+    root.style.setProperty("--background", theme.background);
+    root.style.setProperty("--foreground", theme.foreground);
+    root.style.setProperty("--primary", theme.primary);
+    root.style.setProperty("--primary-foreground", theme.primaryForeground);
+    root.style.setProperty("--muted", theme.muted);
+    root.style.setProperty("--muted-foreground", theme.mutedForeground);
+    root.style.setProperty("--card", theme.card);
+    root.style.setProperty("--card-foreground", theme.cardForeground);
+    root.style.setProperty("--card-border", theme.cardBorder);
+    root.style.setProperty("--card-border-hover", theme.cardBorderHover);
+    root.style.setProperty("--icon-primary", theme.iconPrimary);
+    root.style.setProperty("--icon-on-accent", theme.iconOnAccent);
+    root.style.setProperty("--icon-accent", theme.iconAccent);
+    root.style.setProperty("--icon-accent-soft", theme.iconAccentSoft);
+    root.style.setProperty("--form-label-text", theme.formLabelText);
+    root.style.setProperty("--form-input-border", theme.formInputBorder);
     root.style.setProperty(
-      "--primary-foreground",
-      content.settings.theme.primaryForeground,
+      "--form-input-focus-border",
+      theme.formInputFocusBorder,
     );
-    root.style.setProperty("--muted", content.settings.theme.muted);
+    root.style.setProperty("--border", theme.cardBorder);
+    root.style.setProperty("--input-background", theme.inputBackground);
+    root.style.setProperty("--nav-link-text", theme.navLinkText);
+    root.style.setProperty("--nav-link-hover", theme.navLinkHover);
+    root.style.setProperty("--nav-button-bg", theme.navButtonBg);
+    root.style.setProperty("--nav-button-hover-bg", theme.navButtonHoverBg);
+    root.style.setProperty("--nav-button-text", theme.navButtonText);
+    root.style.setProperty("--badge-text", theme.badgeText);
+    root.style.setProperty("--badge-bg", theme.badgeBg);
+    root.style.setProperty("--form-input-text", theme.formInputText);
+
     root.style.setProperty(
-      "--muted-foreground",
-      content.settings.theme.mutedForeground,
-    );
-    root.style.setProperty("--card", content.settings.theme.card);
-    root.style.setProperty(
-      "--card-foreground",
-      content.settings.theme.cardForeground,
-    );
-    root.style.setProperty(
-      "--input-background",
-      content.settings.theme.inputBackground,
-    );
-    root.style.setProperty(
-      "--nav-link-text",
-      content.settings.theme.navLinkText,
-    );
-    root.style.setProperty(
-      "--nav-link-hover",
-      content.settings.theme.navLinkHover,
-    );
-    root.style.setProperty(
-      "--nav-button-bg",
-      content.settings.theme.navButtonBg,
-    );
-    root.style.setProperty(
-      "--nav-button-hover-bg",
-      content.settings.theme.navButtonHoverBg,
+      "--button-default-bg",
+      theme.buttonDefaultBg || theme.ctaButtonBg,
     );
     root.style.setProperty(
-      "--nav-button-text",
-      content.settings.theme.navButtonText,
+      "--button-default-hover-bg",
+      theme.buttonDefaultHoverBg || theme.ctaButtonHoverBg,
     );
-    root.style.setProperty("--badge-text", content.settings.theme.badgeText);
-    root.style.setProperty("--badge-bg", content.settings.theme.badgeBg);
-  }, [
-    content.settings.theme.accent,
-    content.settings.theme.accentHover,
-    content.settings.theme.background,
-    content.settings.theme.foreground,
-    content.settings.theme.primary,
-    content.settings.theme.primaryForeground,
-    content.settings.theme.muted,
-    content.settings.theme.mutedForeground,
-    content.settings.theme.card,
-    content.settings.theme.cardForeground,
-    content.settings.theme.inputBackground,
-    content.settings.theme.navLinkText,
-    content.settings.theme.navLinkHover,
-    content.settings.theme.navButtonBg,
-    content.settings.theme.navButtonHoverBg,
-    content.settings.theme.navButtonText,
-    content.settings.theme.badgeText,
-    content.settings.theme.badgeBg,
-  ]);
+    root.style.setProperty(
+      "--button-default-text",
+      theme.buttonDefaultText || theme.ctaButtonText,
+    );
+    root.style.setProperty(
+      "--button-secondary-bg",
+      theme.buttonSecondaryBg || theme.muted,
+    );
+    root.style.setProperty(
+      "--button-secondary-hover-bg",
+      theme.buttonSecondaryHoverBg || theme.card,
+    );
+    root.style.setProperty(
+      "--button-secondary-text",
+      theme.buttonSecondaryText || theme.foreground,
+    );
+    root.style.setProperty(
+      "--button-destructive-bg",
+      theme.buttonDestructiveBg || "#dc2626",
+    );
+    root.style.setProperty(
+      "--button-destructive-hover-bg",
+      theme.buttonDestructiveHoverBg || "#b91c1c",
+    );
+    root.style.setProperty(
+      "--button-destructive-text",
+      theme.buttonDestructiveText || "#ffffff",
+    );
+    root.style.setProperty(
+      "--button-outline-border",
+      theme.buttonOutlineBorder || theme.outlineButtonBorder,
+    );
+    root.style.setProperty(
+      "--button-outline-hover-border",
+      theme.buttonOutlineHoverBorder ||
+        theme.buttonOutlineBorder ||
+        theme.outlineButtonBorder,
+    );
+    root.style.setProperty(
+      "--button-outline-text",
+      theme.buttonOutlineText || theme.outlineButtonText,
+    );
+    root.style.setProperty(
+      "--button-outline-hover-bg",
+      theme.buttonOutlineHoverBg || theme.outlineButtonHoverBg,
+    );
+    root.style.setProperty(
+      "--button-outline-hover-text",
+      theme.buttonOutlineHoverText || theme.outlineButtonHoverText,
+    );
+    root.style.setProperty(
+      "--button-ghost-text",
+      theme.buttonGhostText || theme.foreground,
+    );
+    root.style.setProperty(
+      "--button-ghost-hover-bg",
+      theme.buttonGhostHoverBg || "rgba(212, 175, 55, 0.12)",
+    );
+
+    root.style.setProperty("--cta-button-bg", theme.ctaButtonBg);
+    root.style.setProperty("--cta-button-hover-bg", theme.ctaButtonHoverBg);
+    root.style.setProperty("--cta-button-text", theme.ctaButtonText);
+    root.style.setProperty(
+      "--outline-button-border",
+      theme.outlineButtonBorder,
+    );
+    root.style.setProperty("--outline-button-text", theme.outlineButtonText);
+    root.style.setProperty(
+      "--outline-button-hover-bg",
+      theme.outlineButtonHoverBg,
+    );
+    root.style.setProperty(
+      "--outline-button-hover-text",
+      theme.outlineButtonHoverText,
+    );
+
+    root.style.setProperty("--hero-overlay", theme.heroOverlay);
+    root.style.setProperty("--promo-overlay", theme.promoOverlay);
+    root.style.setProperty("--image-overlay-text", theme.imageOverlayText);
+    root.style.setProperty(
+      "--image-overlay-muted-text",
+      theme.imageOverlayMutedText,
+    );
+    root.style.setProperty(
+      "--image-overlay-panel-bg",
+      theme.imageOverlayPanelBg,
+    );
+    root.style.setProperty(
+      "--image-overlay-panel-border",
+      theme.imageOverlayPanelBorder,
+    );
+    root.style.setProperty("--promo-shine", theme.promoShine);
+
+    root.style.setProperty("--surface-base", theme.surfaceBase);
+    root.style.setProperty("--surface-elevated", theme.surfaceElevated);
+    root.style.setProperty(
+      "--surface-elevated-soft",
+      theme.surfaceElevatedSoft,
+    );
+    root.style.setProperty(
+      "--surface-elevated-hover",
+      theme.surfaceElevatedHover,
+    );
+
+    root.style.setProperty("--footer-bg", theme.footerBackground);
+    root.style.setProperty("--footer-muted-text", theme.footerMutedText);
+    root.style.setProperty("--footer-heading", theme.footerHeading);
+    root.style.setProperty("--footer-link-hover", theme.footerLinkHover);
+    root.style.setProperty("--footer-social-bg", theme.footerSocialBg);
+    root.style.setProperty(
+      "--footer-social-hover-bg",
+      theme.footerSocialHoverBg,
+    );
+    root.style.setProperty("--footer-social-icon", theme.footerSocialIcon);
+    root.style.setProperty(
+      "--footer-social-icon-hover",
+      theme.footerSocialIconHover,
+    );
+
+    root.style.setProperty(
+      "--before-after-handle-border",
+      theme.beforeAfterHandleBorder,
+    );
+    root.style.setProperty(
+      "--before-after-handle-icon",
+      theme.beforeAfterHandleIcon,
+    );
+    root.style.setProperty("--before-after-label-bg", theme.beforeAfterLabelBg);
+    root.style.setProperty(
+      "--before-after-label-text",
+      theme.beforeAfterLabelText,
+    );
+  }, [content.settings.theme]);
 
   const value = useMemo(
     () => ({

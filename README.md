@@ -1,7 +1,7 @@
 
-  # CIOS
+  # Renora
 
-  This is the code bundle for CIOS.
+  This is the code bundle for Renora.
 
   ## Running the code
 
@@ -16,13 +16,22 @@
 
   ### Development
 
-  - `npm run dev` starts the frontend only.
-  - `npm run dev:full` starts the CMS backend + frontend together.
+  - `npm run dev` starts the CMS backend + frontend together.
+  - `npm run dev:web` starts the frontend only.
+  - `npm run dev:cms` starts the CMS backend only.
+  - `npm run dev:full` is kept as an alias for `npm run dev`.
 
   Create a `.env` (see `.env.example`) and set at least:
 
   - `ADMIN_KEY` (required to save in `/admin`)
   - `SITE_URL` (used for sitemap generation)
+  - `UPLOADS_DIR` (optional; where uploaded media files are stored)
+
+  Upload storage:
+
+  - local default: `server/uploads`
+  - Render with a persistent disk: set `UPLOADS_DIR` to your mounted disk path, for example `/var/data/renora-uploads`
+  - if you leave uploads in `server/uploads` on Render, files can disappear on deploy/restart because that filesystem is not persistent
 
   Database configuration (MySQL required):
 
@@ -30,7 +39,7 @@
   - `DB_PORT`
   - `DB_USER` (or `DB_USERNAME`)
   - `DB_PASS` (or `DB_PASSWORD`)
-  - `DB_NAME` (defaults to `cios`)
+  - `DB_NAME` (defaults to `renora`)
 
   `DB_HOST` depends on where MySQL runs:
 
@@ -88,7 +97,7 @@
   - `SMTP_PORT` (defaults to `465`)
   - `SMTP_SECURE` (defaults to `true`)
   - `SMTP_FROM` (defaults to `SMTP_USER`)
-  - `EMAIL_LOGO_URL` (defaults to `${SITE_URL}/cioslogo.svg`)
+  - `EMAIL_LOGO_URL` (defaults to `${SITE_URL}/renoralogo.svg`)
   - `EMAIL_LOGO_PATH` (embeds an inline logo via CID; recommended PNG)
 
   **Logo (recommended):** generate a PNG from the existing SVG:
@@ -97,8 +106,8 @@
 
   Then either:
 
-  - place it at `public/cioslogo.png` (the server will auto-embed it), or
-  - set `EMAIL_LOGO_PATH=public/cioslogo.png`
+  - place it at `public/renoralogo.png` (the server will auto-embed it), or
+  - set `EMAIL_LOGO_PATH=public/renoralogo.png`
 
   ## Docker (recommended for deployment)
 
@@ -108,6 +117,9 @@
   - the built frontend (`dist/`)
 
   **Important:** uploads are stored on disk in `server/uploads/`.
+
+  On Render or similar platforms, attach a persistent disk and set `UPLOADS_DIR`
+  to that mount path so uploaded images survive redeploys.
 
   Edited site content is stored in your MySQL database.
 
@@ -124,7 +136,7 @@
   - `DB_PORT=3306`
   - `DB_USER=root`
   - `DB_PASS=1234`
-  - `DB_NAME=cios`
+  - `DB_NAME=renora`
 
   Note:
   - If MySQL is running on the Docker host machine, `DB_HOST=127.0.0.1` will point to the container itself.

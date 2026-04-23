@@ -7,13 +7,13 @@ import mysql from "mysql2/promise";
 
 const ROOT = process.cwd();
 
-const SQLITE_PATH = process.env.SQLITE_PATH || path.join(ROOT, "server", "data", "cios.sqlite");
+const SQLITE_PATH = process.env.SQLITE_PATH || path.join(ROOT, "server", "data", "renora.sqlite");
 
 const MYSQL_HOST = process.env.DB_HOST || "127.0.0.1";
 const MYSQL_PORT = Number(process.env.DB_PORT || 3306);
 const MYSQL_USER = process.env.DB_USERNAME || process.env.DB_USER || "root";
 const MYSQL_PASSWORD = process.env.DB_PASSWORD || process.env.DB_PASS || "";
-const MYSQL_DATABASE = process.env.DB_NAME || "cios";
+const MYSQL_DATABASE = process.env.DB_NAME || "renora";
 
 async function main() {
   console.log(`Reading SQLite from: ${SQLITE_PATH}`);

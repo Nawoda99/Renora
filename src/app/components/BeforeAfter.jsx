@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef, useState } from "react";
+﻿import { useCallback, useMemo, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Card } from "./ui/card";
 import { useCms } from "../content/ContentContext";
@@ -42,23 +42,23 @@ export function BeforeAfter({
   }, []);
 
   return (
-    <section className="py-20 bg-white">
+    <section className="py-38 bg-gradient-to-b from-[var(--muted)] to-[var(--background)]">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <SectionBadge>{headings.badge}</SectionBadge>
-          <h2 className="text-4xl md:text-5xl text-[#3E2723] mb-4">
+          <h2 className="text-4xl md:text-5xl text-[var(--primary)] mb-4">
             {headings.title}
           </h2>
-          <p className="text-lg text-[#6D4C41] max-w-2xl mx-auto">
+          <p className="text-lg text-[var(--muted-foreground)] max-w-2xl mx-auto">
             {headings.subtitle}
           </p>
         </div>
 
-        <Card className="border-[rgb(var(--renora-accent-rgb)/0.2)] overflow-hidden">
+        <Card className="border-[var(--card-border)] overflow-hidden">
           <div
             ref={containerRef}
             className={
-              "relative w-full aspect-[16/9] bg-[#3E2723]/5 select-none touch-none " +
+              "relative w-full aspect-[16/9] bg-[rgb(var(--renora-primary-rgb)/0.05)] select-none touch-none " +
               (isDragging ? "cursor-grabbing" : "cursor-col-resize")
             }
             onPointerDown={(e) => {
@@ -94,22 +94,22 @@ export function BeforeAfter({
             >
               <div className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-[3px] bg-[rgb(var(--renora-accent-rgb))] shadow-sm" />
               <div className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2">
-                <div className="w-12 h-12 rounded-full bg-[rgb(var(--renora-accent-rgb))] flex items-center justify-center border-4 border-white">
-                  <div className="flex items-center gap-1 text-[#3E2723]">
-                    <ChevronLeft className="w-4 h-4" />
-                    <ChevronRight className="w-4 h-4" />
+                <div className="w-12 h-12 rounded-full bg-[rgb(var(--renora-accent-rgb))] flex items-center justify-center border-4 border-[var(--before-after-handle-border)]">
+                  <div className="flex items-center gap-1 text-[var(--before-after-handle-icon)]">
+                    <ChevronLeft className="w-4 h-4 text-[var(--before-after-handle-icon)]" />
+                    <ChevronRight className="w-4 h-4 text-[var(--before-after-handle-icon)]" />
                   </div>
                 </div>
               </div>
             </div>
 
             <div className="absolute left-4 bottom-4">
-              <span className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-[#3E2723]/60 text-white backdrop-blur-sm">
+              <span className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-[var(--before-after-label-bg)] text-[var(--before-after-label-text)] backdrop-blur-sm">
                 {effectiveBeforeLabel}
               </span>
             </div>
             <div className="absolute right-4 bottom-4">
-              <span className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-[#3E2723]/60 text-white backdrop-blur-sm">
+              <span className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-[var(--before-after-label-bg)] text-[var(--before-after-label-text)] backdrop-blur-sm">
                 {effectiveAfterLabel}
               </span>
             </div>

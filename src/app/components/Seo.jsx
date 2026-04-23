@@ -1,14 +1,25 @@
 import { Helmet } from "react-helmet-async";
 
-const SITE_URL = "https://renora.com.au";
 const SITE_NAME = "Renora";
 const DEFAULT_TITLE = "Renora";
 const DEFAULT_DESCRIPTION =
   "Premium cleaning services for homes and businesses. Residential, commercial, deep cleaning, and more.";
 
+function getSiteUrl() {
+  const configured =
+    import.meta.env.VITE_SITE_URL || import.meta.env.VITE_VERCEL_PROJECT_PRODUCTION_URL;
+  if (configured) return String(configured).replace(/\/$/, "");
+
+  if (typeof window !== "undefined" && window.location?.origin) {
+    return window.location.origin.replace(/\/$/, "");
+  }
+
+  return "https://renora.com.au";
+}
+
 function toAbsoluteUrl(pathname) {
   const path = pathname.startsWith("/") ? pathname : `/${pathname}`;
-  return `${SITE_URL}${path}`;
+  return `${getSiteUrl()}${path}`;
 }
 
 export function Seo({
@@ -18,6 +29,7 @@ export function Seo({
   noIndex = false,
   jsonLd,
 }) {
+  const siteUrl = getSiteUrl();
   const canonicalUrl = toAbsoluteUrl(path);
   const logoUrl = toAbsoluteUrl("/renoralogo.svg");
 
@@ -25,7 +37,7 @@ export function Seo({
     "@context": "https://schema.org",
     "@type": "CleaningService",
     name: SITE_NAME,
-    url: SITE_URL,
+    url: siteUrl,
     logo: logoUrl,
     image: logoUrl,
     description,

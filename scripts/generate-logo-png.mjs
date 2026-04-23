@@ -7,8 +7,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const repoRoot = path.join(__dirname, "..");
 
-const inputSvg = path.join(repoRoot, "public", "cioslogo.svg");
-const outputPng = path.join(repoRoot, "public", "cioslogo.png");
+const inputSvg = path.join(repoRoot, "public", "renoralogo.svg");
+const outputPng = path.join(repoRoot, "public", "renoralogo.png");
 
 if (!fs.existsSync(inputSvg)) {
   console.error(`Input SVG not found: ${inputSvg}`);
