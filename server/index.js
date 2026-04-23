@@ -4,7 +4,7 @@ import { fileURLToPath } from "node:url";
 import fs from "node:fs";
 import os from "node:os";
 import dotenv from "dotenv";
-import { initializeApp, cert } from "firebase-admin/app";
+import { initializeApp, cert, getApps } from "firebase-admin/app";
 import { getFirestore } from "firebase-admin/firestore";
 import multer from "multer";
 import { nanoid } from "nanoid";
@@ -50,9 +50,24 @@ const THEME_PRESET_VERSION = "2026-04-cleaning-green";
 
 const app = express();
 app.use(express.json({ limit: "1mb" }));
+app.use(async (_req, res, next) => {
+  try {
+    await ensureInitialized();
+    next();
+  } catch (err) {
+    console.error("Failed to initialize server");
+    console.error(err);
+    if (res.headersSent) return;
+    res.status(500).json({
+      error:
+        err instanceof Error ? err.message : "Failed to initialize server",
+    });
+  }
+});
 
 let db = null;
 let mailTransporter = null;
+let initPromise = null;
 
 function escapeHtml(value) {
   return String(value)
@@ -428,19 +443,23 @@ function migrateThemePreset(content) {
 }
 
 async function initDbAsync() {
+  if (db) return;
+
   if (!FIREBASE_PROJECT_ID || !FIREBASE_CLIENT_EMAIL || !FIREBASE_PRIVATE_KEY) {
     throw new Error(
       "Firebase configuration missing. Set FIREBASE_PROJECT_ID, FIREBASE_CLIENT_EMAIL, and FIREBASE_PRIVATE_KEY in your .env file.",
     );
   }
 
-  initializeApp({
-    credential: cert({
-      projectId: FIREBASE_PROJECT_ID,
-      clientEmail: FIREBASE_CLIENT_EMAIL,
-      privateKey: FIREBASE_PRIVATE_KEY,
-    }),
-  });
+  if (!getApps().length) {
+    initializeApp({
+      credential: cert({
+        projectId: FIREBASE_PROJECT_ID,
+        clientEmail: FIREBASE_CLIENT_EMAIL,
+        privateKey: FIREBASE_PRIVATE_KEY,
+      }),
+    });
+  }
 
   db = getFirestore();
 
@@ -472,6 +491,17 @@ async function initDbAsync() {
     console.error("Failed to migrate saved theme preset during startup.");
     console.error(err);
   }
+}
+
+function ensureInitialized() {
+  if (!initPromise) {
+    initPromise = initDbAsync().catch((err) => {
+      initPromise = null;
+      throw err;
+    });
+  }
+
+  return initPromise;
 }
 
 function requireAdmin(req, res, next) {
@@ -1109,7 +1139,7 @@ app.use((err, _req, res, _next) => {
 });
 
 async function main() {
-  await initDbAsync();
+  await ensureInitialized();
 
   app.listen(PORT, "0.0.0.0", () => {
     const localIp = Object.values(os.networkInterfaces())
@@ -1127,8 +1157,16 @@ async function main() {
   });
 }
 
-main().catch((err) => {
-  console.error("Failed to start CMS server");
-  console.error(err);
-  process.exit(1);
-});
+const isDirectRun =
+  process.argv[1] &&
+  path.resolve(process.argv[1]) === path.resolve(fileURLToPath(import.meta.url));
+
+if (isDirectRun) {
+  main().catch((err) => {
+    console.error("Failed to start CMS server");
+    console.error(err);
+    process.exit(1);
+  });
+}
+
+export { app, ensureInitialized };
