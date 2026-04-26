@@ -5,7 +5,7 @@ FROM node:22.13-alpine AS builder
 WORKDIR /app
 
 COPY package.json package-lock.json* ./
-RUN npm ci
+RUN npm install
 
 COPY . .
 RUN npm run build
@@ -15,11 +15,11 @@ FROM node:22.13-alpine AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 
-# Needed for MySQL full DB dumps via `mysqldump` in /api/backup
+# MySQL client tools are useful for manual database administration in the container.
 RUN apk add --no-cache mysql-client
 
 COPY package.json package-lock.json* ./
-RUN npm ci --omit=dev
+RUN npm install --omit=dev
 
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/server ./server

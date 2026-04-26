@@ -4,8 +4,7 @@ import { fileURLToPath } from "node:url";
 import fs from "node:fs";
 import os from "node:os";
 import dotenv from "dotenv";
-import { initializeApp, cert, getApps } from "firebase-admin/app";
-import { getFirestore } from "firebase-admin/firestore";
+import { Sequelize, DataTypes } from "sequelize";
 import multer from "multer";
 import { nanoid } from "nanoid";
 import archiver from "archiver";
@@ -42,13 +41,15 @@ const uploadsDir = configuredUploadsDir
     : path.resolve(projectRoot, configuredUploadsDir)
   : path.join(__dirname, "uploads");
 
-const FIREBASE_PROJECT_ID = normalizeEnvValue(process.env.FIREBASE_PROJECT_ID);
-const FIREBASE_CLIENT_EMAIL = normalizeEnvValue(
-  process.env.FIREBASE_CLIENT_EMAIL,
+const DB_HOST = normalizeEnvValue(process.env.DB_HOST || "127.0.0.1");
+const DB_PORT = Number(process.env.DB_PORT || 3306);
+const DB_USER = normalizeEnvValue(
+  process.env.DB_USER || process.env.DB_USERNAME || "root",
 );
-const FIREBASE_PRIVATE_KEY = normalizeEnvValue(
-  process.env.FIREBASE_PRIVATE_KEY,
-).replace(/\\n/g, "\n");
+const DB_PASS = normalizeEnvValue(
+  process.env.DB_PASS || process.env.DB_PASSWORD || "",
+);
+const DB_NAME = normalizeEnvValue(process.env.DB_NAME || "renora");
 
 const SMTP_HOST = process.env.SMTP_HOST || "smtp.gmail.com";
 const SMTP_PORT = Number(process.env.SMTP_PORT || 465);
@@ -81,7 +82,8 @@ app.use(async (_req, res, next) => {
   }
 });
 
-let db = null;
+let sequelize = null;
+let ContentEntry = null;
 let mailTransporter = null;
 let initPromise = null;
 
@@ -520,43 +522,61 @@ function migrateThemePreset(content) {
 }
 
 async function initDbAsync() {
-  if (db) return;
+  if (sequelize && ContentEntry) return;
 
-  if (!FIREBASE_PROJECT_ID || !FIREBASE_CLIENT_EMAIL || !FIREBASE_PRIVATE_KEY) {
-    throw new Error(
-      "Firebase configuration missing. Set FIREBASE_PROJECT_ID, FIREBASE_CLIENT_EMAIL, and FIREBASE_PRIVATE_KEY in your .env file.",
-    );
-  }
+  sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASS, {
+    host: DB_HOST,
+    port: DB_PORT,
+    dialect: "mysql",
+    logging: false,
+    define: {
+      timestamps: false,
+      underscored: true,
+    },
+  });
 
-  if (!getApps().length) {
-    initializeApp({
-      credential: cert({
-        projectId: FIREBASE_PROJECT_ID,
-        clientEmail: FIREBASE_CLIENT_EMAIL,
-        privateKey: FIREBASE_PRIVATE_KEY,
-      }),
-    });
-  }
+  ContentEntry = sequelize.define(
+    "ContentEntry",
+    {
+      id: {
+        type: DataTypes.INTEGER.UNSIGNED,
+        allowNull: false,
+        primaryKey: true,
+      },
+      json: {
+        type: DataTypes.TEXT("long"),
+        allowNull: false,
+      },
+      updatedAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        field: "updated_at",
+      },
+    },
+    {
+      tableName: "content",
+    },
+  );
 
-  db = getFirestore();
+  await sequelize.authenticate();
+  await sequelize.sync();
 
-  // Seed default content if the document doesn't exist yet
-  const docRef = db.collection("cms").doc("content");
-  const snap = await docRef.get();
-  if (!snap.exists) {
+  // Seed default content if the row doesn't exist yet
+  const row = await ContentEntry.findByPk(1);
+  if (!row) {
     const defaultContent = readDefaultContent();
-    await docRef.set({
+    await ContentEntry.create({
+      id: 1,
       json: JSON.stringify(defaultContent),
-      updatedAt: new Date().toISOString(),
+      updatedAt: new Date(),
     });
     return;
   }
 
-  const data = snap.data();
-  if (!data || typeof data.json !== "string") return;
+  if (typeof row.json !== "string") return;
 
   try {
-    const existing = JSON.parse(data.json);
+    const existing = JSON.parse(row.json);
     const migrated = migrateThemePreset(existing);
     const { content: repaired, repairedCount } = repairMissingMediaReferences(
       migrated,
@@ -570,9 +590,10 @@ async function initDbAsync() {
     }
 
     if (JSON.stringify(existing) !== JSON.stringify(repaired)) {
-      await docRef.set({
+      await ContentEntry.upsert({
+        id: 1,
         json: JSON.stringify(repaired),
-        updatedAt: new Date().toISOString(),
+        updatedAt: new Date(),
       });
     }
   } catch (err) {
@@ -606,12 +627,10 @@ function requireAdmin(req, res, next) {
 }
 
 async function getContent() {
-  const snap = await db.collection("cms").doc("content").get();
-  if (!snap.exists) return null;
-  const data = snap.data();
-  if (!data || typeof data.json !== "string") return null;
+  const row = await ContentEntry.findByPk(1);
+  if (!row || typeof row.json !== "string") return null;
   try {
-    const parsed = JSON.parse(data.json);
+    const parsed = JSON.parse(row.json);
     const migrated = migrateThemePreset(parsed);
     const { content: repaired, repairedCount } = repairMissingMediaReferences(
       migrated,
@@ -644,13 +663,11 @@ async function getContent() {
 }
 
 async function setContent(content) {
-  await db
-    .collection("cms")
-    .doc("content")
-    .set({
-      json: JSON.stringify(content),
-      updatedAt: new Date().toISOString(),
-    });
+  await ContentEntry.upsert({
+    id: 1,
+    json: JSON.stringify(content),
+    updatedAt: new Date(),
+  });
 }
 
 function replaceStringsDeep(value, replacer) {
@@ -1077,7 +1094,7 @@ app.get(["/sitemap.xml", "/sitemap"], async (req, res) => {
 
 app.post("/api/backup", requireAdmin, async (_req, res) => {
   // Creates a ZIP containing:
-  // - DB/content.json (Firestore content export)
+  // - DB/content.json (CMS content export)
   // - Uploads/* (all uploaded media)
 
   const tmpBase = fs.mkdtempSync(path.join(os.tmpdir(), "renora-export-"));
@@ -1158,7 +1175,7 @@ app.post(
         extractDir,
       );
 
-      // 1) Restore content to Firestore
+      // 1) Restore content to MySQL
       const contentRaw = fs.readFileSync(dbDumpAbsPath, "utf8");
       const restoredContent = JSON.parse(contentRaw);
       await setContent(restoredContent);
@@ -1283,7 +1300,7 @@ async function main() {
     console.log(`  Local:   http://localhost:${PORT}`);
     if (localIp) console.log(`  Network: http://${localIp}:${PORT}`);
     console.log(`Uploads directory: ${uploadsDir}`);
-    console.log(`Firebase project: ${FIREBASE_PROJECT_ID}`);
+    console.log(`MySQL database: ${DB_USER}@${DB_HOST}:${DB_PORT}/${DB_NAME}`);
     console.log(`Quote email template: ${QUOTE_EMAIL_TEMPLATE_VERSION}`);
   });
 }

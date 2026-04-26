@@ -1,8 +1,30 @@
 services:
+  mysql:
+    image: mysql:8.0
+    container_name: renora-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASS}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASS}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   renora:
     build: .
     container_name: renora
     restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
     # Allows using DB_HOST=host.docker.internal on Linux (maps to the Docker host).
     extra_hosts:
       - "host.docker.internal:host-gateway"
@@ -12,12 +34,12 @@ services:
       # Used for sitemap generation
       SITE_URL: ${SITE_URL:-https://example.com}
 
-      # External MySQL database (required)
-      DB_HOST: ${DB_HOST}
-      DB_PORT: ${DB_PORT:-3306}
+      # MySQL database (now using Docker service)
+      DB_HOST: mysql
+      DB_PORT: 3306
       DB_USER: ${DB_USER}
       DB_PASS: ${DB_PASS}
-      DB_NAME: ${DB_NAME:-renora}
+      DB_NAME: ${DB_NAME}
 
       # Internal container port
       PORT: 5174
@@ -27,3 +49,6 @@ services:
     volumes:
       # Persist uploads across container rebuilds
       - ./server/uploads:/app/server/uploads
+
+volumes:
+  mysql_data:
