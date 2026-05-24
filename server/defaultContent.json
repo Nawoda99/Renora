@@ -6,7 +6,7 @@
       "iconKey": "Home",
       "title": "Residential Cleaning",
       "summary": "Comprehensive home cleaning services tailored to your needs. From regular maintenance to deep cleaning.",
-      "image": "https://images.unsplash.com/photo-1758273238415-01ec03d9ef27?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyZXNpZGVudGlhbCUyMGhvdXNlJTIwY2xlYW5pbmd8ZW58MXx8fHwxNzcyNzE0NDkyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "image": "https://images.unsplash.com/photo-1758273238415-01ec03d9ef27?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHxyZXNpZGVudGlhbCUyMGhvdXNlJTIwY2xlYW5pbmd8ZW58MXx8fHwxNzcyNzE0NDkyfDA&ixlib=rb-4.1.0&q=80&w=1080",
       "overview": "Keep your home consistently fresh, tidy, and comfortable. We focus on the details that make a space feel truly clean — from high-touch areas to the corners that are easy to miss.",
       "included": [
         "Dusting and wipe-down of surfaces and high-touch points",
@@ -21,30 +21,6 @@
         "Apartment and single-family homes"
       ],
       "showOnHome": true,
-      "homeOrder": 1,
-      "hidden": false
-    },
-    {
-      "id": "svc_commercial",
-      "slug": "commercial-cleaning",
-      "iconKey": "Building2",
-      "title": "Commercial Cleaning",
-      "summary": "Professional office and commercial space cleaning. Maintain a pristine work environment for your team.",
-      "image": "https://images.unsplash.com/photo-1762235634143-6d350fe349e8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxvZmZpY2UlMjBjb21tZXJjaWFsJTIwY2xlYW5pbmd8ZW58MXx8fHwxNzcyNjgyOTkzfDA&ixlib=rb-4.1.0&q=80&w=1080",
-      "overview": "A clean workplace supports productivity, professionalism, and healthier teams. We tailor checklists around your space, traffic levels, and operating hours.",
-      "included": [
-        "Common area, lobby, and office cleaning",
-        "Restroom sanitization and restocking (by request)",
-        "Breakroom/kitchenette cleaning",
-        "Trash and recycling removal",
-        "Floors: vacuuming, mopping, spot cleaning"
-      ],
-      "idealFor": [
-        "Offices, studios, retail spaces, and clinics",
-        "After-hours or low-disruption cleaning",
-        "Ongoing maintenance plans"
-      ],
-      "showOnHome": true,
       "homeOrder": 2,
       "hidden": false
     },
@@ -54,7 +30,7 @@
       "iconKey": "Sparkles",
       "title": "Deep Cleaning",
       "summary": "Intensive cleaning that reaches every corner. Perfect for seasonal refreshes or move-in/move-out.",
-      "image": "https://images.unsplash.com/photo-1763705857707-48bbfb24bbd3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkZWVwJTIwY2xlYW5pbmclMjBzZXJ2aWNlfGVufDF8fHx8MTc3MjY4Mjk5M3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "image": "https://images.unsplash.com/photo-1763705857707-48bbfb24bbd3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHxkZWVwJTIwY2xlYW5pbmclMjBzZXJ2aWNlfGVufDF8fHx8MTc3MjY4Mjk5M3ww&ixlib=rb-4.1.0&q=80&w=1080",
       "overview": "When your space needs a reset, deep cleaning targets built-up grime and overlooked areas. It’s a great starting point before moving into a regular maintenance schedule.",
       "included": [
         "Detailed bathroom and kitchen scrubbing",
@@ -73,56 +49,12 @@
       "hidden": false
     },
     {
-      "id": "svc_window",
-      "slug": "window-cleaning",
-      "iconKey": "Square",
-      "title": "Fönsterputs",
-      "summary": "Skinande rena fönster på in- och utsida som släpper in mer ljus och ger ett fräschare intryck.",
-      "image": "https://images.unsplash.com/photo-1761689502577-0013be84f1bf?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3aW5kb3clMjBjbGVhbmluZyUyMHByb2Zlc3Npb25hbHxlbnwxfHx8fDE3NzI2Nzk5NTd8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "overview": "Ge ditt hem eller din lokal mer ljus med professionell fönsterputs utan ränder. Vi fokuserar på glasets klarhet och rena karmar och fönsterbrädor.",
-      "included": [
-        "Putsning av insidan av glasytor",
-        "Putsning av utsidan där det är åtkomligt",
-        "Avtorkning av karmar och fönsterbrädor",
-        "Dammborttagning från myggnät där det finns"
-      ],
-      "idealFor": [
-        "Bostäder och butikslokaler",
-        "Säsongsstädning eller inför evenemang",
-        "Förbättrat ljusinsläpp och ett bättre helhetsintryck"
-      ],
-      "showOnHome": false,
-      "hidden": false
-    },
-    {
-      "id": "svc_carpet",
-      "slug": "carpet-upholstery",
-      "iconKey": "Armchair",
-      "title": "Carpet & Upholstery",
-      "summary": "Professional carpet and furniture cleaning. Remove stains, dirt, and allergens effectively.",
-      "image": "https://images.unsplash.com/photo-1762501748150-7fd88647fc2c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjYXJwZXQlMjBjbGVhbmluZyUyMHZhY3V1bXxlbnwxfHx8fDE3NzI3MDE2Mjl8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "overview": "Extend the life of your carpets and furniture with a thorough clean that lifts embedded dirt and freshens fabrics. We tailor the approach to the material and condition.",
-      "included": [
-        "Pre-vacuum and surface preparation",
-        "Targeted spot treatment for common stains (as appropriate)",
-        "Deep cleaning for carpets, rugs, and upholstery",
-        "Deodorizing options (by request)"
-      ],
-      "idealFor": [
-        "High-traffic rooms and family spaces",
-        "Pet owners and allergy-conscious households",
-        "Refreshing couches, chairs, and area rugs"
-      ],
-      "showOnHome": false,
-      "hidden": false
-    },
-    {
       "id": "svc_disinfection",
       "slug": "disinfection-services",
       "iconKey": "Droplets",
       "title": "Dödsbostädning",
       "summary": "Respektfull och noggrann städning av dödsbo med fokus på trygghet, diskretion och kvalitet.",
-      "image": "https://images.unsplash.com/photo-1771491237225-01931a752f58?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBjbGVhbmluZyUyMHNlcnZpY2UlMjBwcm9mZXNzaW9uYWx8ZW58MXx8fHwxNzcyNjk1ODcwfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "image": "https://images.unsplash.com/photo-1771491237225-01931a752f58?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHxsdXh1cnklMjBjbGVhbmluZyUyMHNlcnZpY2UlMjBwcm9mZXNzaW9uYWx8ZW58MXx8fHwxNzcyNjk1ODcwfDA&ixlib=rb-4.1.0&q=80&w=1080",
       "overview": "Disinfection focuses on sanitizing high-touch points and shared areas to help reduce the spread of germs. Ideal as a recurring add-on or for specific situations.",
       "included": [
         "Disinfection of high-touch surfaces (handles, switches, counters)",
@@ -140,63 +72,59 @@
     },
     {
       "id": "svc_move",
-      "slug": "move-in-move-out",
+      "slug": "",
       "iconKey": "Truck",
-      "title": "Move-In / Move-Out",
+      "title": "Flyttstädning ",
       "summary": "A detailed reset for empty homes and apartments. Perfect for tenants, landlords, and realtors.",
       "image": "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=1600&q=80",
-      "overview": "Moving is stressful — cleaning shouldn’t be. We focus on inside surfaces, fixtures, and touchpoints to leave the place fresh for the next chapter.",
+      "overview": "Professionell flyttstädning enligt svenska branschstandarder med fokus på kvalitet och trygghet.\n",
       "included": [
-        "Full kitchen and bathroom cleaning",
-        "Inside cabinets and drawers (empty only)",
-        "Baseboards, doors, and trim wipe-down",
-        "Floors vacuumed and mopped",
-        "Trash removal and final walkthrough touch-ups"
+        "Alla rum",
+        "Dammsugning och våttorkning av golv samt rengöring av golvlister, dörrar och karmar.",
+        "Dammtorkning av fria ytor, garderober, hyllor, kontakter och strömbrytare.",
+        "Rengöring av element, ventilationer, speglar samt borttagning av spindelnät.",
+        "Fönsterputsning invändigt och utvändigt inklusive karmar och fönsterbrädor där åtkomst finns.",
+        "Kök",
+        "Rengöring av köksskåp, lådor, arbetsytor, kakel och diskho.",
+        "Rengöring av spis, keramikhäll, ugn, plåtar och galler.",
+        "Rengöring av fläkt, filter, kyl och frys invändigt och utvändigt.",
+        "Rengöring bakom och under vitvaror om de är framdragna.",
+        "Badrum & Tvättutrymmen",
+        "Rengöring och avkalkning av toalett, handfat, dusch och badkar.",
+        "Rengöring av kakel, fogar, speglar och synliga rör.",
+        "Rengöring av golvbrunn, skåp samt dammsugning och våttorkning av golv.",
+        "Rengöring av tvättmaskin och torktumlare inklusive bakom maskiner om de är framdragna.",
+        "Balkong & Extra Ytor",
+        "Sopning och enklare rengöring av balkong, altan, inglasad balkong, garage, källare, vind och andra extra ytor utförs enligt överenskommelse."
       ],
       "idealFor": [
         "Lease move-out requirements",
         "Move-in sanitation before unpacking",
         "Homes being listed or staged"
       ],
-      "showOnHome": false,
-      "hidden": false
+      "showOnHome": true,
+      "hidden": false,
+      "homeOrder": 1
     },
     {
-      "id": "svc_post",
-      "slug": "post-construction-cleaning",
-      "iconKey": "Hammer",
-      "title": "Byggstädning",
-      "summary": "Vi tar bort byggdamm och rester efter renovering så att lokalen känns färdig och redo att användas.",
-      "image": "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1600&q=80",
-      "overview": "Renoveringar lämnar efter sig fint damm som lägger sig överallt. Vi går igenom ytor och golv så att utrymmet känns färdigt, inte som en byggarbetsplats.",
+      "id": "mpjlhhqz_cewwvg2mj0n",
+      "slug": "new-service",
+      "iconKey": "Sparkles",
+      "title": "New Service",
+      "summary": "",
+      "image": "https://images.unsplash.com/photo-1763705857707-48bbfb24bbd3?auto=format&fit=crop&w=1600&q=80",
+      "overview": "asddasdasd",
       "included": [
-        "Borttagning av damm från ytor, lister och armaturer",
-        "Dammsugning och moppning av golv med kantfokus",
-        "Avtorkning av dörrar, karmar och åtkomliga ventiler",
-        "Punktrengöring av färgstänk där det är säkert",
-        "Slutfinish på de mest synliga ytorna"
+        "dsadad"
       ],
       "idealFor": [
-        "Efter renovering av kök eller badrum",
-        "Efter golvläggning, gips- eller måleriarbeten",
-        "Nyproduktion inför inflyttning"
+        "adsdsd"
       ],
       "showOnHome": false,
       "hidden": false
     }
   ],
-  "banners": [
-    {
-      "id": "bnr_1",
-      "badge": "Tidsbegränsat erbjudande",
-      "title": "Få 20 % rabatt på din första storstädning",
-      "description": "Boka den här veckan och få en noggrann storstädning till ett extra bra pris.",
-      "ctaLabel": "Ta del av erbjudandet",
-      "ctaHref": "/#contact",
-      "image": "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=1600&q=80",
-      "active": true
-    }
-  ],
+  "banners": [],
   "testimonials": [
     {
       "id": "t_1",
@@ -229,18 +157,27 @@
       "headline": "Skinande rena miljöer,",
       "highlight": "varje gång",
       "subheadline": "Upplev professionell städning på hög nivå. Renora levererar förstklassiga resultat för både hem och företag.",
-      "backgroundImage": "https://images.unsplash.com/photo-1771491237225-01931a752f58?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBjbGVhbmluZyUyMHNlcnZpY2UlMjBwcm9mZXNzaW9uYWx8ZW58MXx8fHwxNzcyNjk1ODcwfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "backgroundImage": "/media/1779563514193_HFOStuBuri.jpg",
       "stats": [
-        { "value": "500+", "label": "Nöjda kunder" },
-        { "value": "10+", "label": "Års erfarenhet" },
-        { "value": "100%", "label": "Nöjdhet" }
+        {
+          "value": "500+",
+          "label": "Nöjda kunder"
+        },
+        {
+          "value": "2+",
+          "label": "Års erfarenhet"
+        },
+        {
+          "value": "100%",
+          "label": "Nöjdhet"
+        }
       ]
     },
     "theme": {
       "presetVersion": "2026-04-cleaning-green",
-      "accent": "#22C55E",
+      "accent": "rgb(33, 74, 196)",
       "accentHover": "#16A34A",
-      "background": "#F4FBF6",
+      "background": "rgb(242, 240, 244)",
       "foreground": "#1A2E22",
       "primary": "#163127",
       "primaryForeground": "#F7FFF9",
@@ -255,7 +192,6 @@
       "iconAccent": "#22C55E",
       "iconAccentSoft": "rgba(34, 197, 94, 0.16)",
       "formLabelText": "#163127",
-      "formInputText": "#1A2E22",
       "formInputBorder": "rgba(22, 49, 39, 0.14)",
       "formInputFocusBorder": "#22C55E",
       "inputBackground": "#FBFFFC",
@@ -266,6 +202,23 @@
       "navButtonText": "#F7FFF9",
       "badgeText": "#22C55E",
       "badgeBg": "rgba(34, 197, 94, 0.12)",
+      "formInputText": "#1A2E22",
+      "buttonDefaultBg": "#22C55E",
+      "buttonDefaultHoverBg": "#16A34A",
+      "buttonDefaultText": "#F7FFF9",
+      "buttonSecondaryBg": "#DFF2E3",
+      "buttonSecondaryHoverBg": "#CFE9D5",
+      "buttonSecondaryText": "#163127",
+      "buttonDestructiveBg": "#dc2626",
+      "buttonDestructiveHoverBg": "#b91c1c",
+      "buttonDestructiveText": "#ffffff",
+      "buttonOutlineBorder": "rgba(22, 49, 39, 0.2)",
+      "buttonOutlineHoverBorder": "#22C55E",
+      "buttonOutlineText": "#163127",
+      "buttonOutlineHoverBg": "rgba(34, 197, 94, 0.08)",
+      "buttonOutlineHoverText": "#1A2E22",
+      "buttonGhostText": "#163127",
+      "buttonGhostHoverBg": "rgba(34, 197, 94, 0.08)",
       "ctaButtonBg": "#22C55E",
       "ctaButtonHoverBg": "#16A34A",
       "ctaButtonText": "#F7FFF9",
@@ -296,43 +249,6 @@
       "beforeAfterHandleIcon": "#163127",
       "beforeAfterLabelBg": "rgba(10, 28, 20, 0.72)",
       "beforeAfterLabelText": "#F7FFF9"
-    },
-    "about": {
-      "hidden": false,
-      "badge": "Om Renora",
-      "title": "Din pålitliga städpartner",
-      "paragraphs": [
-        "Med över tio års erfarenhet har Renora byggt upp ett starkt rykte inom professionell städning. Vårt fokus på kvalitet och detaljer har gjort oss till det självklara valet för hundratals nöjda kunder.",
-        "Vi använder miljövänliga produkter och moderna städmetoder för att göra din miljö inte bara ren, utan också trygg för familj, personal och omgivning."
-      ],
-      "images": [
-        "https://images.unsplash.com/photo-1758273238415-01ec03d9ef27?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyZXNpZGVudGlhbCUyMGhvdXNlJTIwY2xlYW5pbmd8ZW58MXx8fHwxNzcyNzE0NDkyfDA&ixlib=rb-4.1.0&q=80&w=1080",
-        "https://images.unsplash.com/photo-1762235634143-6d350fe349e8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxvZmZpY2UlMjBjb21tZXJjaWFsJTIwY2xlYW5pbmd8ZW58MXx8fHwxNzcyNjgyOTkzfDA&ixlib=rb-4.1.0&q=80&w=1080",
-        "https://images.unsplash.com/photo-1763705857707-48bbfb24bbd3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkZWVwJTIwY2xlYW5pbmclMjBzZXJ2aWNlfGVufDF8fHx8MTc3MjY4Mjk5M3ww&ixlib=rb-4.1.0&q=80&w=1080",
-        "https://images.unsplash.com/photo-1761689502577-0013be84f1bf?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3aW5kb3clMjBjbGVhbmluZyUyMHByb2Zlc3Npb25hbHxlbnwxfHx8fDE3NzI2Nzk5NTd8MA&ixlib=rb-4.1.0&q=80&w=1080"
-      ],
-      "features": [
-        {
-          "iconKey": "Shield",
-          "title": "Försäkrade och trygga",
-          "description": "Fullt försäkrade för din trygghet och säkerhet"
-        },
-        {
-          "iconKey": "Award",
-          "title": "Certifierade proffs",
-          "description": "Utbildade och certifierade städexperter"
-        },
-        {
-          "iconKey": "Users",
-          "title": "Pålitligt team",
-          "description": "Noggrant kontrollerad och tillförlitlig personal"
-        },
-        {
-          "iconKey": "Clock",
-          "title": "Flexibla tider",
-          "description": "Tillgängliga när du behöver oss som mest"
-        }
-      ]
     },
     "sections": {
       "services": {
@@ -366,11 +282,49 @@
       "beforeLabel": "Före",
       "afterLabel": "Efter"
     },
+    "about": {
+      "hidden": false,
+      "badge": "Om Renora",
+      "title": "Din pålitliga städpartner",
+      "paragraphs": [
+        "Med över tio års erfarenhet har Renora byggt upp ett starkt rykte inom professionell städning. Vårt fokus på kvalitet och detaljer har gjort oss till det självklara valet för hundratals nöjda kunder.",
+        "Vi använder miljövänliga produkter och moderna städmetoder för att göra din miljö inte bara ren, utan också trygg för familj, personal och omgivning."
+      ],
+      "images": [
+        "https://images.unsplash.com/photo-1758273238415-01ec03d9ef27?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHxyZXNpZGVudGlhbCUyMGhvdXNlJTIwY2xlYW5pbmd8ZW58MXx8fHwxNzcyNzE0NDkyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+        "https://images.unsplash.com/photo-1762235634143-6d350fe349e8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHxvZmZpY2UlMjBjb21tZXJjaWFsJTIwY2xlYW5pbmd8ZW58MXx8fHwxNzcyNjgyOTkzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+        "https://images.unsplash.com/photo-1763705857707-48bbfb24bbd3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHxkZWVwJTIwY2xlYW5pbmclMjBzZXJ2aWNlfGVufDF8fHx8MTc3MjY4Mjk5M3ww&ixlib=rb-4.1.0&q=80&w=1080",
+        "https://images.unsplash.com/photo-1761689502577-0013be84f1bf?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHx3aW5kb3clMjBjbGVhbmluZyUyMHByb2Zlc3Npb25hbHxlbnwxfHx8fDE3NzI2Nzk5NTd8MA&ixlib=rb-4.1.0&q=80&w=1080"
+      ],
+      "features": [
+        {
+          "iconKey": "Shield",
+          "title": "Försäkrade och trygga",
+          "description": "Fullt försäkrade för din trygghet och säkerhet"
+        },
+        {
+          "iconKey": "Award",
+          "title": "Certifierade proffs",
+          "description": "Utbildade och certifierade städexperter"
+        },
+        {
+          "iconKey": "Users",
+          "title": "Pålitligt team",
+          "description": "Noggrant kontrollerad och tillförlitlig personal"
+        },
+        {
+          "iconKey": "Clock",
+          "title": "Flexibla tider",
+          "description": "Tillgängliga när du behöver oss som mest"
+        }
+      ]
+    },
     "contact": {
       "phone": "0737039373",
       "phoneTel": "tel:0737039373",
       "email": "support@renora.se",
       "emailMailto": "mailto:support@renora.se",
+      "address": "Exempelgatan 123, Svit 100, Din stad",
       "hours": "Mån-Lör: 08:00 - 18:00",
       "whyChooseTitle": "Varför välja Renora?",
       "whyChooseBullets": [
