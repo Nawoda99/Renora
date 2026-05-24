@@ -251,7 +251,6 @@ export const fallbackContent = {
       phoneTel: "tel:0737039373",
       email: "support@renora.se",
       emailMailto: "mailto:support@renora.se",
-      address: "Exempelgatan 123, Svit 100, Din stad",
       hours: "Mån-Lör: 08:00 - 18:00",
       whyChooseTitle: "Varför välja Renora?",
       whyChooseBullets: [

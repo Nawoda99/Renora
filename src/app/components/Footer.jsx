@@ -90,7 +90,7 @@ export function Footer() {
             <ul className="space-y-2 text-sm text-[var(--footer-muted-text)]">
               <li>{contact.phone}</li>
               <li>{contact.email}</li>
-              <li>{contact.address}</li>
+              {/* <li>{contact.address}</li> */}
             </ul>
           </div>
         </div>

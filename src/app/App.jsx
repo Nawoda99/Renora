@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { BrowserRouter, Route, Routes, useLocation } from "react-router";
 import { HomePage } from "./routes/HomePage";
 import { ServicesPage } from "./routes/ServicesPage";
+import { ServiceDetailPage } from "./routes/ServiceDetailPage";
 import { ContentProvider } from "./content/ContentContext";
 import { AdminPage } from "./routes/AdminPage";
 
@@ -56,7 +57,7 @@ export default function App() {
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/services" element={<ServicesPage />} />
-              <Route path="/services/:slug" element={<ServicesPage />} />
+              <Route path="/services/:slug" element={<ServiceDetailPage />} />
               <Route path="/admin" element={<AdminPage />} />
             </Routes>
           </main>

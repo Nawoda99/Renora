@@ -254,4 +254,32 @@
   Copy this folder to the server (same path), then run `docker compose up -d --build`:
 
   - `server/uploads/`
+
+  ## Permanent Ubuntu hosting
+
+  If the site only works while VS Code Remote is open, it means you are running it in an interactive terminal like `npm run dev` or `npm start`.
+  When that session closes, the process stops.
+
+  For a permanent deployment on Ubuntu, use one of these:
+
+  - `systemd` to keep `npm start` running after logout/reboot
+  - `docker compose up -d --build` to run it as a background container
+
+  Ready-to-use templates are included here:
+
+  - `deploy/ubuntu/renora.service`
+  - `deploy/ubuntu/renora.nginx.conf`
+  - `deploy/ubuntu/README.md`
+
+  Recommended production flow on Ubuntu with a normal website/domain:
+
+  1. `npm install`
+  2. `npm run build`
+  3. configure `.env` with your real domain in `SITE_URL`
+  4. install `deploy/ubuntu/renora.service`
+  5. install `deploy/ubuntu/renora.nginx.conf`
+  6. point your domain DNS to the Ubuntu server
+  7. enable HTTPS with Certbot
+
+  Then the app will stay online even after you disconnect from VS Code or reboot the server.
   

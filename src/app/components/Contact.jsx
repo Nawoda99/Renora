@@ -151,12 +151,6 @@ export function Contact() {
       link: contact.emailMailto,
     },
     {
-      icon: MapPin,
-      title: "Adress",
-      content: contact.address,
-      link: "#",
-    },
-    {
       icon: Clock,
       title: "Öppettider",
       content: contact.hours,

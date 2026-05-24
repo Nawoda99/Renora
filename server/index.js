@@ -5,6 +5,7 @@ import fs from "node:fs";
 import os from "node:os";
 import dotenv from "dotenv";
 import { Sequelize, DataTypes } from "sequelize";
+import mysql from "mysql2/promise";
 import multer from "multer";
 import { nanoid } from "nanoid";
 import archiver from "archiver";
@@ -86,6 +87,31 @@ let sequelize = null;
 let ContentEntry = null;
 let mailTransporter = null;
 let initPromise = null;
+
+function escapeMysqlIdentifier(value) {
+  return `\`${String(value).replaceAll("`", "``")}\``;
+}
+
+async function ensureDatabaseExists() {
+  if (!DB_NAME) {
+    throw new Error("DB_NAME is required to initialize MySQL.");
+  }
+
+  const connection = await mysql.createConnection({
+    host: DB_HOST,
+    port: DB_PORT,
+    user: DB_USER,
+    password: DB_PASS,
+  });
+
+  try {
+    await connection.query(
+      `CREATE DATABASE IF NOT EXISTS ${escapeMysqlIdentifier(DB_NAME)} CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci`,
+    );
+  } finally {
+    await connection.end();
+  }
+}
 
 function escapeHtml(value) {
   return String(value)
@@ -523,6 +549,8 @@ function migrateThemePreset(content) {
 
 async function initDbAsync() {
   if (sequelize && ContentEntry) return;
+
+  await ensureDatabaseExists();
 
   sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASS, {
     host: DB_HOST,
